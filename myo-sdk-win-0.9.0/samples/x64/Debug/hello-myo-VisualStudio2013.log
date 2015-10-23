@@ -1,14 +1,8 @@
-﻿Build started 28/09/2015 14:46:59.
+﻿Build started 05/10/2015 16:56:55.
      1>Project "C:\Users\Thomas\Documents\GitHub\MYO-SMC705\myo-sdk-win-0.9.0\samples\hello-myo-VisualStudio2013.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /I..\include /Zi /nologo /W3 /WX- /Od /D WIN32 /D _DEBUG /D _CONSOLE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Debug\\" /Fd"x64\Debug\vc140.pdb" /Gd /TP /errorReport:prompt "hello-myo.cpp"
-         hello-myo.cpp
-     1>c:\users\thomas\documents\github\myo-smc705\myo-sdk-win-0.9.0\include\myo\cxx\impl\../detail/ThrowOnError.hpp(39): warning C4297: 'myo::ThrowOnError::~ThrowOnError': function assumed not to throw an exception but does
-         c:\users\thomas\documents\github\myo-smc705\myo-sdk-win-0.9.0\include\myo\cxx\impl\../detail/ThrowOnError.hpp(39): note: destructor or deallocator has a (possibly implicit) non-throwing exception specification
-     1>c:\users\thomas\documents\github\myo-smc705\myo-sdk-win-0.9.0\include\myo\cxx\impl\../detail/ThrowOnError.hpp(45): warning C4297: 'myo::ThrowOnError::~ThrowOnError': function assumed not to throw an exception but does
-         c:\users\thomas\documents\github\myo-smc705\myo-sdk-win-0.9.0\include\myo\cxx\impl\../detail/ThrowOnError.hpp(45): note: destructor or deallocator has a (possibly implicit) non-throwing exception specification
-       Link:
+     1>Link:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Thomas\Documents\GitHub\MYO-SMC705\myo-sdk-win-0.9.0\samples\x64\Debug\hello-myo-VisualStudio2013.exe" /INCREMENTAL /NOLOGO /LIBPATH:..\lib myo64.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Thomas\Documents\GitHub\MYO-SMC705\myo-sdk-win-0.9.0\samples\x64\Debug\hello-myo-VisualStudio2013.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Thomas\Documents\GitHub\MYO-SMC705\myo-sdk-win-0.9.0\samples\x64\Debug\hello-myo-VisualStudio2013.lib" /MACHINE:X64 "x64\Debug\hello-myo.obj"
+         LINK : C:\Users\Thomas\Documents\GitHub\MYO-SMC705\myo-sdk-win-0.9.0\samples\x64\Debug\hello-myo-VisualStudio2013.exe not found or not built by the last incremental link; performing full link
          hello-myo-VisualStudio2013.vcxproj -> C:\Users\Thomas\Documents\GitHub\MYO-SMC705\myo-sdk-win-0.9.0\samples\x64\Debug\hello-myo-VisualStudio2013.exe
        PostBuildEvent:
          COPY "..\bin\myo64.dll" "C:\Users\Thomas\Documents\GitHub\MYO-SMC705\myo-sdk-win-0.9.0\samples\x64\Debug\"
@@ -19,4 +13,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.20
+Time Elapsed 00:00:00.93

@@ -1,0 +1,1 @@
+C:\Users\Thomas\Documents\GitHub\MYO-SMC705\UDP\myo2pd_win2\myo2pd_win2\myo2pd_win2.vcxproj;x86

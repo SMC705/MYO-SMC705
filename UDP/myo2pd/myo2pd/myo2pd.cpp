@@ -234,10 +234,12 @@ int main() {
             
             // Print the output as described in print() function.
             collector.print();
-            
+
+            /*
             char * buffer = new char[12];
             buffer[0] = '/';
             buffer
+             */
             
             // Send UDP package
             string pose2send = collector.currentPose.toString();

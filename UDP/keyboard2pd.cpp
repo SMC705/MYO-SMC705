@@ -85,8 +85,9 @@ int main() {
       buffer[2] = 'l';
     }
     else {
-      cout << "Unknown command -> no command sent" << endl;
-      continue;
+      cout << "Unknown command" << endl;
+      buffer[1] = 'n';
+      buffer[2] = 'n';
     }
 
     // Send UDP package

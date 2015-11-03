@@ -127,7 +127,7 @@ public:
     void print()
     {
         // Clear the current line
-        std::cout << '\r';
+        cout << '\r';
 /*
         // Print out the orientation. Orientation data is always available, even if no arm is currently recognized.
         std::cout << '[' << std::string(roll_w, '*') << std::string(18 - roll_w, ' ') << ']'
@@ -141,15 +141,15 @@ public:
             // Pose::toString() provides the human-readable name of a pose. We can also output a Pose directly to an
             // output stream (e.g. std::cout << currentPose;). In this case we want to get the pose name's length so
             // that we can fill the rest of the field with spaces below, so we obtain it as a string using toString().
-            std::string poseString = currentPose.toString();
+            string poseString = currentPose.toString();
             
-            std::cout << '[' << poseString << std::string(14 - poseString.size(), ' ') << ']';
+            cout << '[' << poseString << std::string(14 - poseString.size(), ' ') << ']';
         } else {
             // Print out a placeholder for the arm and pose when Myo doesn't currently know which arm it's on.
             std::cout << '[' << std::string(8, ' ') << ']' << "[?]" << '[' << std::string(14, ' ') << ']';
         }
         
-        std::cout << std::flush;
+        cout << flush;
     }
     
     // These values are set by onArmSync() and onArmUnsync() above.
@@ -234,19 +234,26 @@ int main() {
             
             // Print the output as described in print() function.
             collector.print();
-            
+
+            /*
+            char * buffer = new char[12];
+            buffer[0] = '/';
+            buffer
+             */
             
             // Send UDP package
             string pose2send = collector.currentPose.toString();
+            cout << pose2send.data() << endl;
+            
             if ( pose2send.compare("fist") == 0) {
-                char buffer[] = "/fi";
+                char buffer[] = "/vu";
                 cout << buffer << endl;
                 nBytes = strlen(buffer) + 1;
                 /*Send message to server*/
                 sendto(clientSocket,buffer,nBytes,0,(struct sockaddr *)&serverAddr,addr_size);
             }
         }
-            
+        
         
     }
     

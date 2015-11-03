@@ -7,10 +7,11 @@ using namespace std;
 
 int main() {
 
-  char buffer[4] = "cia";
+  char buffer = 'c';
   cout << buffer << endl;
 
-  buffer = "bohl";
-  cout << buffer << endl;
+  int n;
+  n = int(buffer);
+  cout << n << endl;
 
 }

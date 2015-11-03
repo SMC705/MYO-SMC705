@@ -235,21 +235,16 @@ int main() {
             // Print the output as described in print() function.
             collector.print();
             
+            char * buffer = new char[12];
+            buffer[0] = '/';
+            buffer
             
             // Send UDP package
             string pose2send = collector.currentPose.toString();
             cout << pose2send.data() << endl;
             
             if ( pose2send.compare("fist") == 0) {
-                char buffer[] = "/fi";
-                cout << buffer << endl;
-                nBytes = strlen(buffer) + 1;
-                /*Send message to server*/
-                sendto(clientSocket,buffer,nBytes,0,(struct sockaddr *)&serverAddr,addr_size);
-            }
-            
-            if ( pose2send.compare("fist") == 0) {
-                char buffer[] = "/fi";
+                char buffer[] = "/vu";
                 cout << buffer << endl;
                 nBytes = strlen(buffer) + 1;
                 /*Send message to server*/

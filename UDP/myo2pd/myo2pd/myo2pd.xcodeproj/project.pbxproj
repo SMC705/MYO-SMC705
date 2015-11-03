@@ -251,6 +251,7 @@
 				523275011BE2A1E700E44F6B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

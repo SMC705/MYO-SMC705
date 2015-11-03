@@ -1,0 +1,83 @@
+#N canvas 0 54 1366 714 10;
+#X declare -lib mrpeach;
+#X declare -lib zexy;
+#X obj 19 11 import mrpeach;
+#X obj 12 56 udpreceive 7890;
+#X obj 498 48 unpackOSC;
+#X obj 498 100 s2l;
+#X obj 497 130 unpack s s f;
+#X obj 498 75 symbol;
+#X symbolatom 460 186 10 0 0 0 - - -;
+#X floatatom 531 186 5 0 0 0 - - -;
+#X obj 584 46 import zexy;
+#X msg 498 23 47 97 110 111 32 53 10 0;
+#X obj 531 161 atoi;
+#X text 120 265 comment;
+#X obj 12 86 print RCV;
+#X obj 18 465 cnv 15 100 100 empty empty OSC_to_ASCII_translation 20
+12 0 14 -233017 -66577 0;
+#X obj 25 516 packOSC;
+#X obj 269 462 cnv 15 400 170 empty empty ASCII_to_OSC_translation
+20 12 0 14 -233017 -66577 0;
+#X obj 320 567 unpackOSC;
+#X text 294 497 ASCII code(Address) + zeros(1:4) + \, i(format) + zeros(5)
++ number;
+#X text 90 598 (check the output window);
+#X obj 25 543 print ASCII;
+#X obj 320 600 print OSC;
+#X text 281 480 comment;
+#X msg 26 490 /foo 3;
+#X msg 319 538 47 102 111 111 0 0 0 0 44 105 0 0 0 0 0 3;
+#X obj 389 589 routeOSC /foo;
+#X obj 464 614 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 389 612 5 0 0 0 - - -;
+#X obj 101 86 unpackOSC;
+#X obj 101 114 routeOSC /sf /sb /vm /of /ob /vu /vd /ll /ul;
+#X obj 101 142 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 131 152 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 156 169 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 192 185 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 215 202 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 241 208 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 264 217 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 292 234 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 333 248 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 362 261 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X connect 1 0 12 0;
+#X connect 1 0 27 0;
+#X connect 2 0 5 0;
+#X connect 3 0 4 0;
+#X connect 4 0 6 0;
+#X connect 4 1 10 0;
+#X connect 5 0 3 0;
+#X connect 9 0 2 0;
+#X connect 10 0 7 0;
+#X connect 14 0 19 0;
+#X connect 16 0 20 0;
+#X connect 16 0 24 0;
+#X connect 22 0 14 0;
+#X connect 23 0 16 0;
+#X connect 24 0 26 0;
+#X connect 24 1 25 0;
+#X connect 27 0 28 0;
+#X connect 28 0 29 0;
+#X connect 28 1 30 0;
+#X connect 28 2 31 0;
+#X connect 28 3 32 0;
+#X connect 28 4 33 0;
+#X connect 28 5 34 0;
+#X connect 28 6 35 0;
+#X connect 28 7 36 0;
+#X connect 28 8 37 0;
+#X connect 28 9 38 0;

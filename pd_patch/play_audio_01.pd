@@ -18,7 +18,7 @@
 #X obj 168 314 outlet~;
 #X obj -24 13 r global_stop;
 #X obj 70 190 r volume_1;
-#X obj 216 95 loadbang;
+#X obj 216 95 r global_start;
 #X connect 0 0 7 0;
 #X connect 0 1 6 0;
 #X connect 0 2 4 0;
@@ -42,7 +42,7 @@
 #X obj -57 103 s global_stop;
 #X obj -57 81 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
-#N canvas 384 23 369 393 microphone 0;
+#N canvas -43 23 369 393 microphone 0;
 #X obj 143 72 readsf~ 2;
 #X msg 68 37 start;
 #X msg -24 35 stop;
@@ -61,7 +61,7 @@
 ;
 #X obj 184 187 r to_line_2;
 #X obj 70 190 r volume_2;
-#X obj 215 96 loadbang;
+#X obj 215 96 r global_start;
 #X connect 0 0 6 0;
 #X connect 0 1 5 0;
 #X connect 0 2 3 0;
@@ -82,7 +82,7 @@
 #X connect 15 0 5 0;
 #X connect 16 0 13 0;
 #X restore 204 94 pd microphone;
-#N canvas 144 99 369 393 music 0;
+#N canvas 18 23 369 393 music 0;
 #X obj 143 72 readsf~ 2;
 #X msg 68 37 start;
 #X msg -24 35 stop;
@@ -101,7 +101,7 @@
 ;
 #X obj 184 187 r to_line_3;
 #X obj 70 190 r volume_3;
-#X obj 215 96 loadbang;
+#X obj 215 96 r global_start;
 #X connect 0 0 6 0;
 #X connect 0 1 5 0;
 #X connect 0 2 3 0;
@@ -141,7 +141,7 @@
 ;
 #X obj 184 187 r to_line_4;
 #X obj 70 190 r volume_4;
-#X obj 214 97 loadbang;
+#X obj 214 97 r global_start;
 #X connect 0 0 6 0;
 #X connect 0 1 5 0;
 #X connect 0 2 3 0;
@@ -162,7 +162,7 @@
 #X connect 15 0 5 0;
 #X connect 16 0 13 0;
 #X restore 205 162 pd phone;
-#N canvas 287 369 369 393 radio 0;
+#N canvas 40 27 369 393 radio 0;
 #X obj 143 72 readsf~ 2;
 #X msg 68 37 start;
 #X msg -24 35 stop;
@@ -181,7 +181,7 @@
 #X obj 184 187 r to_line_5;
 #X obj 70 190 r volume_5;
 #X msg 143 44 open radio_s.wav;
-#X obj 214 95 loadbang;
+#X obj 214 95 r global_start;
 #X connect 0 0 6 0;
 #X connect 0 1 5 0;
 #X connect 0 2 3 0;
@@ -221,7 +221,7 @@
 #X obj 68 -9 r rpt_audio_6;
 #X msg 194 120 \; pd dsp 1 \; to_line_6 0 \, 1 500 \; rpt_audio_6 bang
 ;
-#X obj 216 96 loadbang;
+#X obj 216 96 r global_start;
 #X connect 0 0 6 0;
 #X connect 0 1 5 0;
 #X connect 0 2 3 0;
@@ -248,12 +248,12 @@
 1;
 #X obj 61 269 multiplex~ 1 2 3 4 5 6;
 #X obj 261 269 multiplex~ 1 2 3 4 5 6;
-#X obj 18 186 r input_select;
-#X floatatom 18 210 5 0 5 0 - - -;
+#X obj 2 198 r input_select;
+#X floatatom -67 218 5 0 5 0 - - -;
 #X text 205 36 Input Audio;
 #X text 145 -50 Turn DSP On/Off;
-#X obj 0 236 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj -84 251 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
 #X obj 77 330 line~;
 #X obj 273 328 line~;
 #X msg -86 272 \; to_line_out 0 \, 1 500 \;;
@@ -262,6 +262,16 @@
 #X obj 77 308 r to_line_out;
 #X obj 273 306 r to_line_out;
 #X text -35 81 Stop all audio files;
+#X msg -65 147 0;
+#X msg -35 146 1;
+#X msg -5 145 2;
+#X msg 25 144 3;
+#X msg 56 143 4;
+#X msg 86 142 5;
+#X obj -60 33 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj -60 55 s global_start;
+#X text -38 33 Start all audio files;
 #X connect 0 0 11 0;
 #X connect 0 1 12 0;
 #X connect 2 0 1 0;
@@ -289,3 +299,10 @@
 #X connect 22 0 8 1;
 #X connect 23 0 18 0;
 #X connect 24 0 19 0;
+#X connect 26 0 14 0;
+#X connect 27 0 14 0;
+#X connect 28 0 14 0;
+#X connect 29 0 14 0;
+#X connect 30 0 14 0;
+#X connect 31 0 14 0;
+#X connect 32 0 33 0;

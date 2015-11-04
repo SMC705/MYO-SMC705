@@ -28,7 +28,7 @@ using namespace std;
 class DataCollector : public myo::DeviceListener {
 public:
     // Class constructor
-    DataCollector() : onArm(false), isUnlocked(false), roll_vol(0), roll_src(0) currentPose()
+    DataCollector() : onArm(false), isUnlocked(false), roll_vol(0), currentPose()
     {
     }
     
@@ -40,7 +40,6 @@ public:
         // We've lost a Myo.
         // Let's clean up some leftover state.
         roll_vol = 0;
-        roll_src = 0;
         onArm = false;
         isUnlocked = false;
     }
@@ -64,12 +63,12 @@ public:
         
         // We define an angle format for the volume control here.
         // It is continuous from 0 to 126.
-        roll_vol = (static_cast<int>(( -roll + (float)M_PI)/(M_PI * 2.0f) * 100) - 40) * 126/20;
+        roll_vol = (static_cast<int>(( -roll + (float)M_PI)/(M_PI * 2.0f) * 100) - 40) * (126/20);
         
         // If the angle is negative => send 0 angle (used as "volume mute" command).
         // If the angle is higher then our maximum 126 => send 126 angle (used as volume max limit).
-        if ( roll_vol < 0 ) roll_vol = 0;
-        else if ( roll_vol > 126 ) roll_vol = 126;
+        if ( roll_vol <= 0 ) roll_vol = 1;
+        else if ( roll_vol > 127 ) roll_vol = 127;
     }
     
     // onPose() is called whenever the Myo detects that the person wearing it has changed their pose, for example,
@@ -165,7 +164,7 @@ public:
     bool isUnlocked;
     
     // These values are set by onOrientationData() and onPose() above.
-    float roll_vol, roll_src;
+    float roll_vol;
     myo::Pose currentPose;
 };
 
@@ -253,7 +252,7 @@ int main() {
             buffer[7] = '0';
             buffer[8] = '0';
             buffer[9] = '0';
-            buffer[10] = '0';
+            buffer[10] = 1;
             buffer[11] = '\0';
             
             

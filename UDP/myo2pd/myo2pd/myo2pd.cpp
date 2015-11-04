@@ -60,11 +60,16 @@ public:
         float yaw = atan2(2.0f * (quat.w() * quat.z() + quat.x() * quat.y()),
                           1.0f - 2.0f * (quat.y() * quat.y() + quat.z() * quat.z()));
         
-        // Convert the floating point angles in radians to a scale from 0 to 18.
+        // Convert the floating point angles in radians to a clockwise scale from 0 to 126 with the zero angle in π.
         // Need to change the format of the position? DO IT HERE!
-        roll_w = static_cast<int>((roll + (float)M_PI)/(M_PI * 2.0f) * 126);
+        roll_w = (static_cast<int>(( -roll + (float)M_PI)/(M_PI * 2.0f) * 100) - 40) * (126/20);
         pitch_w = static_cast<int>((pitch + (float)M_PI/2.0f)/M_PI * 126);
         yaw_w = static_cast<int>((yaw + (float)M_PI)/(M_PI * 2.0f) * 126);
+        
+        // If the angle is negative => send 0 angle (used as "volume mute" command).
+        // If the angle is higher then our maximum 126 => send 126 angle (used as volume max limit).
+        if ( roll_w < 0 ) roll_w = 0;
+        else if ( roll_w > 126 ) roll_w = 126;
     }
     
     // onPose() is called whenever the Myo detects that the person wearing it has changed their pose, for example,
@@ -160,7 +165,7 @@ public:
     bool isUnlocked;
     
     // These values are set by onOrientationData() and onPose() above.
-    int roll_w, pitch_w, yaw_w;
+    float roll_w, pitch_w, yaw_w;
     myo::Pose currentPose;
 };
 

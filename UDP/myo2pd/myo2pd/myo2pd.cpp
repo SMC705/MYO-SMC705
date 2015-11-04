@@ -63,11 +63,11 @@ public:
         
         // We define an angle format for the volume control here.
         // It is continuous from 0 to 126.
-        roll_vol = (static_cast<int>(( -roll + (float)M_PI)/(M_PI * 2.0f) * 100) - 40) * (126/20);
+        roll_vol = ((static_cast<int>(( -roll + (float)M_PI)/(M_PI * 2.0f) * 1000)) - 400) * 127/200;
         
         // If the angle is negative => send 0 angle (used as "volume mute" command).
         // If the angle is higher then our maximum 126 => send 126 angle (used as volume max limit).
-        if ( roll_vol <= 0 ) roll_vol = 1;
+        if ( roll_vol < 1 ) roll_vol = 1;
         else if ( roll_vol > 127 ) roll_vol = 127;
     }
     

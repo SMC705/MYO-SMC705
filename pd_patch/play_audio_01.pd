@@ -1,4 +1,5 @@
-#N canvas 444 24 512 477 10;
+#N canvas 410 23 850 636 10;
+#X declare -lib mrpeach;
 #N canvas 10 23 369 393 audio_in_out 0;
 #X obj 143 72 readsf~ 2;
 #X msg 143 44 open audio_in_out_s.wav;
@@ -39,8 +40,8 @@
 #X connect 15 0 6 0;
 #X connect 16 0 9 0;
 #X restore 203 61 pd audio_in_out;
-#X obj -57 103 s global_stop;
-#X obj -57 81 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+#X obj -57 51 s global_stop;
+#X obj -57 29 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #N canvas -43 23 369 393 microphone 0;
 #X obj 143 72 readsf~ 2;
@@ -242,36 +243,56 @@
 #X connect 14 0 7 0;
 #X connect 16 0 15 0;
 #X restore 207 231 pd tv;
-#X obj 158 390 dac~;
-#X msg 118 -23 \; pd dsp \$1;
-#X obj 117 -46 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 158 462 dac~;
+#X msg -60 -64 \; pd dsp \$1;
+#X obj -61 -87 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
 #X obj 61 269 multiplex~ 1 2 3 4 5 6;
 #X obj 261 269 multiplex~ 1 2 3 4 5 6;
 #X obj 2 198 r input_select;
 #X floatatom -67 218 5 0 5 0 - - -;
-#X text 205 36 Input Audio;
-#X text 145 -50 Turn DSP On/Off;
+#X text -33 -91 Turn DSP On/Off;
 #X obj -84 251 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 77 330 line~;
 #X obj 273 328 line~;
-#X msg -86 272 \; to_line_out 0 \, 1 500 \;;
+#X msg -84 272 \; to_line_out 0 \, 1 500 \;;
 #X obj 63 354 *~;
-#X obj 259 352 *~;
+#X obj 257 354 *~;
 #X obj 77 308 r to_line_out;
 #X obj 273 306 r to_line_out;
-#X text -35 81 Stop all audio files;
+#X text -35 29 Stop all audio files;
 #X msg -65 147 0;
 #X msg -35 146 1;
 #X msg -5 145 2;
 #X msg 25 144 3;
 #X msg 56 143 4;
 #X msg 86 142 5;
-#X obj -60 33 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X obj -60 55 s global_start;
-#X text -38 33 Start all audio files;
+#X obj -60 -19 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj -60 3 s global_start;
+#X text -38 -19 Start all audio files;
+#X obj 142 409 *~;
+#X obj 180 410 *~;
+#X obj 120 358 r master_volume;
+#X text -13 114 Audio Select;
+#X text 384 -28 This patch plays the audio from (at present) 6 different
+inputs simultaneously. To select which audio to hear \, choose a number
+from 0-5. Each input/audio player will loop it's audio file until it
+receives the global stop command. Each audio player has it's own volume
+receive which takes input 0 as minimum volume and 1 as max (if we decide
+to give each source this function?). There is also a master volume
+which takes the same min/max values (which can be implimented if we
+decide to go this way?).;
+#X text 205 36 Audio Players;
+#N canvas 293 23 450 300 osc_things 0;
+#X obj 19 19 import mrpeach;
+#X obj 18 54 udpreceive 7890;
+#X obj 18 91 unpackOSC;
+#X obj 18 127 routeOSC /vc;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X restore 467 174 pd osc_things;
 #X connect 0 0 11 0;
 #X connect 0 1 12 0;
 #X connect 2 0 1 0;
@@ -286,23 +307,27 @@
 #X connect 7 0 11 5;
 #X connect 7 1 12 5;
 #X connect 10 0 9 0;
-#X connect 11 0 21 0;
-#X connect 12 0 22 0;
+#X connect 11 0 20 0;
+#X connect 12 0 21 0;
 #X connect 13 0 14 0;
 #X connect 14 0 11 0;
 #X connect 14 0 12 0;
-#X connect 14 0 17 0;
-#X connect 17 0 20 0;
+#X connect 14 0 16 0;
+#X connect 16 0 19 0;
+#X connect 17 0 20 1;
 #X connect 18 0 21 1;
-#X connect 19 0 22 1;
-#X connect 21 0 8 0;
-#X connect 22 0 8 1;
+#X connect 20 0 34 0;
+#X connect 21 0 35 0;
+#X connect 22 0 17 0;
 #X connect 23 0 18 0;
-#X connect 24 0 19 0;
+#X connect 25 0 14 0;
 #X connect 26 0 14 0;
 #X connect 27 0 14 0;
 #X connect 28 0 14 0;
 #X connect 29 0 14 0;
 #X connect 30 0 14 0;
-#X connect 31 0 14 0;
-#X connect 32 0 33 0;
+#X connect 31 0 32 0;
+#X connect 34 0 8 0;
+#X connect 35 0 8 1;
+#X connect 36 0 34 1;
+#X connect 36 0 35 1;

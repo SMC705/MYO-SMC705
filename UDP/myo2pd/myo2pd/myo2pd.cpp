@@ -59,12 +59,17 @@ public:
         float pitch = asin(max(-1.0f, min(1.0f, 2.0f * (quat.w() * quat.y() - quat.z() * quat.x()))));
         float yaw = atan2(2.0f * (quat.w() * quat.z() + quat.x() * quat.y()),
                           1.0f - 2.0f * (quat.y() * quat.y() + quat.z() * quat.z()));
-
-        // Convert the floating point angles in radians to a scale from 0 to 18.
+        
+        // Convert the floating point angles in radians to a clockwise scale from 0 to 126 with the zero angle in π.
         // Need to change the format of the position? DO IT HERE!
-        roll_w = static_cast<int>((roll + (float)M_PI)/(M_PI * 2.0f) * 18);
-        pitch_w = static_cast<int>((pitch + (float)M_PI/2.0f)/M_PI * 18);
-        yaw_w = static_cast<int>((yaw + (float)M_PI)/(M_PI * 2.0f) * 18);
+        roll_w = (static_cast<int>(( -roll + (float)M_PI)/(M_PI * 2.0f) * 100) - 40) * (126/20);
+        pitch_w = static_cast<int>((pitch + (float)M_PI/2.0f)/M_PI * 126);
+        yaw_w = static_cast<int>((yaw + (float)M_PI)/(M_PI * 2.0f) * 126);
+        
+        // If the angle is negative => send 0 angle (used as "volume mute" command).
+        // If the angle is higher then our maximum 126 => send 126 angle (used as volume max limit).
+        if ( roll_w < 0 ) roll_w = 0;
+        else if ( roll_w > 126 ) roll_w = 126;
     }
     
     // onPose() is called whenever the Myo detects that the person wearing it has changed their pose, for example,
@@ -101,7 +106,7 @@ public:
         onArm = true;
         whichArm = arm;
     }
-
+    
     // onArmUnsync() is called whenever Myo has detected that it was moved from a stable position on a person's arm after
     // it recognized the arm. Typically this happens when someone takes Myo off of their arm, but it can also happen
     // when Myo is moved around on the arm.
@@ -115,26 +120,26 @@ public:
     {
         isUnlocked = true;
     }
-
+    
     // onLock() is called whenever Myo has become locked. No pose events will be sent until the Myo is unlocked again.
     void onLock(myo::Myo* myo, uint64_t timestamp)
     {
         isUnlocked = false;
     }
-
+    
     // We define this function to print the current values that were updated by the on...() functions above.
     // Need to change the all the output format on screen? DO IT HERE!
     void print()
     {
         // Clear the current line
         cout << '\r';
-/*
-        // Print out the orientation. Orientation data is always available, even if no arm is currently recognized.
-        std::cout << '[' << std::string(roll_w, '*') << std::string(18 - roll_w, ' ') << ']'
-        << '[' << std::string(pitch_w, '*') << std::string(18 - pitch_w, ' ') << ']'
-        << '[' << std::string(yaw_w, '*') << std::string(18 - yaw_w, ' ') << ']';
-*/
-
+        /*
+         // Print out the orientation. Orientation data is always available, even if no arm is currently recognized.
+         std::cout << '[' << std::string(roll_w, '*') << std::string(18 - roll_w, ' ') << ']'
+         << '[' << std::string(pitch_w, '*') << std::string(18 - pitch_w, ' ') << ']'
+         << '[' << std::string(yaw_w, '*') << std::string(18 - yaw_w, ' ') << ']';
+         */
+        
         if (onArm) {
             // Print out the lock state, the currently recognized pose, and which arm Myo is being worn on.
             
@@ -160,7 +165,7 @@ public:
     bool isUnlocked;
     
     // These values are set by onOrientationData() and onPose() above.
-    int roll_w, pitch_w, yaw_w;
+    float roll_w, pitch_w, yaw_w;
     myo::Pose currentPose;
 };
 
@@ -171,7 +176,7 @@ public:
 
 
 int main() {
-
+    
     // The following code might generate exceptions => we try to execute it and catch any resulting exception
     try {
         // Create an Hub. The Hub provides access to one or more Myos.
@@ -204,7 +209,7 @@ int main() {
         // UDP CONNECTION TO LOCALHOST
         
         int clientSocket, portNum, nBytes;
-//        char buffer[] = "pose";
+        //        char buffer[] = "pose";
         struct sockaddr_in serverAddr;
         socklen_t addr_size;
         
@@ -234,34 +239,71 @@ int main() {
             
             // Print the output as described in print() function.
             collector.print();
-
-            /*
+            
+            
             char * buffer = new char[12];
+            // Initialize the array of char
             buffer[0] = '/';
-            buffer
-             */
+            buffer[1] = '0';
+            buffer[2] = '0';
+            buffer[3] = '0';
+            buffer[4] = ',';
+            buffer[5] = 'i';
+            buffer[6] = '0';
+            buffer[7] = '0';
+            buffer[8] = '0';
+            buffer[9] = '0';
+            buffer[10] = '0';
+            buffer[11] = '\0';
+            
             
             // Send UDP package
             string pose2send = collector.currentPose.toString();
-            cout << pose2send.data() << endl;
             
-            if ( pose2send.compare("fist") == 0) {
-                char buffer[] = "/vu";
-                cout << buffer << endl;
-                nBytes = strlen(buffer) + 1;
-                /*Send message to server*/
-                sendto(clientSocket,buffer,nBytes,0,(struct sockaddr *)&serverAddr,addr_size);
+            // volume control
+            if ( pose2send.compare("fist") == 0 ) {
+                buffer[1] = 'v';
+                buffer[2] = 'c';
+                buffer[10] = collector.roll_w;
             }
+            
+            // source control
+            if ( pose2send.compare("fingersSpread") == 0 ) {
+                buffer[1] = 's';
+                buffer[2] = 'c';
+                buffer[10] = collector.roll_w;
+            }
+            
+            // preset control
+            else if ( pose2send.compare("waveIn") == 0 ) {
+                buffer[1] = 'p';
+                buffer[2] = 'c';
+            }
+            // mute
+            else if ( pose2send.compare("waveOut") == 0 ) {
+                buffer[1] = 'm';
+                buffer[2] = 'm';
+            }
+            
+            else if ( pose2send.compare("unknown") == 0 || pose2send.compare("rest") == 0)
+                continue;
+            
+            nBytes = strlen(buffer) + 1;
+            cout <<  collector.roll_w << endl;
+            /*Send message to server*/
+            sendto(clientSocket,buffer,nBytes,0,(struct sockaddr *)&serverAddr,addr_size);
+
+            delete[] buffer;
         }
         
-        
+
     }
-    
-    // If a standard exception occurred, we print out its message and exit.
-    catch (const std::exception& e) {
-        cerr << "Error: " << e.what() << endl;
-        cerr << "Press enter to continue";
-        cin.ignore();
-        return 1;
+
+// If a standard exception occurred, we print out its message and exit.
+catch (const std::exception& e) {
+    cerr << "Error: " << e.what() << endl;
+    cerr << "Press enter to continue";
+    cin.ignore();
+    return 1;
     }
 }

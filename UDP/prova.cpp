@@ -7,11 +7,9 @@ using namespace std;
 
 int main() {
 
-  char buffer = 'c';
-  cout << buffer << endl;
+    char buffer[2];
+    buffer[0] = int('/');
+    buffer[1] = int('v');
 
-  int n;
-  n = int(buffer);
-  cout << n << endl;
-
+    cout << int('/') << endl;
 }

@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <stdexcept>
 #include <string>
+#include <vector>
 #include <algorithm>
 
 // Myo library
@@ -16,6 +17,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+// Number of audio sources
+#define N = 7;
 
 using namespace std;
 
@@ -25,7 +28,7 @@ using namespace std;
 class DataCollector : public myo::DeviceListener {
 public:
     // Class constructor
-    DataCollector() : onArm(false), isUnlocked(false), roll_w(0), pitch_w(0), yaw_w(0), currentPose()
+    DataCollector() : onArm(false), isUnlocked(false), roll_vol(0), roll_src(0) currentPose()
     {
     }
     
@@ -36,9 +39,8 @@ public:
     {
         // We've lost a Myo.
         // Let's clean up some leftover state.
-        roll_w = 0;
-        pitch_w = 0;
-        yaw_w = 0;
+        roll_vol = 0;
+        roll_src = 0;
         onArm = false;
         isUnlocked = false;
     }
@@ -56,20 +58,18 @@ public:
         // Calculate Euler angles (roll, pitch, and yaw) from the unit quaternion.
         float roll = atan2(2.0f * (quat.w() * quat.x() + quat.y() * quat.z()),
                            1.0f - 2.0f * (quat.x() * quat.x() + quat.y() * quat.y()));
-        float pitch = asin(max(-1.0f, min(1.0f, 2.0f * (quat.w() * quat.y() - quat.z() * quat.x()))));
-        float yaw = atan2(2.0f * (quat.w() * quat.z() + quat.x() * quat.y()),
-                          1.0f - 2.0f * (quat.y() * quat.y() + quat.z() * quat.z()));
         
         // Convert the floating point angles in radians to a clockwise scale from 0 to 126 with the zero angle in π.
-        // Need to change the format of the position? DO IT HERE!
-        roll_w = (static_cast<int>(( -roll + (float)M_PI)/(M_PI * 2.0f) * 100) - 40) * (126/20);
-        pitch_w = static_cast<int>((pitch + (float)M_PI/2.0f)/M_PI * 126);
-        yaw_w = static_cast<int>((yaw + (float)M_PI)/(M_PI * 2.0f) * 126);
+        // Need to change the format of the angle? DO IT HERE!
+        
+        // We define an angle format for the volume control here.
+        // It is continuous from 0 to 126.
+        roll_vol = (static_cast<int>(( -roll + (float)M_PI)/(M_PI * 2.0f) * 100) - 40) * 126/20;
         
         // If the angle is negative => send 0 angle (used as "volume mute" command).
         // If the angle is higher then our maximum 126 => send 126 angle (used as volume max limit).
-        if ( roll_w < 0 ) roll_w = 0;
-        else if ( roll_w > 126 ) roll_w = 126;
+        if ( roll_vol < 0 ) roll_vol = 0;
+        else if ( roll_vol > 126 ) roll_vol = 126;
     }
     
     // onPose() is called whenever the Myo detects that the person wearing it has changed their pose, for example,
@@ -165,7 +165,7 @@ public:
     bool isUnlocked;
     
     // These values are set by onOrientationData() and onPose() above.
-    float roll_w, pitch_w, yaw_w;
+    float roll_vol, roll_src;
     myo::Pose currentPose;
 };
 
@@ -264,14 +264,14 @@ int main() {
             if ( pose2send.compare("fist") == 0 ) {
                 buffer[1] = 'v';
                 buffer[2] = 'c';
-                buffer[10] = collector.roll_w;
+                buffer[10] = collector.roll_vol;
             }
             
             // source control
             if ( pose2send.compare("fingersSpread") == 0 ) {
                 buffer[1] = 's';
                 buffer[2] = 'c';
-                buffer[10] = collector.roll_w;
+                buffer[10] = collector.roll_vol;
             }
             
             // preset control
@@ -289,7 +289,7 @@ int main() {
                 continue;
             
             nBytes = strlen(buffer) + 1;
-            cout <<  collector.roll_w << endl;
+            cout <<  collector.roll_vol << endl;
             /*Send message to server*/
             sendto(clientSocket,buffer,nBytes,0,(struct sockaddr *)&serverAddr,addr_size);
 

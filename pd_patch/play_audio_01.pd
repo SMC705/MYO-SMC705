@@ -43,7 +43,7 @@
 #X obj -57 51 s global_stop;
 #X obj -57 29 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
-#N canvas -43 23 369 393 microphone 0;
+#N canvas 0 23 369 393 microphone 0;
 #X obj 143 72 readsf~ 2;
 #X msg 68 37 start;
 #X msg -24 35 stop;
@@ -293,6 +293,10 @@ decide to go this way?).;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X restore 467 174 pd osc_things;
+#X obj 455 351 s master_volume;
+#X msg 463 308 1;
+#X msg 502 312 0;
+#X text 462 278 check audio works;
 #X connect 0 0 11 0;
 #X connect 0 1 12 0;
 #X connect 2 0 1 0;
@@ -331,3 +335,5 @@ decide to go this way?).;
 #X connect 35 0 8 1;
 #X connect 36 0 34 1;
 #X connect 36 0 35 1;
+#X connect 42 0 41 0;
+#X connect 43 0 41 0;

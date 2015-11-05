@@ -244,22 +244,22 @@
 #X connect 16 0 15 0;
 #X restore 207 231 pd tv;
 #X msg -60 -64 \; pd dsp \$1;
-#X obj -61 -87 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X obj -61 -87 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
 #X obj 61 269 multiplex~ 1 2 3 4 5 6;
 #X obj 261 269 multiplex~ 1 2 3 4 5 6;
-#X obj -57 197 r input_select;
-#X floatatom -67 218 5 0 5 0 - - -;
+#X obj -74 197 r input_select;
+#X floatatom -84 218 5 0 5 0 - - -;
 #X text -33 -91 Turn DSP On/Off;
 #X obj -84 251 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 77 330 line~;
-#X obj 273 328 line~;
+#X obj 75 330 line~;
+#X obj 277 328 line~;
 #X msg -84 272 \; to_line_out 0 \, 1 500 \;;
-#X obj 63 354 *~;
-#X obj 257 354 *~;
-#X obj 77 308 r to_line_out;
-#X obj 273 306 r to_line_out;
+#X obj 61 354 *~;
+#X obj 261 354 *~;
+#X obj 75 308 r to_line_out;
+#X obj 277 306 r to_line_out;
 #X text -35 29 Stop all audio files;
 #X obj -60 -19 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
@@ -267,8 +267,7 @@
 #X text -38 -19 Start all audio files;
 #X obj 142 409 *~;
 #X obj 180 410 *~;
-#X obj 120 358 r master_volume;
-#X text -13 114 Audio Select;
+#X obj 124 358 r master_volume;
 #X text 384 -28 This patch plays the audio from (at present) 6 different
 inputs simultaneously. To select which audio to hear \, choose a number
 from 0-5. Each input/audio player will loop it's audio file until it
@@ -278,40 +277,45 @@ to give each source this function?). There is also a master volume
 which takes the same min/max values (which can be implimented if we
 decide to go this way?).;
 #X text 205 36 Audio Players;
-#N canvas 646 170 564 418 osc_things 0;
+#N canvas 768 240 564 418 osc_things 0;
 #X msg -987 -139 47 \$1 \$2 \$3 0 0 0 0 44 105 0 0 0 0 0 \$4;
 #X obj -987 -113 unpackOSC;
 #X obj -987 -166 udpreceive 7890;
 #X obj -903 -85 routeOSC /vol /src /pst;
 #X obj -987 -59 print OSCrcv;
-#X obj -903 55 vsl 15 128 0.01 1 1 0 empty empty Volume(log) 0 -9 0
-10 -262144 -1 -1 0 1;
-#X obj -903 195 s master_volume;
 #X obj -813 -35 s preset_select;
 #X obj -858 -10 s input_select;
 #X obj -903 16 expr ( $f1 - 1 ) / 127;
 #X obj -858 -59 change;
 #X obj -813 -59 change;
 #X obj -519 -163 import mrpeach;
+#X obj -903 43 s volume_slider;
+#X obj -858 -35 - 1;
 #X connect 0 0 1 0;
 #X connect 1 0 4 0;
 #X connect 1 0 3 0;
 #X connect 2 0 0 0;
-#X connect 3 0 9 0;
-#X connect 3 1 10 0;
-#X connect 3 2 11 0;
-#X connect 5 0 6 0;
+#X connect 3 0 7 0;
+#X connect 3 1 8 0;
+#X connect 3 2 9 0;
+#X connect 7 0 11 0;
+#X connect 8 0 12 0;
 #X connect 9 0 5 0;
-#X connect 10 0 8 0;
-#X connect 11 0 7 0;
+#X connect 12 0 6 0;
 #X restore 467 174 pd osc_things;
-#X obj 455 351 s master_volume;
-#X msg 463 308 1;
-#X msg 502 312 0;
-#X text 462 278 check audio works;
+#X obj 473 371 s master_volume;
 #X obj 158 462 dac~;
-#X obj -67 162 hradio 30 1 0 6 empty input_select ↓_aux__micr__music_phone_radio__tv_↓
-0 -8 0 9 -262144 -1 -16662 0;
+#X obj 473 236 vsl 15 128 0 1 0 0 empty empty Volume 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 468 199 r volume_slider;
+#X obj -167 68 vradio 25 1 0 6 empty input_select Audio_Select 0 -8
+0 10 -262144 -1 -1 0;
+#X text -139 69 Aux;
+#X text -139 95 Microphone;
+#X text -139 120 Music;
+#X text -140 145 Phone;
+#X text -140 170 Radio;
+#X text -138 195 TV;
 #X connect 0 0 10 0;
 #X connect 0 1 11 0;
 #X connect 2 0 1 0;
@@ -340,10 +344,10 @@ decide to go this way?).;
 #X connect 21 0 16 0;
 #X connect 22 0 17 0;
 #X connect 24 0 25 0;
-#X connect 27 0 38 0;
-#X connect 28 0 38 1;
+#X connect 27 0 34 0;
+#X connect 28 0 34 1;
 #X connect 29 0 27 1;
 #X connect 29 0 28 1;
-#X connect 35 0 34 0;
-#X connect 36 0 34 0;
-#X connect 39 0 13 0;
+#X connect 35 0 33 0;
+#X connect 36 0 35 0;
+#X connect 37 0 13 0;

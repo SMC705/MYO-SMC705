@@ -19,7 +19,7 @@
 #include <arpa/inet.h>
 
 // Number of audio sources
-#define N = 7;
+int N = 6;
 
 using namespace std;
 
@@ -29,7 +29,7 @@ using namespace std;
 class DataCollector : public myo::DeviceListener {
 public:
     // Class constructor
-    DataCollector() : onArm(false), isUnlocked(false), roll_vol(0), currentPose()
+    DataCollector() : onArm(false), isUnlocked(false), roll_vol(0), roll_src(0), currentPose()
     {
     }
     
@@ -41,6 +41,7 @@ public:
         // We've lost a Myo.
         // Let's clean up some leftover state.
         roll_vol = 0;
+        roll_src = 0;
         onArm = false;
         isUnlocked = false;
     }
@@ -59,7 +60,7 @@ public:
         float roll = atan2(2.0f * (quat.w() * quat.x() + quat.y() * quat.z()),
                            1.0f - 2.0f * (quat.x() * quat.x() + quat.y() * quat.y()));
         
-        // Convert the floating point angles in radians to a clockwise scale from 0 to 126 with the zero angle in π.
+        // Convert the floating point angles in radians to a clockwise scale from 1 to 127 (good for PureData) with the zero angle in π.
         // Need to change the format of the angle? DO IT HERE!
         
         // We define an angle format for the volume control here.
@@ -70,6 +71,12 @@ public:
         // If the angle is higher then our maximum 126 => send 126 angle (used as volume max limit).
         if ( roll_vol < 1 ) roll_vol = 1;
         else if ( roll_vol > 127 ) roll_vol = 127;
+        
+        // We define an angle format for the source control here.
+        // The range [0, π] is divided into a number of equal ranges, as the number of sources N.
+        roll_src = ((static_cast<int>(( -roll + (float)M_PI)/(M_PI * 2.0f) * 1000)) - 400) * N * 100/200;
+        if ( roll_src < 1 ) roll_src = 1;
+        else if ( roll_src > N*100 ) roll_src = N * 100;
     }
     
     // onPose() is called whenever the Myo detects that the person wearing it has changed their pose, for example,
@@ -165,7 +172,7 @@ public:
     bool isUnlocked;
     
     // These values are set by onOrientationData() and onPose() above.
-    float roll_vol;
+    float roll_vol, roll_src;
     myo::Pose currentPose;
 };
 
@@ -211,7 +218,7 @@ int main() {
         
         int clientSocket, nBytes;
         int portNum = 7890;
-        char ipAddress[] = "10.42.0.1";
+        char ipAddress[] = "127.0.0.1";
         struct sockaddr_in serverAddr;
         socklen_t addr_size;
         
@@ -246,15 +253,15 @@ int main() {
             char * buffer = new char[12];
             // Initialize the array of char
             buffer[0] = '/';
-            buffer[1] = '\0';
-            buffer[2] = '\0';
-            buffer[3] = '\0';
+            buffer[1] = '0';
+            buffer[2] = '0';
+            buffer[3] = '0';
             buffer[4] = ',';
             buffer[5] = 'i';
-            buffer[6] = '\0';
-            buffer[7] = '\0';
-            buffer[8] = '\0';
-            buffer[9] = '\0';
+            buffer[6] = '0';
+            buffer[7] = '0';
+            buffer[8] = '0';
+            buffer[9] = '0';
             buffer[10] = 1;
             buffer[11] = '\0';
             
@@ -267,31 +274,40 @@ int main() {
                 buffer[1] = 'v';
                 buffer[2] = 'c';
                 buffer[10] = collector.roll_vol;
+                cout << buffer[10] << endl;
             }
             
             // source control
             if ( pose2send.compare("fingersSpread") == 0 ) {
                 buffer[1] = 's';
                 buffer[2] = 'c';
-                buffer[10] = collector.roll_vol;
+                
+
+                // NOTE: is it possible to make this list of if depending on N? Like with a loop??
+                if ( collector.roll_src <= 100 ) buffer[10] = 1;
+                else if ( collector.roll_src > 100 && collector.roll_src <= 200 ) buffer[10] = 2;
+                else if ( collector.roll_src > 200 && collector.roll_src <= 300 ) buffer[10] = 3;
+                else if ( collector.roll_src > 300 && collector.roll_src <= 400 ) buffer[10] = 4;
+                else if ( collector.roll_src > 400 && collector.roll_src <= 500 ) buffer[10] = 5;
+                else if ( collector.roll_src > 500 && collector.roll_src <= 600 ) buffer[10] = 6;
+                
+                cout << buffer[10] << endl;
             }
             
+            /*
             // preset control
             else if ( pose2send.compare("waveIn") == 0 ) {
                 buffer[1] = 'p';
                 buffer[2] = 'c';
             }
-            // mute
-            else if ( pose2send.compare("waveOut") == 0 ) {
-                buffer[1] = 'm';
-                buffer[2] = 'm';
-            }
+            */
             
+            // NOTE: isn't a simple else => continue enough? check it later!!!
             else if ( pose2send.compare("unknown") == 0 || pose2send.compare("rest") == 0)
                 continue;
             
             nBytes = strlen(buffer) + 1;
-            cout <<  collector.roll_vol << endl;
+
             /*Send message to server*/
             sendto(clientSocket,buffer,nBytes,0,(struct sockaddr *)&serverAddr,addr_size);
 

@@ -1,5 +1,8 @@
-#include <string>
 #include <iostream>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <string>
 
 using namespace std;
 
@@ -7,9 +10,7 @@ using namespace std;
 
 int main() {
 
-    char buffer[2];
-    buffer[0] = int('/');
-    buffer[1] = int('v');
-
-    cout << int('/') << endl;
+    int n = 47;
+    int m = n * 100/127;
+    
 }

@@ -6,11 +6,19 @@
 
 using namespace std;
 
+void change(int * n_addr)
+{
+    *n_addr = 5;
+}
 
 
 int main() {
 
-    int n = 47;
-    int m = n * 100/127;
+    int n=4;
+    int * n_addr = &n; // pointer definition
+    
+    change(n_addr);
+    
+    cout << n << endl;
     
 }

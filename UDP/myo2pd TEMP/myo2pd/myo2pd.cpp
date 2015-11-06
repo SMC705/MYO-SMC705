@@ -19,13 +19,13 @@
 using namespace std;
 
 // Number of audio sources
-const int nSrc = 6;
+const int nSrc = 3;
 // Number of audio presets
 const int nPrst = 4;
 
 // UDP connection settings (set ipAddress to 127.0.0.1 for local communication, 10.42.0.1 for Devid computer communication)
 const int portNum = 7890;
-const char ipAddress[] = "10.42.0.1";
+const char ipAddress[] = "127.0.0.1";
 const int bufferLength = 4;
 
 
@@ -166,7 +166,6 @@ public:
                 cout << roll_vol;
             else if ( poseString.compare("fingersSpread") == 0 )
                 cout << roll_src;
-
         }
         
         else {
@@ -256,45 +255,39 @@ int main() {
             // The function hub.run(duration) runs the event loop for the specified duration (ms).
             // Need to change the output rate? DO IT HERE!
             hub.run(1000/20);
-
-            // Print the output as described in print() function.
-            collector.print();
-            
             
             char * buffer = new char[bufferLength];
+            bool hamlet = false;
             
-            // Send UDP package
-            string pose2send = collector.currentPose.toString();
+            string poseString = collector.currentPose.toString();
             
             // volume control
-            if ( pose2send.compare("fist") == 0 ) {
+            if ( poseString.compare("fist") == 0 ) {
                 buffer[0] = 'v';
                 buffer[1] = 'o';
                 buffer[2] = 'l';
                 buffer[3] = collector.roll_vol;
+                hamlet = true;
             }
             
             // source control
-            else if ( pose2send.compare("fingersSpread") == 0 ) {
+            else if ( poseString.compare("fingersSpread") == 0 ) {
                 buffer[0] = 's';
                 buffer[1] = 'r';
                 buffer[2] = 'c';
-                
-                // NOTE: is it possible to make this list of if depending on N? Like with a loop??
-                if ( collector.roll_src <= 100 ) buffer[3] = 1;
-                else if ( collector.roll_src > 100 && collector.roll_src <= 200 ) buffer[3] = 2;
-                else if ( collector.roll_src > 200 && collector.roll_src <= 300 ) buffer[3] = 3;
-                else if ( collector.roll_src > 300 && collector.roll_src <= 400 ) buffer[3] = 4;
-                else if ( collector.roll_src > 400 && collector.roll_src <= 500 ) buffer[3] = 5;
-                else if ( collector.roll_src > 500 && collector.roll_src <= 600 ) buffer[3] = 6;
+                buffer[3] = collector.roll_src;
+                hamlet = true;
             }
             
-            // NOTE: isn't a simple else => continue enough? check it later!!!
-            else continue;
+            // Print the output as described in print() function.
+            collector.print();
             
             /*Send message to server*/
-            nBytes = bufferLength;
-            sendto(clientSocket,buffer,nBytes,0,(struct sockaddr *)&serverAddr,addr_size);
+            // It sends messages only if hamlet is true ("to send or not to send?")
+            if ( hamlet == true) {
+                nBytes = bufferLength;
+                sendto(clientSocket,buffer,nBytes,0,(struct sockaddr *)&serverAddr,addr_size);
+            }
 
             delete[] buffer;
         }

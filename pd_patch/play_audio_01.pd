@@ -1,4 +1,4 @@
-#N canvas 412 82 948 686 10;
+#N canvas 273 50 948 686 10;
 #X declare -lib mrpeach;
 #N canvas 10 23 369 393 audio_in_out 0;
 #X obj 143 72 readsf~ 2;
@@ -277,7 +277,7 @@ to give each source this function?). There is also a master volume
 which takes the same min/max values (which can be implimented if we
 decide to go this way?).;
 #X text 205 36 Audio Players;
-#N canvas 768 240 564 418 osc_things 0;
+#N canvas 238 53 695 250 osc_things 0;
 #X msg -987 -139 47 \$1 \$2 \$3 0 0 0 0 44 105 0 0 0 0 0 \$4;
 #X obj -987 -113 unpackOSC;
 #X obj -987 -166 udpreceive 7890;
@@ -291,6 +291,14 @@ decide to go this way?).;
 #X obj -519 -163 import mrpeach;
 #X obj -903 43 s volume_slider;
 #X obj -858 -35 - 1;
+#X text -684 -86 udpreceive receives 4 ASCII values from C++ via port
+7890 (in this case) OSC values are formatted in groups of four so that
+unpackOSC can read and translate from 'ASCII list' to values that Pd
+understands. 1 = / 2 = v- 3 = o- 4 = l- 5 = 0 6 = 0 7 = 0 8 = 0 9 =
+\, 10 =i 11 =0 12 =0 13 =0 14 =0 15 =0 16 = 1-127 (received value to
+use with the adress)- routeOSC reads the unpacked OSC data and routes
+the values to an output denpendant on the address (first four values
+in the ASCII list). vol = volume src = source pst = presets;
 #X connect 0 0 1 0;
 #X connect 1 0 4 0;
 #X connect 1 0 3 0;
@@ -309,7 +317,7 @@ decide to go this way?).;
 -1 -1 0 1;
 #X obj 468 199 r volume_slider;
 #X obj -167 68 vradio 25 1 0 6 empty input_select Audio_Select 0 -8
-0 10 -262144 -1 -1 0;
+0 10 -262144 -1 -1 2;
 #X text -139 69 Aux;
 #X text -139 95 Microphone;
 #X text -139 120 Music;

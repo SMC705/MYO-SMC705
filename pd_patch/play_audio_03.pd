@@ -4,7 +4,7 @@
 #X obj -57 29 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X msg -60 -64 \; pd dsp \$1;
-#X obj -61 -87 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X obj -61 -87 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
 #X text -33 -91 Turn DSP On/Off;
 #X text -35 29 Stop all audio files;
@@ -60,16 +60,10 @@ in the ASCII list). vol = volume src = source pst = presets;
 #X obj 213 184 vsl 15 128 0 1 0 0 empty empty Volume 0 -9 0 10 -262144
 -1 -1 0 1;
 #X obj 208 147 r volume_slider;
-#X obj -56 121 vradio 25 1 0 6 empty input_select Audio_Select 0 -8
+#X obj -55 121 vradio 25 1 0 4 empty input_select Audio_Select 0 -8
 0 10 -262144 -1 -1 1;
-#X text -28 122 Aux;
-#X text -28 148 Microphone;
-#X text -28 173 Music;
-#X text -29 198 Phone;
-#X text -29 223 Radio;
-#X text -27 248 TV;
 #N canvas 485 106 695 584 Audio 1;
-#N canvas 10 23 369 393 audio_in_out 0;
+#N canvas 367 22 369 393 audio_in_out 0;
 #X obj 143 72 readsf~ 2;
 #X msg 143 44 open audio_in_out_s.wav;
 #X msg 68 37 start;
@@ -269,7 +263,7 @@ in the ASCII list). vol = volume src = source pst = presets;
 #X connect 15 0 0 0;
 #X connect 16 0 12 0;
 #X restore 353 239 pd radio;
-#N canvas 23 23 369 393 tv 1;
+#N canvas 23 23 369 393 tv 0;
 #X obj 143 72 readsf~ 2;
 #X msg 68 37 start;
 #X msg -24 35 stop;
@@ -355,11 +349,15 @@ in the ASCII list). vol = volume src = source pst = presets;
 #X connect 22 0 8 0;
 #X connect 23 0 9 0;
 #X restore -56 308 pd Audio Players;
+#X text -28 122 Music;
+#X text -28 148 Phone;
+#X text -28 173 Radio;
+#X text -29 198 TV;
 #X connect 1 0 0 0;
 #X connect 3 0 2 0;
 #X connect 6 0 7 0;
 #X connect 14 0 12 0;
 #X connect 15 0 14 0;
-#X connect 16 0 23 0;
-#X connect 23 0 13 0;
-#X connect 23 1 13 1;
+#X connect 16 0 17 0;
+#X connect 17 0 13 0;
+#X connect 17 1 13 1;

@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5231BC801BEB7B150020AE09 /* myo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5231BC7E1BEB7B000020AE09 /* myo.framework */; };
 		523275031BE2A20500E44F6B /* myo2pd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 523275021BE2A20500E44F6B /* myo2pd.cpp */; };
-		523275051BE2A22400E44F6B /* myo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 523275041BE2A22400E44F6B /* myo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,9 +24,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5231BC7E1BEB7B000020AE09 /* myo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = myo.framework; path = ../../../../../../../../../../Library/Frameworks/myo.framework; sourceTree = "<group>"; };
 		523274F81BE2A1E700E44F6B /* myo2pd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = myo2pd; sourceTree = BUILT_PRODUCTS_DIR; };
 		523275021BE2A20500E44F6B /* myo2pd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = myo2pd.cpp; sourceTree = SOURCE_ROOT; };
-		523275041BE2A22400E44F6B /* myo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = myo.framework; path = ../myo.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,7 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				523275051BE2A22400E44F6B /* myo.framework in Frameworks */,
+				5231BC801BEB7B150020AE09 /* myo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,7 +44,7 @@
 		523274EF1BE2A1E700E44F6B = {
 			isa = PBXGroup;
 			children = (
-				523275041BE2A22400E44F6B /* myo.framework */,
+				5231BC7E1BEB7B000020AE09 /* myo.framework */,
 				523274FA1BE2A1E700E44F6B /* myo2pd */,
 				523274F91BE2A1E700E44F6B /* Products */,
 			);
@@ -214,6 +214,7 @@
 					"/Users/Paolo/Documents/AAU/2015-2016/Fall",
 					Semester,
 					"Project/MYO-SMC705/UDP/myo2pd",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -227,6 +228,7 @@
 					"/Users/Paolo/Documents/AAU/2015-2016/Fall",
 					Semester,
 					"Project/MYO-SMC705/UDP/myo2pd",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

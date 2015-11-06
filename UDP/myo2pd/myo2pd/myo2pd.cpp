@@ -1,7 +1,5 @@
-// OUR PERSONAL HELLO-MYO
-
-
 #define _USE_MATH_DEFINES
+
 #include <cmath>
 #include <iostream>
 #include <iomanip>
@@ -10,26 +8,33 @@
 #include <vector>
 #include <algorithm>
 
-// Myo library
-#include <myo/myo.hpp>      // Header containing all the classes related to the Myo
+// Myo library (contains all the classes related to the Myo
+#include <myo/myo.hpp>
 
 // UDP libraries
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-// Number of audio sources
-#define N = 7;
-
 using namespace std;
+
+// Number of audio sources
+const int nSrc = 3;
+// Number of audio presets
+const int nPrst = 4;
+
+// UDP connection settings (set ipAddress to 127.0.0.1 for local communication, 10.42.0.1 for Devid computer communication)
+const int portNum = 7890;
+const char ipAddress[] = "127.0.0.1";
+const int bufferLength = 4;
+
 
 
 // Define a class that inherits from the Myo::DeviceListener class. A DeviceListener type receives events from the Myo (e.g. if it's paired/unpaired, locked/unlocked, informations about gestures, etc).
-
 class DataCollector : public myo::DeviceListener {
 public:
     // Class constructor
-    DataCollector() : onArm(false), isUnlocked(false), roll_vol(0), currentPose()
+    DataCollector() : onArm(false), isUnlocked(false), roll_vol(0), roll_src(0), currentPose()
     {
     }
     
@@ -41,6 +46,7 @@ public:
         // We've lost a Myo.
         // Let's clean up some leftover state.
         roll_vol = 0;
+        roll_src = 0;
         onArm = false;
         isUnlocked = false;
     }
@@ -59,17 +65,23 @@ public:
         float roll = atan2(2.0f * (quat.w() * quat.x() + quat.y() * quat.z()),
                            1.0f - 2.0f * (quat.x() * quat.x() + quat.y() * quat.y()));
         
-        // Convert the floating point angles in radians to a clockwise scale from 0 to 126 with the zero angle in π.
+        // Convert the floating point angles in radians to a clockwise scale from 1 to 127 (good for PureData) with the zero angle in π.
         // Need to change the format of the angle? DO IT HERE!
         
         // We define an angle format for the volume control here.
         // It is continuous from 0 to 126.
-        roll_vol = ((static_cast<int>(( -roll + (float)M_PI)/(M_PI * 2.0f) * 1000)) - 400) * 127/200;
+        roll_vol = static_cast<int>(((( -roll + (float)M_PI)/(M_PI * 2.0f) * 100) - 40) * 127/20);
         
-        // If the angle is negative => send 0 angle (used as "volume mute" command).
-        // If the angle is higher then our maximum 126 => send 126 angle (used as volume max limit).
+        // If the angle is 0 or negative => send 1 angle (used as "volume mute" command).
+        // If the angle is higher then our maximum 127 => send 127 angle (used as volume max limit).
         if ( roll_vol < 1 ) roll_vol = 1;
         else if ( roll_vol > 127 ) roll_vol = 127;
+        
+        // We define an angle format for the source control here.
+        // The range [0, π] is divided into a number of equal ranges, as the number of sources nSrc.
+        roll_src = ((static_cast<int>(( -roll + (float)M_PI)/(M_PI * 2.0f) * 1000)) - 400) * nSrc * 100/200;
+        if ( roll_src < 1 ) roll_src = 1;
+        else if ( roll_src > nSrc*100 ) roll_src = nSrc * 100;
     }
     
     // onPose() is called whenever the Myo detects that the person wearing it has changed their pose, for example,
@@ -148,10 +160,17 @@ public:
             // that we can fill the rest of the field with spaces below, so we obtain it as a string using toString().
             string poseString = currentPose.toString();
             
-            cout << '[' << poseString << std::string(14 - poseString.size(), ' ') << ']';
-        } else {
+            cout << "Pose: " << poseString << "  |  " << "Rotation: ";
+            
+            if ( poseString.compare("fist") == 0 )
+                cout << roll_vol;
+            else if ( poseString.compare("fingersSpread") == 0 )
+                cout << roll_src;
+        }
+        
+        else {
             // Print out a placeholder for the arm and pose when Myo doesn't currently know which arm it's on.
-            std::cout << '[' << std::string(8, ' ') << ']' << "[?]" << '[' << std::string(14, ' ') << ']';
+            cout << "[?]";
         }
         
         cout << flush;
@@ -165,7 +184,7 @@ public:
     bool isUnlocked;
     
     // These values are set by onOrientationData() and onPose() above.
-    float roll_vol;
+    float roll_vol, roll_src;
     myo::Pose currentPose;
 };
 
@@ -210,8 +229,6 @@ int main() {
         // need to change port number (portNum) or ip-address(ipAddress)? DO IT HERE!
         
         int clientSocket, nBytes;
-        int portNum = 7890;
-        char ipAddress[] = "10.42.0.1";
         struct sockaddr_in serverAddr;
         socklen_t addr_size;
         
@@ -239,66 +256,41 @@ int main() {
             // Need to change the output rate? DO IT HERE!
             hub.run(1000/20);
             
-            // Print the output as described in print() function.
-            collector.print();
+            char * buffer = new char[bufferLength];
+            bool hamlet = false;
             
-            
-            char * buffer = new char[12];
-            // Initialize the array of char
-            buffer[0] = '/';
-            buffer[1] = '\0';
-            buffer[2] = '\0';
-            buffer[3] = '\0';
-            buffer[4] = ',';
-            buffer[5] = 'i';
-            buffer[6] = '\0';
-            buffer[7] = '\0';
-            buffer[8] = '\0';
-            buffer[9] = '\0';
-            buffer[10] = 1;
-            buffer[11] = '\0';
-            
-            
-            // Send UDP package
-            string pose2send = collector.currentPose.toString();
+            string poseString = collector.currentPose.toString();
             
             // volume control
-            if ( pose2send.compare("fist") == 0 ) {
-                buffer[1] = 'v';
-                buffer[2] = 'c';
-                buffer[10] = collector.roll_vol;
+            if ( poseString.compare("fist") == 0 ) {
+                buffer[0] = 'v';
+                buffer[1] = 'o';
+                buffer[2] = 'l';
+                buffer[3] = collector.roll_vol;
+                hamlet = true;
             }
             
             // source control
-            if ( pose2send.compare("fingersSpread") == 0 ) {
-                buffer[1] = 's';
+            else if ( poseString.compare("fingersSpread") == 0 ) {
+                buffer[0] = 's';
+                buffer[1] = 'r';
                 buffer[2] = 'c';
-                buffer[10] = collector.roll_vol;
+                buffer[3] = collector.roll_src;
+                hamlet = true;
             }
             
-            // preset control
-            else if ( pose2send.compare("waveIn") == 0 ) {
-                buffer[1] = 'p';
-                buffer[2] = 'c';
-            }
-            // mute
-            else if ( pose2send.compare("waveOut") == 0 ) {
-                buffer[1] = 'm';
-                buffer[2] = 'm';
-            }
+            // Print the output as described in print() function.
+            collector.print();
             
-            else if ( pose2send.compare("unknown") == 0 || pose2send.compare("rest") == 0)
-                continue;
-            
-            nBytes = strlen(buffer) + 1;
-            cout <<  collector.roll_vol << endl;
             /*Send message to server*/
-            sendto(clientSocket,buffer,nBytes,0,(struct sockaddr *)&serverAddr,addr_size);
+            // It sends messages only if hamlet is true ("to send or not to send?")
+            if ( hamlet == true) {
+                nBytes = bufferLength;
+                sendto(clientSocket,buffer,nBytes,0,(struct sockaddr *)&serverAddr,addr_size);
+            }
 
             delete[] buffer;
         }
-        
-
     }
 
 // If a standard exception occurred, we print out its message and exit.

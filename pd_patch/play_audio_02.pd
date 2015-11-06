@@ -1,10 +1,10 @@
-#N canvas 65 26 948 686 10;
+#N canvas 67 146 582 495 10;
 #X declare -lib mrpeach;
 #X obj -57 51 s global_stop;
 #X obj -57 29 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X msg -60 -64 \; pd dsp \$1;
-#X obj -61 -87 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj -61 -87 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X text -33 -91 Turn DSP On/Off;
 #X text -35 29 Stop all audio files;
@@ -58,17 +58,17 @@ in the ASCII list). vol = volume src = source pst = presets;
 #X obj 213 319 s master_volume;
 #X obj -27 384 dac~;
 #X obj 213 184 vsl 15 128 0 1 0 0 empty empty Volume 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 8700 1;
 #X obj 208 147 r volume_slider;
 #X obj -56 121 vradio 25 1 0 6 empty input_select Audio_Select 0 -8
-0 10 -262144 -1 -1 2;
+0 10 -262144 -1 -1 0;
 #X text -28 122 Aux;
 #X text -28 148 Microphone;
 #X text -28 173 Music;
 #X text -29 198 Phone;
 #X text -29 223 Radio;
 #X text -27 248 TV;
-#N canvas 581 23 695 584 Audio 0;
+#N canvas 578 82 695 584 Audio 0;
 #N canvas 10 23 369 393 audio_in_out 0;
 #X obj 143 72 readsf~ 2;
 #X msg 143 44 open audio_in_out_s.wav;
@@ -359,6 +359,98 @@ in the ASCII list). vol = volume src = source pst = presets;
 #X connect 19 0 20 0;
 #X connect 23 0 18 0;
 #X restore -56 308 pd Audio Players;
+#N canvas 655 147 591 521 phone_osc 1;
+#X obj 15 -1060 unpackOSC;
+#X obj 15 -994 select 1;
+#X obj 450 -824 bng 20 250 50 0 empty volume_up + 7 10 2 12 -228856
+-128992 -1;
+#X obj 450 -793 bng 20 250 50 0 empty volume_down _ 7 5 2 12 -228856
+-128992 -1;
+#X obj 74 -996 s vm;
+#X obj 481 -806 tgl 15 0 empty vm M 4 7 2 10 -228856 -86277 -1 0 1
+;
+#X obj 399 -872 bng 20 250 50 0 empty p1 P1 4 11 2 12 -228856 -128992
+-1;
+#X obj 425 -872 bng 20 250 50 0 empty p2 P2 4 11 2 12 -228856 -128992
+-1;
+#X obj 451 -873 bng 20 250 50 0 empty p3 P3 4 11 2 12 -228856 -128992
+-1;
+#X obj 477 -873 bng 20 250 50 0 empty p4 P4 4 11 2 12 -228856 -128992
+-1;
+#X obj 116 -968 s p1;
+#X obj 139 -943 s p2;
+#X obj 162 -921 s p3;
+#X obj 185 -901 s p4;
+#X obj 116 -996 select 1 2 3;
+#X obj 252 -961 int;
+#X obj 252 -985 expr ($f1 + 0.1)* 7;
+#X obj 422 -843 vradio 20 1 0 7 empty input_select empty 0 -8 0 10
+-228856 -1 -1 0;
+#X text 399 -844 TV;
+#X text 356 -824 Microphone;
+#X text 400 -783 FM;
+#X text 383 -805 Music;
+#X text 378 -763 T-coil;
+#X text 394 -744 Aux;
+#X text 357 -724 Telephone;
+#X obj 252 -809 r source;
+#X obj 252 -781 print;
+#X obj 339 -1132 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
+#X msg 252 -938 set \$1;
+#X msg 252 -909 4;
+#X obj 15 -1019 routeOSC /volume /vmute /preset /setsource /source
+;
+#X obj 193 -953 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 281 -960 need to check if source is precise;
+#X obj 15 -1096 udpreceive 9000;
+#X obj 252 -885 s input_select;
+#N canvas 835 209 227 233 step_volume 0;
+#X msg 65 -813 set \$1;
+#X msg 119 -779 0.685039;
+#X msg 5 -778 0.685039;
+#X obj 65 -835 clip 0 1;
+#X obj 46 -876 r master_volume;
+#X obj 65 -856 r step_volume;
+#X msg 66 -724 \; volume_slider \$1 \; step_volume \$1;
+#X obj 5 -802 inlet;
+#X obj 119 -802 inlet;
+#X obj 5 -756 + 0.25;
+#X obj 120 -758 - 0.25;
+#X connect 0 0 1 0;
+#X connect 0 0 2 0;
+#X connect 1 0 10 0;
+#X connect 2 0 9 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 3 0;
+#X connect 7 0 2 0;
+#X connect 8 0 1 0;
+#X connect 9 0 6 0;
+#X connect 10 0 6 0;
+#X restore 15 -968 pd step_volume;
+#X connect 0 0 30 0;
+#X connect 1 0 35 0;
+#X connect 1 1 35 1;
+#X connect 14 0 10 0;
+#X connect 14 1 11 0;
+#X connect 14 2 12 0;
+#X connect 14 3 13 0;
+#X connect 15 0 28 0;
+#X connect 16 0 15 0;
+#X connect 25 0 26 0;
+#X connect 27 0 16 0;
+#X connect 28 0 29 0;
+#X connect 29 0 34 0;
+#X connect 30 0 1 0;
+#X connect 30 1 4 0;
+#X connect 30 2 14 0;
+#X connect 30 3 31 0;
+#X connect 30 4 16 0;
+#X connect 31 0 29 0;
+#X connect 33 0 0 0;
+#X restore 208 95 pd phone_osc;
 #X connect 1 0 0 0;
 #X connect 3 0 2 0;
 #X connect 6 0 7 0;

@@ -1,10 +1,10 @@
-#N canvas 209 22 948 686 10;
+#N canvas 320 23 948 686 10;
 #X declare -lib mrpeach;
 #X obj -57 51 s global_stop;
 #X obj -57 29 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X msg -60 -64 \; pd dsp \$1;
-#X obj -61 -87 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X obj -61 -87 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
 #X text -33 -91 Turn DSP On/Off;
 #X text -35 29 Stop all audio files;
@@ -12,14 +12,6 @@
 -1 -1;
 #X obj -60 3 s global_start;
 #X text -38 -19 Start all audio files;
-#X text 124 -80 This patch plays the audio from (at present) 6 different
-inputs simultaneously. To select which audio to hear \, choose a number
-from 0-5. Each input/audio player will loop it's audio file until it
-receives the global stop command. Each audio player has it's own volume
-receive which takes input 0 as minimum volume and 1 as max (if we decide
-to give each source this function?). There is also a master volume
-which takes the same min/max values (which can be implimented if we
-decide to go this way?).;
 #X text -42 284 Audio Players;
 #N canvas 238 53 695 250 osc_things 0;
 #X msg -987 -139 47 \$1 \$2 \$3 0 0 0 0 44 105 0 0 0 0 0 \$4;
@@ -62,7 +54,7 @@ in the ASCII list). vol = volume src = source pst = presets;
 #X obj 208 147 r volume_slider;
 #X obj -55 121 vradio 25 1 0 4 empty input_select Audio_Select 0 -8
 0 10 -262144 -1 -1 0;
-#N canvas 485 106 695 584 Audio 1;
+#N canvas 485 106 695 584 Audio 0;
 #N canvas 367 22 369 393 audio_in_out 0;
 #X obj 143 72 readsf~ 2;
 #X msg 143 44 open audio_in_out_s.wav;
@@ -322,6 +314,16 @@ in the ASCII list). vol = volume src = source pst = presets;
 #X obj 42 234 inlet;
 #X obj 206 307 multiplex~ 1 2 3 4;
 #X obj 408 310 multiplex~ 1 2 3 4;
+#X text -48 34 Each audio sub_patch sends a stereo signal from it's
+bottom two outputs (1+2 or L+R). The signals are then sent to the [multiplex~]
+objects which act as a gate \, only passing the signal from the channel
+number it receives. The channel numbers are received from the 'Audio_Select'
+radio object in the main patch and the [r Input_select]. To avoid clicks
+in the audio \, there is a [line~] object that ramps the gain from
+0 to 1 over 500ms every time the channel is changed. This signal is
+then sent to the next gain which is multipled by 0 to 1 from the [r
+master_volume] before being sent to the left and right [outlet~]'s.
+;
 #X connect 2 0 22 0;
 #X connect 2 1 23 0;
 #X connect 3 0 22 1;
@@ -353,11 +355,19 @@ in the ASCII list). vol = volume src = source pst = presets;
 #X text -28 148 Phone;
 #X text -28 173 Radio;
 #X text -29 198 TV;
+#X text 124 -80 This patch plays the audio from (at present) 4 different
+inputs simultaneously. To select which audio to hear \, choose a source
+from the radio object (a number from 0-3). Each input/audio player
+will loop it's audio file until it receives the global stop command.
+Each audio player has it's own volume receive which takes input 0 as
+minimum volume and 1 as max (if we decide to give each source this
+function?). There is also a master volume which takes the same min/max
+values.;
 #X connect 1 0 0 0;
 #X connect 3 0 2 0;
 #X connect 6 0 7 0;
-#X connect 14 0 12 0;
-#X connect 15 0 14 0;
-#X connect 16 0 17 0;
-#X connect 17 0 13 0;
-#X connect 17 1 13 1;
+#X connect 13 0 11 0;
+#X connect 14 0 13 0;
+#X connect 15 0 16 0;
+#X connect 16 0 12 0;
+#X connect 16 1 12 1;

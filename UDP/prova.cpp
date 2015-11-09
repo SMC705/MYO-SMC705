@@ -3,6 +3,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <string>
+#include <vector>
+
 
 using namespace std;
 
@@ -14,11 +16,13 @@ void change(int * n_addr)
 
 int main() {
 
-    int n=4;
-    int * n_addr = &n; // pointer definition
-    
-    change(n_addr);
-    
-    cout << n << endl;
+    int i=0;
+    while(1) {
+        if (cin.get()) break;
+        else {
+            cout << i << endl;
+            i++;
+        }
+    }
     
 }

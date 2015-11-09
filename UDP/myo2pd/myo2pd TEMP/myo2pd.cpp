@@ -19,13 +19,11 @@
 using namespace std;
 
 // Number of audio sources
-const int nSrc = 4;
+const int nSrc = 3;
 // Number of audio presets
 const int nPrst = 4;
 
 // UDP connection settings (set ipAddress to 127.0.0.1 for local communication, 10.42.0.1 for Devid computer communication)
-const int portNum = 7890;
-const char ipAddress[] = "127.0.0.1";
 const int bufferLength = 4;
 
 
@@ -34,7 +32,7 @@ const int bufferLength = 4;
 class DataCollector : public myo::DeviceListener {
 public:
     // Class constructor
-    DataCollector() : onArm(false), isUnlocked(false), roll_vol(0), roll_src(0), currentPose()
+    DataCollector() : onArm(false), isUnlocked(false), roll_tmp(0), roll_vol(0), roll_src(0), currentPose()
     {
     }
     
@@ -45,6 +43,7 @@ public:
     {
         // We've lost a Myo.
         // Let's clean up some leftover state.
+        roll_tmp = 0;
         roll_vol = 0;
         roll_src = 0;
         onArm = false;
@@ -70,7 +69,7 @@ public:
         
         // We define an angle format for the volume control here.
         // It is continuous from 0 to 126.
-        roll_vol = static_cast<int>(((( -roll + (float)M_PI)/(M_PI * 2.0f) * 100) - 40) * 127/20);
+        roll_tmp = static_cast<int>(( -roll + (float)M_PI)/(M_PI * 2.0f) * 100);
         
         // If the angle is 0 or negative => send 1 angle (used as "volume mute" command).
         // If the angle is higher then our maximum 127 => send 127 angle (used as volume max limit).
@@ -184,7 +183,7 @@ public:
     bool isUnlocked;
     
     // These values are set by onOrientationData() and onPose() above.
-    float roll_vol, roll_src;
+    float roll_tmp, roll_vol, roll_src;
     myo::Pose currentPose;
 };
 
@@ -198,6 +197,7 @@ int main() {
     
     // The following code might generate exceptions => we try to execute it and catch any resulting exception
     try {
+        
         // Create an Hub. The Hub provides access to one or more Myos.
         myo::Hub hub("com.SMC705.AAU");
         
@@ -223,73 +223,44 @@ int main() {
         // Add the DataCollector object to the Hub.
         // Note: the Hub:addListener() takes the address (&) of any object defined as myo::DeviceListener.
         hub.addListener(&collector);
-        
-        //==========================================================================
-        // UDP CONNECTION TO LOCALHOST
-        // need to change port number (portNum) or ip-address(ipAddress)? DO IT HERE!
-        
-        int clientSocket, nBytes;
-        struct sockaddr_in serverAddr;
-        socklen_t addr_size;
-        
-        /*Create UDP socket*/
-        clientSocket = socket(PF_INET, SOCK_DGRAM, 0);
-        
-        /*Configure settings in address struct*/
-        serverAddr.sin_family = AF_INET;
-        serverAddr.sin_port = htons(portNum);      // port
-        serverAddr.sin_addr.s_addr = inet_addr(ipAddress);  // local address (16777343)
-        memset(serverAddr.sin_zero, '\0', sizeof serverAddr.sin_zero);
-        
-        /*Initialize size variable to be used later on*/
-        addr_size = sizeof serverAddr;
-        
-        
-        
-        
-        //==========================================================================
-        // LOOP
-        
-        // Enter a main loop that print position, pose and state of the Myo for every iteration.
-        while(1) {
-            // The function hub.run(duration) runs the event loop for the specified duration (ms).
-            // Need to change the output rate? DO IT HERE!
-            hub.run(1000/20);
-            
-            char * buffer = new char[bufferLength];
-            bool hamlet = false;
-            
-            string poseString = collector.currentPose.toString();
-            
-            // volume control
-            if ( poseString.compare("fist") == 0 ) {
-                buffer[0] = 'v';
-                buffer[1] = 'o';
-                buffer[2] = 'l';
-                buffer[3] = collector.roll_vol;
-                hamlet = true;
-            }
-            
-            // source control
-            else if ( poseString.compare("fingersSpread") == 0 ) {
-                buffer[0] = 's';
-                buffer[1] = 'r';
-                buffer[2] = 'c';
-                buffer[3] = collector.roll_src;
-                hamlet = true;
-            }
-            
-            // Print the output as described in print() function.
-            collector.print();
-            
-            /*Send message to server*/
-            // It sends messages only if hamlet is true ("to send or not to send?")
-            if ( hamlet == true) {
-                nBytes = bufferLength;
-                sendto(clientSocket,buffer,nBytes,0,(struct sockaddr *)&serverAddr,addr_size);
-            }
 
-            delete[] buffer;
+        // Instructions text.
+        cout << "Please follow the instructions to setup your personal rolling range for volume and sources control." << endl;
+        cout << "------------------------------------------------------------------------------------------------" << endl;
+        cout << "\n\n";
+        cout << "Please be sure to wear the Myo on your right arm and with the USB port pointing to your wrist." << endl;
+        cout << "Press enter when ready..." << endl;
+        cin.get();
+        
+        //==========================================================================
+        // ZERO ANGLE
+        
+        cout << "Setup the zero: " << endl;
+        cout << "Make a fist and rotate your arm counter-clockwise to your zero position. Press enter when done." << endl;
+
+        int i=0;
+        int zero = 0;
+        while ( i<5 ) {
+            if (cin.get()) {
+                hub.run(1000/20);
+                zero = collector.roll_tmp;
+                cout << zero << endl;
+                i++;
+            }
+        }
+        
+        //==========================================================================
+        // MAX ANGLE
+
+        cout << "Setup the maximum: " << endl;
+        cout << "Make a fist and rotate your arm counter-clockwise to your maximum position. Press enter when done." << endl;
+        int max;
+        
+        if (cin.get()) {
+            hub.run(1000/20);
+            max = collector.roll_tmp;
+            cout << max << endl;
+        }
         }
     }
 

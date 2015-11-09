@@ -4,7 +4,7 @@
 #X obj -57 29 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X msg -60 -64 \; pd dsp \$1;
-#X obj -61 -87 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj -61 -87 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X text -33 -91 Turn DSP On/Off;
 #X text -35 29 Stop all audio files;
@@ -61,7 +61,7 @@ in the ASCII list). vol = volume src = source pst = presets;
 -1 -1 0 1;
 #X obj 208 147 r volume_slider;
 #X obj -55 121 vradio 25 1 0 4 empty input_select Audio_Select 0 -8
-0 10 -262144 -1 -1 1;
+0 10 -262144 -1 -1 0;
 #N canvas 485 106 695 584 Audio 1;
 #N canvas 367 22 369 393 audio_in_out 0;
 #X obj 143 72 readsf~ 2;

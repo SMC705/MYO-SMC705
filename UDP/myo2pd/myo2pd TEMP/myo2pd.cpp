@@ -236,32 +236,41 @@ int main() {
         // ZERO ANGLE
         
         cout << "Setup the zero: " << endl;
-        cout << "Make a fist and rotate your arm counter-clockwise to your zero position. Press enter when done." << endl;
+        cout << "Make a fist and rotate your arm counter-clockwise to your zero position for five times. Press enter each time to record the position..." << endl;
 
         int i=0;
-        int zero = 0;
+        double zero = 0;
         while ( i<5 ) {
+            cout << "Attempt 1...      ";
             if (cin.get()) {
                 hub.run(1000/20);
-                zero = collector.roll_tmp;
-                cout << zero << endl;
+                zero += collector.roll_tmp;
+                cout << "Zero is: " << static_cast<int>(collector.roll_tmp) << endl;
                 i++;
             }
         }
+        
+        cout << "Your zero angle is set to " << static_cast<int>(rint(zero/5)) << "\n\n\n" << endl;
         
         //==========================================================================
         // MAX ANGLE
 
         cout << "Setup the maximum: " << endl;
-        cout << "Make a fist and rotate your arm counter-clockwise to your maximum position. Press enter when done." << endl;
-        int max;
+        cout << "Make a fist and rotate your arm counter-clockwise to your maximum position for five times. Press enter each time to record the position..." << endl;
+
+        i=0;
+        double max = 0;
+        while ( i<5 ) {
+            cout << "Attempt 1...      ";
+            if (cin.get()) {
+                hub.run(1000/20);
+                max += collector.roll_tmp;
+                cout << "Maximum is: " << static_cast<int>(collector.roll_tmp) << endl;
+                i++;
+            }
+        }
         
-        if (cin.get()) {
-            hub.run(1000/20);
-            max = collector.roll_tmp;
-            cout << max << endl;
-        }
-        }
+        cout << "Your maximum angle is set to " << static_cast<int>(rint(max/5)) << "\n\n\n" << endl;
     }
 
 // If a standard exception occurred, we print out its message and exit.

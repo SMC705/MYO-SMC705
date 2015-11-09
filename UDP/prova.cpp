@@ -4,6 +4,7 @@
 #include <arpa/inet.h>
 #include <string>
 #include <vector>
+#include <cmath>
 
 
 using namespace std;
@@ -16,13 +17,8 @@ void change(int * n_addr)
 
 int main() {
 
-    int i=0;
-    while(1) {
-        if (cin.get()) break;
-        else {
-            cout << i << endl;
-            i++;
-        }
-    }
+    double n=153;
+    cout << static_cast<int>(rint(n/5)) << endl;
+    
     
 }

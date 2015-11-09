@@ -18,6 +18,10 @@
 
 using namespace std;
 
+
+// Minimum and maximum roll angle
+const int minAngle = 63;
+const int maxAngle = 79;
 // Number of audio sources
 const int nSrc = 4;
 // Number of audio presets
@@ -53,6 +57,7 @@ public:
     
     // onOrientationData() is called whenever the Myo device provides its current orientation, which is represented as a unit quaternion.
     // This function takes the position values from the quaternion and assign new values to roll_w, pitch_w and yaw_w every time new data are provided by the Myo.
+    
     void onOrientationData(myo::Myo* myo, uint64_t timestamp, const myo::Quaternion<float>& quat)
     {
         using std::atan2;
@@ -69,8 +74,8 @@ public:
         // Need to change the format of the angle? DO IT HERE!
         
         // We define an angle format for the volume control here.
-        // It is continuous from 0 to 126.
-        roll_vol = static_cast<int>(((( -roll + (float)M_PI)/(M_PI * 2.0f) * 100) - 40) * 127/20);
+        // It is continuous from 1 to 127.
+        roll_vol = static_cast<int>(((( -roll + (float)M_PI)/(M_PI * 2.0f) * 100) - minAngle) * 127/(maxAngle-minAngle));
         
         // If the angle is 0 or negative => send 1 angle (used as "volume mute" command).
         // If the angle is higher then our maximum 127 => send 127 angle (used as volume max limit).
@@ -79,10 +84,12 @@ public:
         
         // We define an angle format for the source control here.
         // The range [0, π] is divided into a number of equal ranges, as the number of sources nSrc.
-        roll_src = ((static_cast<int>(( -roll + (float)M_PI)/(M_PI * 2.0f) * 1000)) - 400) * nSrc * 100/200;
+        roll_src = ((static_cast<int>(( -roll + (float)M_PI)/(M_PI * 2.0f) * 100)) - minAngle) * 127/(maxAngle-minAngle);
         if ( roll_src < 1 ) roll_src = 1;
-        else if ( roll_src > nSrc*100 ) roll_src = nSrc * 100;
+        else if ( roll_src > 127 ) roll_src = 127;
     }
+    
+    
     
     // onPose() is called whenever the Myo detects that the person wearing it has changed their pose, for example,
     // making a fist, or not making a fist anymore.

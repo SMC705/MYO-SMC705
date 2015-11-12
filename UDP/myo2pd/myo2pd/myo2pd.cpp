@@ -235,8 +235,10 @@ int main() {
         // Note: the Hub:addListener() takes the address (&) of any object defined as myo::DeviceListener.
         hub.addListener(&collector);
         
+        
+        
         //==========================================================================
-        // UDP CONNECTION TO LOCALHOST
+        // UDP CONNECTION SETTINGS
         // need to change port number (portNum) or ip-address(ipAddress)? DO IT HERE!
         
         int clientSocket, nBytes;
@@ -259,7 +261,19 @@ int main() {
         
         
         //==========================================================================
-        // LOOP
+        // WHILE LOOP
+        
+        
+        char * buffer = new char[bufferLength];     // NOTE: allocate memory here or inside the loop????
+        
+        // Variables for haptic feedback.
+        int samePoseTh = 15;    // if the same position is obtained for more then samePoseTh measures, then a vibration is sent.
+        int samePose = 0;       // same position index: keep trace of how many consecutive same position are measured.
+        string previousPoseString = "blabla";   // previous position to be compared with each measured position (initialized "randomly" to blabla).
+
+        // Variable for presets.
+        int preset = 0;         // Current preset (initialized to zero)
+        int presetNum = 3;      // Number of presets
         
         // Enter a main loop that print position, pose and state of the Myo for every iteration.
         while(1) {
@@ -267,12 +281,52 @@ int main() {
             // Need to change the output rate? DO IT HERE!
             hub.run(1000/20);
             
-            char * buffer = new char[bufferLength];
-            bool hamlet = false;
+            bool hamlet = false;    // "to send or not to send" variable: if true => UDP message sent.
             
             string poseString = collector.currentPose.toString();
+           
             
-            // volume control
+            
+            // PRESET SELECTION
+            // ----------------
+            
+            // If measured pose is the same as previous => increment samePose.
+            if ( poseString == previousPoseString )
+                samePose++;
+            else samePose = 0;
+            
+            // If samePose index reaches the threshold for waveIn or waveOut => give haptic feedback.
+            if ( samePose == samePoseTh && ( poseString == "waveIn" || poseString == "waveOut" ) ) {
+                myo->vibrate(myo::Myo::vibrationShort);
+                samePose = 0;
+                
+                // Increment preset if waveIn pose.
+                if ( poseString.compare("waveIn") == 0 ) {
+                    presetNum--;
+                    if ( preset < 0 )
+                        preset = presetNum;
+                }
+                
+                // Decrement preset if waveOut pose.
+                else {
+                    presetNum++;
+                    if ( preset > presetNum )
+                        preset = 0;
+                }
+                
+                // Fill buffer array with the preset number.
+                buffer[0] = 'p';
+                buffer[1] = 's';
+                buffer[2] = 't';
+                buffer[3] = preset;
+                hamlet = true;
+            }
+            
+            
+            
+            // VOLUME CONTROL
+            // ----------------
+            
             if ( poseString.compare("fist") == 0 ) {
                 buffer[0] = 'v';
                 buffer[1] = 'o';
@@ -281,7 +335,11 @@ int main() {
                 hamlet = true;
             }
             
-            // source control
+            
+
+            // SOURCE SELECTION (still need to change it to send source number and to add thresholds).
+            // ----------------
+            
             else if ( poseString.compare("fingersSpread") == 0 ) {
                 buffer[0] = 's';
                 buffer[1] = 'r';
@@ -290,34 +348,28 @@ int main() {
                 hamlet = true;
             }
             
-            else if ( poseString.compare("waveIn") == 0 ) {
-                buffer[0] = 'w';
-                buffer[1] = 'a';
-                buffer[2] = 'v';
-                buffer[3] = '1';
-                hamlet = true;
-            }
+
             
-            else if ( poseString.compare("waveOut") == 0 ) {
-                buffer[0] = 'w';
-                buffer[1] = 'a';
-                buffer[2] = 'v';
-                buffer[3] = '2';
-                hamlet = true;
-            }
+            // PRINT OUTPUT
+            // ----------------
             
-            // Print the output as described in print() function.
             collector.print();
             
-            /*Send message to server*/
+            
+            // SEND UDP MESSAGE TO PURE DATA
+            // -----------------------------
+            
             // It sends messages only if hamlet is true ("to send or not to send?")
             if ( hamlet == true) {
                 nBytes = bufferLength;
                 sendto(clientSocket,buffer,nBytes,0,(struct sockaddr *)&serverAddr,addr_size);
             }
+            
+            previousPoseString = poseString;
 
-            delete[] buffer;
         }
+        
+        delete[] buffer;
     }
 
 // If a standard exception occurred, we print out its message and exit.

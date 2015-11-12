@@ -1,4 +1,4 @@
-#N canvas 581 151 650 572 10;
+#N canvas 333 141 650 572 10;
 #X declare -lib mrpeach;
 #X obj 130 -255 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
 -66577 0;
@@ -9,7 +9,7 @@
 -1 -1;
 #X msg -81 -221 \; pd dsp \$1;
 #X obj -81 -246 tgl 15 0 empty empty empty 17 7 0 10 -204786 -1 -1
-1 1;
+0 1;
 #X text -54 -248 Turn DSP On/Off;
 #X text -56 -128 Stop all audio files;
 #X obj -81 -176 bng 15 250 50 0 empty empty empty 17 7 0 10 -4034 -1
@@ -332,7 +332,7 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X connect 5 0 6 0;
 #X connect 6 0 4 0;
 #X restore 576 -213 pd bass_boost;
-#N canvas 777 693 450 300 treble_boost 1;
+#N canvas 774 468 450 300 treble_boost 0;
 #X obj -486 -223 inlet;
 #X obj -486 -175 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
@@ -495,7 +495,7 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X connect 36 0 24 0;
 #X connect 37 0 25 0;
 #X restore -59 170 pd Audio Players;
-#X obj 262 -22 cnv 15 110 230 empty empty empty 20 12 0 14 -261682
+#X obj 263 -49 cnv 15 110 260 empty empty empty 20 12 0 14 -261682
 -66577 0;
 #N canvas 769 23 676 259 osc_things 0;
 #X msg -987 -139 47 \$1 \$2 \$3 0 0 0 0 44 105 0 0 0 0 0 \$4;
@@ -581,10 +581,10 @@ in the ASCII list). vol = volume src = source pst = presets;
 #X restore 269 -12 pd osc_things;
 #X obj 275 185 s master_volume;
 #X obj 275 50 vsl 85 128 0 1 0 0 empty empty Volume 0 -9 0 10 -204786
--258113 -4160 6800 1;
+-258113 -4160 0 1;
 #X obj 270 13 r volume_slider;
 #X obj -59 -11 vradio 25 1 0 6 empty input_select Audio_Select 0 -8
-0 10 -262144 -1 -1 1;
+0 10 -262144 -1 -1 5;
 #X text -31 -10 Aux;
 #X text -31 16 Microphone;
 #X text -31 41 Music;
@@ -603,11 +603,135 @@ values.;
 #X obj 56 -33 cnv 15 130 150 empty empty empty 20 12 0 14 -257985 -66577
 0;
 #X obj 61 -10 vradio 25 1 0 4 empty preset_select Preset_Select 0 -8
-0 10 -262144 -1 -1 1;
+0 10 -262144 -1 -1 0;
 #X text 89 -9 Noise Reduction;
 #X text 89 42 Bass Boost;
 #X text 88 67 Treble Boost;
 #X text 89 17 Feedback Killer;
+#N canvas 677 220 591 497 phone_osc 1;
+#X obj 15 -1060 unpackOSC;
+#X obj 15 -994 select 1;
+#X obj 74 -996 s vm;
+#X obj 116 -948 s p1;
+#X obj 139 -923 s p2;
+#X obj 162 -901 s p3;
+#X obj 185 -881 s p4;
+#X obj 116 -976 select 1 2 3;
+#X obj 252 -970 int;
+#X msg 252 -947 set \$1;
+#X msg 252 -918 5;
+#X obj 15 -1019 routeOSC /volume /vmute /preset /setsource /source
+;
+#X obj 193 -933 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 15 -1096 udpreceive 9000;
+#X obj 252 -894 s input_select;
+#N canvas 823 285 379 357 step_volume 0;
+#X msg 61 -805 set \$1;
+#X msg 145 -779 0.822835;
+#X msg -12 -778 0.822835;
+#X obj 65 -842 clip 0 1;
+#X obj 46 -891 r master_volume;
+#X obj 65 -863 r step_volume;
+#X msg 58 -670 \; volume_slider \$1 \; step_volume \$1;
+#X obj -12 -816 inlet;
+#X obj 145 -814 inlet;
+#X obj -12 -756 + 0.25;
+#X obj 146 -758 - 0.25;
+#X obj 207 -814 inlet;
+#X text -16 -837 Increase;
+#X text 143 -835 Decrease;
+#X text 210 -834 Mute;
+#X obj 58 -691 *;
+#X obj 220 -742 t b f;
+#X obj -5 -866 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 58 -724 5 0 0 0 - - -;
+#X obj 207 -790 select 0;
+#X msg 207 -765 1;
+#X msg 252 -765 0;
+#X text -4 -611 This subpatch receive a bang from the + and - button
+of the phone and increment the volume in the main patch. It also receive
+values of the current main volume.;
+#X connect 0 0 1 0;
+#X connect 0 0 2 0;
+#X connect 1 0 10 0;
+#X connect 2 0 9 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 3 0;
+#X connect 7 0 2 0;
+#X connect 8 0 1 0;
+#X connect 9 0 18 0;
+#X connect 10 0 18 0;
+#X connect 11 0 19 0;
+#X connect 15 0 6 0;
+#X connect 16 0 15 0;
+#X connect 16 1 15 1;
+#X connect 17 0 2 0;
+#X connect 18 0 15 0;
+#X connect 19 0 20 0;
+#X connect 19 1 21 0;
+#X connect 20 0 16 0;
+#X connect 21 0 16 0;
+#X restore 15 -968 pd step_volume;
+#X obj 362 -896 cnv 15 140 200 empty empty Phone_screen 20 0 0 14 -203904
+-66577 0;
+#X obj 458 -814 bng 20 250 50 0 empty volume_up + 7 10 2 12 -228856
+-128992 -1;
+#X obj 458 -783 bng 20 250 50 0 empty volume_down _ 7 5 2 12 -228856
+-128992 -1;
+#X obj 483 -796 tgl 15 0 empty vm M 4 7 2 10 -228856 -86277 -1 0 1
+;
+#X obj 389 -879 bng 20 250 50 0 empty p1 P1 4 11 2 12 -228856 -128992
+-1;
+#X obj 415 -879 bng 20 250 50 0 empty p2 P2 4 11 2 12 -228856 -128992
+-1;
+#X obj 441 -880 bng 20 250 50 0 empty p3 P3 4 11 2 12 -228856 -128992
+-1;
+#X obj 467 -880 bng 20 250 50 0 empty p4 P4 4 11 2 12 -228856 -128992
+-1;
+#X obj 430 -848 vradio 20 1 0 6 empty input_select empty 0 -8 0 10
+-228856 -1 -1 0;
+#X text 408 -748 TV;
+#X text 364 -829 Microphone;
+#X text 391 -809 Music;
+#X text 404 -850 Aux;
+#X text 367 -789 Telephone;
+#X text 392 -768 Radio;
+#X obj 430 -723 bng 20 250 50 0 empty input_select S 8 10 0 10 -262144
+-1 -1;
+#X obj 252 -994 expr ($f1 + 0.1)* 6;
+#X text 245 -638 The index of the sources in the phone app is incorrect
+;
+#X text 297 -977 need to check if source sel from the phone is precise
+;
+#X obj -4 -851 cnv 15 350 70 empty empty empty 20 12 0 14 -204786 -66577
+0;
+#X text -6 -858 comment;
+#X text 1 -842 This subpatch receives values from the TouchOSC app
+installed on Tom's phone simulating the ConnectLine from Oticon. Then
+\, it shows the value received and it routes them to the main patch.
+;
+#X connect 0 0 11 0;
+#X connect 1 0 15 0;
+#X connect 1 1 15 1;
+#X connect 7 0 3 0;
+#X connect 7 1 4 0;
+#X connect 7 2 5 0;
+#X connect 7 3 6 0;
+#X connect 8 0 9 0;
+#X connect 9 0 10 0;
+#X connect 10 0 14 0;
+#X connect 11 0 1 0;
+#X connect 11 1 2 0;
+#X connect 11 2 7 0;
+#X connect 11 3 12 0;
+#X connect 11 4 32 0;
+#X connect 12 0 10 0;
+#X connect 13 0 0 0;
+#X connect 32 0 8 0;
+#X restore 269 -38 pd phone_osc;
 #X connect 3 0 2 0;
 #X connect 5 0 4 0;
 #X connect 8 0 9 0;

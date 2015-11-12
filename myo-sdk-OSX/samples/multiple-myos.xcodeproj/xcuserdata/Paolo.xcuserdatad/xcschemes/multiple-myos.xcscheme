@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "523274F71BE2A1E700E44F6B"
-               BuildableName = "myo2pd"
-               BlueprintName = "myo2pd"
-               ReferencedContainer = "container:myo2pd.xcodeproj">
+               BlueprintIdentifier = "4D638765192671C8005BE0A6"
+               BuildableName = "multiple-myos"
+               BlueprintName = "multiple-myos"
+               ReferencedContainer = "container:multiple-myos.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "523274F71BE2A1E700E44F6B"
-            BuildableName = "myo2pd"
-            BlueprintName = "myo2pd"
-            ReferencedContainer = "container:myo2pd.xcodeproj">
+            BlueprintIdentifier = "4D638765192671C8005BE0A6"
+            BuildableName = "multiple-myos"
+            BlueprintName = "multiple-myos"
+            ReferencedContainer = "container:multiple-myos.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -52,10 +52,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "523274F71BE2A1E700E44F6B"
-            BuildableName = "myo2pd"
-            BlueprintName = "myo2pd"
-            ReferencedContainer = "container:myo2pd.xcodeproj">
+            BlueprintIdentifier = "4D638765192671C8005BE0A6"
+            BuildableName = "multiple-myos"
+            BlueprintName = "multiple-myos"
+            ReferencedContainer = "container:multiple-myos.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -71,10 +71,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "523274F71BE2A1E700E44F6B"
-            BuildableName = "myo2pd"
-            BlueprintName = "myo2pd"
-            ReferencedContainer = "container:myo2pd.xcodeproj">
+            BlueprintIdentifier = "4D638765192671C8005BE0A6"
+            BuildableName = "multiple-myos"
+            BlueprintName = "multiple-myos"
+            ReferencedContainer = "container:multiple-myos.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

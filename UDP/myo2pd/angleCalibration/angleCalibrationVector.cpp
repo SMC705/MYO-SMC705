@@ -8,7 +8,7 @@
 #include <vector>
 #include <algorithm>
 
-// Myo library (contains all the classes related to the Myo)
+// Myo library (contains all the classes related to the Myo
 #include <myo/myo.hpp>
 
 // UDP libraries
@@ -18,18 +18,12 @@
 
 using namespace std;
 
-
-// Minimum and maximum roll angle
-const int minAngle = 35;
-const int maxAngle = 61;
 // Number of audio sources
-const int nSrc = 4;
+const int nSrc = 3;
 // Number of audio presets
 const int nPrst = 4;
 
 // UDP connection settings (set ipAddress to 127.0.0.1 for local communication, 10.42.0.1 for Devid computer communication)
-const int portNum = 7890;
-const char ipAddress[] = "127.0.0.1";
 const int bufferLength = 4;
 
 
@@ -38,7 +32,7 @@ const int bufferLength = 4;
 class DataCollector : public myo::DeviceListener {
 public:
     // Class constructor
-    DataCollector() : onArm(false), isUnlocked(false), roll_vol(0), roll_src(0), currentPose()
+    DataCollector() : onArm(false), isUnlocked(false), roll_tmp(0), roll_vol(0), roll_src(0), currentPose()
     {
     }
     
@@ -49,6 +43,7 @@ public:
     {
         // We've lost a Myo.
         // Let's clean up some leftover state.
+        roll_tmp = 0;
         roll_vol = 0;
         roll_src = 0;
         onArm = false;
@@ -57,7 +52,6 @@ public:
     
     // onOrientationData() is called whenever the Myo device provides its current orientation, which is represented as a unit quaternion.
     // This function takes the position values from the quaternion and assign new values to roll_w, pitch_w and yaw_w every time new data are provided by the Myo.
-    
     void onOrientationData(myo::Myo* myo, uint64_t timestamp, const myo::Quaternion<float>& quat)
     {
         using std::atan2;
@@ -74,8 +68,8 @@ public:
         // Need to change the format of the angle? DO IT HERE!
         
         // We define an angle format for the volume control here.
-        // It is continuous from 1 to 127.
-        roll_vol = static_cast<int>(((( -roll + (float)M_PI)/(M_PI * 2.0f) * 100) - minAngle) * 127/(maxAngle-minAngle));
+        // It is continuous from 0 to 126.
+        roll_tmp = static_cast<int>(( -roll + (float)M_PI)/(M_PI * 2.0f) * 100);
         
         // If the angle is 0 or negative => send 1 angle (used as "volume mute" command).
         // If the angle is higher then our maximum 127 => send 127 angle (used as volume max limit).
@@ -84,12 +78,10 @@ public:
         
         // We define an angle format for the source control here.
         // The range [0, π] is divided into a number of equal ranges, as the number of sources nSrc.
-        roll_src = ((static_cast<int>(( -roll + (float)M_PI)/(M_PI * 2.0f) * 100)) - minAngle) * 127/(maxAngle-minAngle);
+        roll_src = ((static_cast<int>(( -roll + (float)M_PI)/(M_PI * 2.0f) * 1000)) - 400) * nSrc * 100/200;
         if ( roll_src < 1 ) roll_src = 1;
-        else if ( roll_src > 127 ) roll_src = 127;
+        else if ( roll_src > nSrc*100 ) roll_src = nSrc * 100;
     }
-    
-    
     
     // onPose() is called whenever the Myo detects that the person wearing it has changed their pose, for example,
     // making a fist, or not making a fist anymore.
@@ -173,10 +165,6 @@ public:
                 cout << roll_vol;
             else if ( poseString.compare("fingersSpread") == 0 )
                 cout << roll_src;
-            else if ( poseString.compare("waveIn") == 0 )
-                cout << 1;
-            else if ( poseString.compare("waveOut") == 0 )
-                cout << 2;
         }
         
         else {
@@ -195,7 +183,7 @@ public:
     bool isUnlocked;
     
     // These values are set by onOrientationData() and onPose() above.
-    float roll_vol, roll_src;
+    float roll_tmp, roll_vol, roll_src;
     myo::Pose currentPose;
 };
 
@@ -209,6 +197,7 @@ int main() {
     
     // The following code might generate exceptions => we try to execute it and catch any resulting exception
     try {
+        
         // Create an Hub. The Hub provides access to one or more Myos.
         myo::Hub hub("com.SMC705.AAU");
         
@@ -235,96 +224,34 @@ int main() {
         // Note: the Hub:addListener() takes the address (&) of any object defined as myo::DeviceListener.
         hub.addListener(&collector);
         
-        //==========================================================================
-        // UDP CONNECTION TO LOCALHOST
-        // need to change port number (portNum) or ip-address(ipAddress)? DO IT HERE!
-        
-        int clientSocket, nBytes;
-        struct sockaddr_in serverAddr;
-        socklen_t addr_size;
-        
-        /*Create UDP socket*/
-        clientSocket = socket(PF_INET, SOCK_DGRAM, 0);
-        
-        /*Configure settings in address struct*/
-        serverAddr.sin_family = AF_INET;
-        serverAddr.sin_port = htons(portNum);      // port
-        serverAddr.sin_addr.s_addr = inet_addr(ipAddress);  // local address (16777343)
-        memset(serverAddr.sin_zero, '\0', sizeof serverAddr.sin_zero);
-        
-        /*Initialize size variable to be used later on*/
-        addr_size = sizeof serverAddr;
-        
-        
-        
+        // Instructions text.
+        cout << "Please follow the instructions to setup your personal rolling range for volume and sources control." << endl;
+        cout << "------------------------------------------------------------------------------------------------" << endl;
+        cout << "\n\n";
+        cout << "Please be sure to wear the Myo on your right arm and with the USB port pointing to your wrist." << endl;
+        cout << "Press enter when ready..." << endl;
+        cin.get();
         
         //==========================================================================
-        // LOOP
+        // ZERO ANGLE
         
-        // Enter a main loop that print position, pose and state of the Myo for every iteration.
-        while(1) {
-            // The function hub.run(duration) runs the event loop for the specified duration (ms).
-            // Need to change the output rate? DO IT HERE!
-            hub.run(1000/20);
-            
-            char * buffer = new char[bufferLength];
-            bool hamlet = false;
-            
-            string poseString = collector.currentPose.toString();
-            
-            // volume control
-            if ( poseString.compare("fist") == 0 ) {
-                buffer[0] = 'v';
-                buffer[1] = 'o';
-                buffer[2] = 'l';
-                buffer[3] = collector.roll_vol;
-                hamlet = true;
+        cout << "Setup the zero: " << endl;
+        cout << "Make a fist and rotate your arm counter-clockwise to your zero position for five times. Press enter each time to record the position..." << endl;
+        
+        vector<int> angles;
+        if (cin.get()) {
+        while ( 1 ) {
+                hub.run(1000/20);
+                angles.push_back( collector.roll_tmp);
             }
-            
-            // source control
-            else if ( poseString.compare("fingersSpread") == 0 ) {
-                buffer[0] = 's';
-                buffer[1] = 'r';
-                buffer[2] = 'c';
-                buffer[3] = collector.roll_src;
-                hamlet = true;
-            }
-            
-            else if ( poseString.compare("waveIn") == 0 ) {
-                buffer[0] = 'w';
-                buffer[1] = 'a';
-                buffer[2] = 'v';
-                buffer[3] = '1';
-                hamlet = true;
-            }
-            
-            else if ( poseString.compare("waveOut") == 0 ) {
-                buffer[0] = 'w';
-                buffer[1] = 'a';
-                buffer[2] = 'v';
-                buffer[3] = '2';
-                hamlet = true;
-            }
-            
-            // Print the output as described in print() function.
-            collector.print();
-            
-            /*Send message to server*/
-            // It sends messages only if hamlet is true ("to send or not to send?")
-            if ( hamlet == true) {
-                nBytes = bufferLength;
-                sendto(clientSocket,buffer,nBytes,0,(struct sockaddr *)&serverAddr,addr_size);
-            }
-
-            delete[] buffer;
         }
     }
-
-// If a standard exception occurred, we print out its message and exit.
-catch (const std::exception& e) {
-    cerr << "Error: " << e.what() << endl;
-    cerr << "Press enter to continue";
-    cin.ignore();
-    return 1;
+    
+    // If a standard exception occurred, we print out its message and exit.
+    catch (const std::exception& e) {
+        cerr << "Error: " << e.what() << endl;
+        cerr << "Press enter to continue";
+        cin.ignore();
+        return 1;
     }
 }

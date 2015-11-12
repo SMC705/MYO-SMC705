@@ -4,15 +4,15 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>myo2pd.xcscheme</key>
+		<key>multiple-myos.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>3</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>523274F71BE2A1E700E44F6B</key>
+		<key>4D638765192671C8005BE0A6</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		5231BC801BEB7B150020AE09 /* myo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5231BC7E1BEB7B000020AE09 /* myo.framework */; };
-		523275031BE2A20500E44F6B /* myo2pd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 523275021BE2A20500E44F6B /* myo2pd.cpp */; };
+		523275031BE2A20500E44F6B /* angleCalibration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 523275021BE2A20500E44F6B /* angleCalibration.cpp */; };
+		528B03751BF35C5E007696E8 /* angleCalibrationVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 528B03741BF35C5E007696E8 /* angleCalibrationVector.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,8 +26,9 @@
 
 /* Begin PBXFileReference section */
 		5231BC7E1BEB7B000020AE09 /* myo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = myo.framework; path = ../../../../../../../../../../Library/Frameworks/myo.framework; sourceTree = "<group>"; };
-		523274F81BE2A1E700E44F6B /* myo2pd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = myo2pd; sourceTree = BUILT_PRODUCTS_DIR; };
-		523275021BE2A20500E44F6B /* myo2pd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = myo2pd.cpp; sourceTree = SOURCE_ROOT; };
+		523274F81BE2A1E700E44F6B /* angleCalibration */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = angleCalibration; sourceTree = BUILT_PRODUCTS_DIR; };
+		523275021BE2A20500E44F6B /* angleCalibration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = angleCalibration.cpp; sourceTree = SOURCE_ROOT; };
+		528B03741BF35C5E007696E8 /* angleCalibrationVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = angleCalibrationVector.cpp; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,7 +47,7 @@
 			isa = PBXGroup;
 			children = (
 				5231BC7E1BEB7B000020AE09 /* myo.framework */,
-				523274FA1BE2A1E700E44F6B /* myo2pd */,
+				523274FA1BE2A1E700E44F6B /* angleCalibration */,
 				523274F91BE2A1E700E44F6B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -53,25 +55,27 @@
 		523274F91BE2A1E700E44F6B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				523274F81BE2A1E700E44F6B /* myo2pd */,
+				523274F81BE2A1E700E44F6B /* angleCalibration */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		523274FA1BE2A1E700E44F6B /* myo2pd */ = {
+		523274FA1BE2A1E700E44F6B /* angleCalibration */ = {
 			isa = PBXGroup;
 			children = (
-				523275021BE2A20500E44F6B /* myo2pd.cpp */,
+				523275021BE2A20500E44F6B /* angleCalibration.cpp */,
+				528B03741BF35C5E007696E8 /* angleCalibrationVector.cpp */,
 			);
+			name = angleCalibration;
 			path = myo2pd;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		523274F71BE2A1E700E44F6B /* myo2pd */ = {
+		523274F71BE2A1E700E44F6B /* angleCalibration */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 523274FF1BE2A1E700E44F6B /* Build configuration list for PBXNativeTarget "myo2pd" */;
+			buildConfigurationList = 523274FF1BE2A1E700E44F6B /* Build configuration list for PBXNativeTarget "angleCalibration" */;
 			buildPhases = (
 				523274F41BE2A1E700E44F6B /* Sources */,
 				523274F51BE2A1E700E44F6B /* Frameworks */,
@@ -81,9 +85,9 @@
 			);
 			dependencies = (
 			);
-			name = myo2pd;
+			name = angleCalibration;
 			productName = myo2pd;
-			productReference = 523274F81BE2A1E700E44F6B /* myo2pd */;
+			productReference = 523274F81BE2A1E700E44F6B /* angleCalibration */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -100,7 +104,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 523274F31BE2A1E700E44F6B /* Build configuration list for PBXProject "myo2pd" */;
+			buildConfigurationList = 523274F31BE2A1E700E44F6B /* Build configuration list for PBXProject "angleCalibration" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -112,7 +116,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				523274F71BE2A1E700E44F6B /* myo2pd */,
+				523274F71BE2A1E700E44F6B /* angleCalibration */,
 			);
 		};
 /* End PBXProject section */
@@ -122,7 +126,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				523275031BE2A20500E44F6B /* myo2pd.cpp in Sources */,
+				523275031BE2A20500E44F6B /* angleCalibration.cpp in Sources */,
+				528B03751BF35C5E007696E8 /* angleCalibrationVector.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,7 +221,7 @@
 					"Project/MYO-SMC705/UDP/myo2pd",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = angleCalibration;
 			};
 			name = Debug;
 		};
@@ -230,14 +235,14 @@
 					"Project/MYO-SMC705/UDP/myo2pd",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = angleCalibration;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		523274F31BE2A1E700E44F6B /* Build configuration list for PBXProject "myo2pd" */ = {
+		523274F31BE2A1E700E44F6B /* Build configuration list for PBXProject "angleCalibration" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				523274FD1BE2A1E700E44F6B /* Debug */,
@@ -246,7 +251,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		523274FF1BE2A1E700E44F6B /* Build configuration list for PBXNativeTarget "myo2pd" */ = {
+		523274FF1BE2A1E700E44F6B /* Build configuration list for PBXNativeTarget "angleCalibration" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				523275001BE2A1E700E44F6B /* Debug */,

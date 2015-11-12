@@ -2,15 +2,6 @@
 #X declare -lib mrpeach;
 #X obj 130 -255 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
 -66577 0;
-#X text 125 -263 comment;
-#X text 138 -251 This patch plays the audio from (at present) 4 different
-inputs simultaneously. To select which audio to hear \, choose a source
-from the radio object (a number from 0-3). Each input/audio player
-will loop it's audio file until it receives the global stop command.
-Each audio player has it's own volume receive which takes input 0 as
-minimum volume and 1 as max (if we decide to give each source this
-function?). There is also a master volume which takes the same min/max
-values.;
 #X obj -93 -255 cnv 15 175 175 empty empty empty 20 12 0 14 -261234
 -66577 0;
 #X obj -78 -106 s global_stop;
@@ -29,8 +20,6 @@ values.;
 -66577 0;
 #X text -45 149 Audio Players;
 #X obj -30 249 dac~;
-#X obj -58 -14 vradio 25 1 0 4 empty input_select Audio_Select 0 -8
-0 10 -262130 -1 -1 0;
 #N canvas 485 106 695 584 Audio 0;
 #N canvas 367 22 369 393 audio_in_out 0;
 #X obj 143 72 readsf~ 2;
@@ -282,15 +271,13 @@ values.;
 #X obj 327 451 *~;
 #X obj 271 399 r master_volume;
 #X obj 84 233 r input_select;
-#X floatatom 84 258 5 0 3 0 - - -;
+#X floatatom 84 258 5 0 5 0 - - -;
 #X obj 84 282 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X msg 17 309 \; to_line_out 0 \, 1 500 \;;
 #X obj 276 480 outlet~;
 #X obj 327 480 outlet~;
 #X obj 42 234 inlet;
-#X obj 206 307 multiplex~ 1 2 3 4;
-#X obj 408 310 multiplex~ 1 2 3 4;
 #X text -48 34 Each audio sub_patch sends a stereo signal from it's
 bottom two outputs (1+2 or L+R). The signals are then sent to the [multiplex~]
 objects which act as a gate \, only passing the signal from the channel
@@ -302,14 +289,20 @@ then sent to the next gain which is multipled by 0 to 1 from the [r
 master_volume] before being sent to the left and right [outlet~]'s.
 ;
 #X obj -27 234 loadbang 0;
-#X connect 2 0 22 0;
-#X connect 2 1 23 0;
-#X connect 3 0 22 1;
-#X connect 3 1 23 1;
-#X connect 4 0 22 2;
-#X connect 4 1 23 2;
-#X connect 5 0 22 3;
-#X connect 5 1 23 3;
+#X obj 206 307 multiplex~ 1 2 3 4 5 6;
+#X obj 408 310 multiplex~ 1 2 3 4 5 6;
+#X connect 0 0 24 0;
+#X connect 0 1 25 0;
+#X connect 1 0 24 1;
+#X connect 1 1 25 1;
+#X connect 2 0 24 2;
+#X connect 2 1 25 2;
+#X connect 3 0 24 3;
+#X connect 3 1 25 3;
+#X connect 4 0 24 4;
+#X connect 4 1 25 4;
+#X connect 5 0 24 5;
+#X connect 5 1 25 5;
 #X connect 6 0 8 1;
 #X connect 7 0 9 1;
 #X connect 8 0 12 0;
@@ -322,33 +315,28 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X connect 14 0 13 1;
 #X connect 15 0 16 0;
 #X connect 16 0 17 0;
-#X connect 16 0 22 0;
-#X connect 16 0 23 0;
+#X connect 16 0 24 0;
+#X connect 16 0 25 0;
 #X connect 17 0 18 0;
 #X connect 21 0 16 0;
-#X connect 22 0 8 0;
-#X connect 23 0 9 0;
-#X connect 25 0 16 0;
+#X connect 23 0 16 0;
+#X connect 24 0 8 0;
+#X connect 25 0 9 0;
 #X restore -59 173 pd Audio Players;
-#X text -31 -13 Music;
-#X text -31 13 Phone;
-#X text -31 38 Radio;
-#X text -32 63 TV;
 #X obj 146 -8 cnv 15 110 230 empty empty empty 20 12 0 14 -261682 -66577
 0;
-#N canvas 238 53 695 250 osc_things 0;
+#N canvas 581 23 676 259 osc_things 1;
 #X msg -987 -139 47 \$1 \$2 \$3 0 0 0 0 44 105 0 0 0 0 0 \$4;
 #X obj -987 -113 unpackOSC;
 #X obj -987 -166 udpreceive 7890;
 #X obj -903 -85 routeOSC /vol /src /pst;
 #X obj -987 -59 print OSCrcv;
 #X obj -813 -35 s preset_select;
-#X obj -858 -10 s input_select;
-#X obj -903 16 expr ( $f1 - 1 ) / 127;
+#X obj -903 24 expr ( $f1 - 1 ) / 127;
 #X obj -858 -59 change;
 #X obj -813 -59 change;
 #X obj -519 -163 import mrpeach;
-#X obj -903 43 s volume_slider;
+#X obj -903 51 s volume_slider;
 #X obj -858 -35 - 1;
 #X text -684 -86 udpreceive receives 4 ASCII values from C++ via port
 7890 (in this case) OSC values are formatted in groups of four so that
@@ -358,27 +346,93 @@ understands. 1 = / 2 = v- 3 = o- 4 = l- 5 = 0 6 = 0 7 = 0 8 = 0 9 =
 use with the adress)- routeOSC reads the unpacked OSC data and routes
 the values to an output denpendant on the address (first four values
 in the ASCII list). vol = volume src = source pst = presets;
+#N canvas 48 23 645 424 rotation 0;
+#X obj -697 -88 vsl 15 248 0 127 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj -598 218 print;
+#X obj -574 196 spigot;
+#X floatatom -575 -57 5 1 200 0 - - -;
+#X floatatom -560 61 5 0 0 0 - - -;
+#X msg -515 -4 set;
+#X obj -515 19 list append;
+#X obj -515 41 list trim;
+#X obj -575 81 -;
+#X obj -575 100 abs;
+#X floatatom -497 124 5 0 0 0 - - -;
+#X msg -572 156 0;
+#X msg -526 156 1;
+#X obj -560 -28 delay 20;
+#X obj -575 125 moses 0.015;
+#X text -678 -73 test slider;
+#X text -458 123 minimum change required to pass value here is 1.5%
+;
+#X text -552 217 Output is thresholded rotation value;
+#X text -500 -28 time between comparison values for rotation;
+#X obj -961 58;
+#X obj -656 -21 inlet;
+#X obj -493 197 s input_select;
+#X obj -652 35 expr $f1 / 127 * 6;
+#X connect 0 0 22 0;
+#X connect 2 0 1 0;
+#X connect 2 0 21 0;
+#X connect 3 0 6 1;
+#X connect 3 0 8 0;
+#X connect 3 0 13 0;
+#X connect 4 0 8 1;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X connect 7 0 4 0;
+#X connect 8 0 9 0;
+#X connect 9 0 10 0;
+#X connect 9 0 14 0;
+#X connect 11 0 2 1;
+#X connect 12 0 2 1;
+#X connect 13 0 5 0;
+#X connect 13 0 4 0;
+#X connect 14 0 11 0;
+#X connect 14 1 12 0;
+#X connect 20 0 22 0;
+#X connect 22 0 2 0;
+#X connect 22 0 3 0;
+#X restore -858 -5 pd rotation threshold;
 #X connect 0 0 1 0;
 #X connect 1 0 4 0;
 #X connect 1 0 3 0;
 #X connect 2 0 0 0;
-#X connect 3 0 7 0;
-#X connect 3 1 8 0;
-#X connect 3 2 9 0;
+#X connect 3 0 6 0;
+#X connect 3 1 7 0;
+#X connect 3 2 8 0;
+#X connect 6 0 10 0;
 #X connect 7 0 11 0;
-#X connect 8 0 12 0;
-#X connect 9 0 5 0;
-#X connect 12 0 6 0;
+#X connect 8 0 5 0;
+#X connect 11 0 13 0;
 #X restore 153 2 pd osc_things;
 #X obj 159 199 s master_volume;
 #X obj 159 64 vsl 85 128 0 1 0 0 empty empty Volume 0 -9 0 10 -204786
 -258113 -4160 0 1;
 #X obj 154 27 r volume_slider;
+#X obj -59 -11 vradio 25 1 0 6 empty input_select Audio_Select 0 -8
+0 10 -262144 -1 -1 0;
+#X text -31 -10 Aux;
+#X text -31 16 Microphone;
+#X text -31 41 Music;
+#X text -32 66 Phone;
+#X text -32 91 Radio;
+#X text -30 116 TV;
+#X text 138 -251 This patch plays the audio from (at present) 6 different
+inputs simultaneously. To select which audio to hear \, choose a source
+from the radio object (a number from 0-5). Each input/audio player
+will loop it's audio file until it receives the global stop command.
+Each audio player has it's own volume receive which takes input 0 as
+minimum volume and 1 as max (if we decide to give each source this
+function?). There is also a master volume which takes the same min/max
+values.;
+#X text 125 -263;
+#X connect 3 0 2 0;
 #X connect 5 0 4 0;
-#X connect 7 0 6 0;
-#X connect 10 0 11 0;
-#X connect 16 0 17 0;
-#X connect 17 0 15 0;
-#X connect 17 1 15 1;
-#X connect 25 0 24 0;
-#X connect 26 0 25 0;
+#X connect 8 0 9 0;
+#X connect 14 0 13 0;
+#X connect 14 1 13 1;
+#X connect 18 0 17 0;
+#X connect 19 0 18 0;
+#X connect 20 0 14 0;

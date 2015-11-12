@@ -234,7 +234,7 @@
 #X connect 19 0 18 1;
 #X connect 19 0 17 1;
 #X restore 356 -106 pd radio;
-#N canvas 23 23 369 393 tv 1;
+#N canvas 23 23 369 393 tv 0;
 #X obj -146 -64 readsf~ 2;
 #X msg -221 -99 start;
 #X msg -313 -101 stop;
@@ -332,7 +332,7 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X connect 5 0 6 0;
 #X connect 6 0 4 0;
 #X restore 576 -213 pd bass_boost;
-#N canvas 777 693 450 300 treble_boost 0;
+#N canvas 777 693 450 300 treble_boost 1;
 #X obj -486 -223 inlet;
 #X obj -486 -175 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
@@ -353,17 +353,24 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X obj -169 -1 inlet;
 #X obj -164 54 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 73 36 cnv 15 100 60 empty empty empty 20 12 0 14 -258113 -66577
+#X obj -169 78 cnv 15 100 60 empty empty empty 20 12 0 14 -258113 -66577
 0;
-#X obj 101 70 noise~;
-#X text 100 42 Noise;
+#X obj -141 112 noise~;
+#X text -142 84 Noise;
 #X obj -166 25 route 0;
-#X obj 101 108 *~ 0.5;
-#X obj 100 138 throw~ noise;
+#X obj -141 150 *~ 0.5;
+#X obj -142 180 throw~ noise;
+#X msg -78 113 0;
+#X msg -47 117 0.05;
+#X obj -50 65 r inputnum;
 #X connect 0 0 5 0;
 #X connect 3 0 6 0;
 #X connect 5 0 1 0;
+#X connect 5 0 8 0;
 #X connect 6 0 7 0;
+#X connect 8 0 6 1;
+#X connect 9 0 6 1;
+#X connect 10 0 9 0;
 #X restore 577 -238 pd noise_reduce;
 #N canvas 1325 424 538 458 feedback_killer 0;
 #X obj 3 -19 inlet;
@@ -481,6 +488,7 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X connect 26 0 30 0;
 #X connect 26 0 33 0;
 #X connect 26 0 34 0;
+#X connect 26 0 31 0;
 #X connect 28 0 26 0;
 #X connect 29 0 26 0;
 #X connect 32 0 26 0;
@@ -573,10 +581,10 @@ in the ASCII list). vol = volume src = source pst = presets;
 #X restore 269 -12 pd osc_things;
 #X obj 275 185 s master_volume;
 #X obj 275 50 vsl 85 128 0 1 0 0 empty empty Volume 0 -9 0 10 -204786
--258113 -4160 0 1;
+-258113 -4160 6800 1;
 #X obj 270 13 r volume_slider;
 #X obj -59 -11 vradio 25 1 0 6 empty input_select Audio_Select 0 -8
-0 10 -262144 -1 -1 3;
+0 10 -262144 -1 -1 1;
 #X text -31 -10 Aux;
 #X text -31 16 Microphone;
 #X text -31 41 Music;

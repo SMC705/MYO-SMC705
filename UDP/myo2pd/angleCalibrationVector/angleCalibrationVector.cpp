@@ -67,20 +67,7 @@ public:
         // Convert the floating point angles in radians to a clockwise scale from 1 to 127 (good for PureData) with the zero angle in π.
         // Need to change the format of the angle? DO IT HERE!
         
-        // We define an angle format for the volume control here.
-        // It is continuous from 0 to 126.
-        roll_tmp = static_cast<int>(( -roll + (float)M_PI)/(M_PI * 2.0f) * 100);
-        
-        // If the angle is 0 or negative => send 1 angle (used as "volume mute" command).
-        // If the angle is higher then our maximum 127 => send 127 angle (used as volume max limit).
-        if ( roll_vol < 1 ) roll_vol = 1;
-        else if ( roll_vol > 127 ) roll_vol = 127;
-        
-        // We define an angle format for the source control here.
-        // The range [0, π] is divided into a number of equal ranges, as the number of sources nSrc.
-        roll_src = ((static_cast<int>(( -roll + (float)M_PI)/(M_PI * 2.0f) * 1000)) - 400) * nSrc * 100/200;
-        if ( roll_src < 1 ) roll_src = 1;
-        else if ( roll_src > nSrc*100 ) roll_src = nSrc * 100;
+        roll_tmp = static_cast<int>( ( roll * 180/M_PI) );   // the value of 200 ensures a positive value for the angle.
     }
     
     // onPose() is called whenever the Myo detects that the person wearing it has changed their pose, for example,
@@ -224,29 +211,32 @@ int main() {
         // Note: the Hub:addListener() takes the address (&) of any object defined as myo::DeviceListener.
         hub.addListener(&collector);
         
-        // Instructions text.
-        cout << "Please follow the instructions to setup your personal rolling range for volume and sources control." << endl;
-        cout << "------------------------------------------------------------------------------------------------" << endl;
-        cout << "\n\n";
-        cout << "Please be sure to wear the Myo on your right arm and with the USB port pointing to your wrist." << endl;
-        cout << "Press enter when ready..." << endl;
-        cin.get();
-        
-        //==========================================================================
-        // ZERO ANGLE
-        
-        cout << "Setup the zero: " << endl;
-        cout << "Make a fist and rotate your arm counter-clockwise to your zero position for five times. Press enter each time to record the position..." << endl;
-        
         vector<int> angles;
         if (cin.get()) {
         while ( 1 ) {
                 hub.run(1000/20);
+            cout << collector.roll_tmp << endl;
                 angles.push_back( collector.roll_tmp);
+            if ( angles.size() == 100 ) break;
             }
         }
-    }
+ 
+        for (int i=0; i<angles.size(); i++) {
+            for (int j=i+1; j<angles.size(); j++) {
+                if ( angles[i] > angles[j] ) {
+                    int temp = angles[i];
+                    angles[i] = angles[j];
+                    angles[j] = temp;
+                }
+            }
+        }
+        
+        // A threshold value is added from the minimum and removed from the maximum in order to reduce the range: some users may exagerate the rotation during calibration.
+        myo->vibrate(myo::Myo::vibrationShort);
+        cout << "The minimum angle is: " << angles.front() + 10 << endl;
+        cout << "The maximum angle is: " << angles.back() - 10 << endl;
     
+  }
     // If a standard exception occurred, we print out its message and exit.
     catch (const std::exception& e) {
         cerr << "Error: " << e.what() << endl;

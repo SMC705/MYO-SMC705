@@ -14,7 +14,7 @@
 		<string>https://github.com/SMC705/MYO-SMC705.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>UDP/myo2pd/angleCalibration/angleCalibration.xcodeproj</string>
+	<string>UDP/myo2pd/angleCalibrationVector/angleCalibration.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>46D34279A5F4B1193458E56181282F54F2ED2151</key>

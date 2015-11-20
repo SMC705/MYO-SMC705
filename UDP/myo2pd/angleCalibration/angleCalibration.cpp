@@ -240,7 +240,7 @@ int main() {
 
         int i=0;
         double zero = 0;
-        while ( i<5 ) {
+        while ( i<3 ) {
             cout << "Attempt 1...      ";
             if (cin.get()) {
                 hub.run(1000/20);
@@ -250,7 +250,7 @@ int main() {
             }
         }
         
-        cout << "Your zero angle is set to " << static_cast<int>(rint(zero/5)) << "\n\n\n" << endl;
+        cout << "Your zero angle is set to " << static_cast<int>(rint(zero/3)) << "\n\n\n" << endl;
         
         //==========================================================================
         // MAX ANGLE
@@ -260,7 +260,7 @@ int main() {
 
         i=0;
         double max = 0;
-        while ( i<5 ) {
+        while ( i<3 ) {
             cout << "Attempt 1...      ";
             if (cin.get()) {
                 hub.run(1000/20);
@@ -270,7 +270,12 @@ int main() {
             }
         }
         
-        cout << "Your maximum angle is set to " << static_cast<int>(rint(max/5)) << "\n\n\n" << endl;
+        cout << "Your maximum angle is set to " << static_cast<int>(rint(max/3)) << "\n\n\n" << endl;
+        
+        while(1) {
+                hub.run(1000/20);
+            cout << collector.roll_tmp << endl;
+        }
     }
 
 // If a standard exception occurred, we print out its message and exit.

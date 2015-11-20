@@ -20,10 +20,10 @@ using namespace std;
 
 
 // Minimum and maximum roll angle
-const int minAngle = 35;
-const int maxAngle = 61;
+const int minAngle = 3;
+const int maxAngle = 93;
 // Number of audio sources
-const int nSrc = 4;
+const int nSrc = 6;
 // Number of audio presets
 const int nPrst = 4;
 
@@ -75,7 +75,7 @@ public:
         
         // We define an angle format for the volume control here.
         // It is continuous from 1 to 127.
-        roll_vol = static_cast<int>(((( -roll + (float)M_PI)/(M_PI * 2.0f) * 100) - minAngle) * 127/(maxAngle-minAngle));
+        roll_vol = static_cast<int>( ( ( roll * 180/M_PI) - minAngle ) * 127/fabs(maxAngle-minAngle) );
         
         // If the angle is 0 or negative => send 1 angle (used as "volume mute" command).
         // If the angle is higher then our maximum 127 => send 127 angle (used as volume max limit).
@@ -84,7 +84,7 @@ public:
         
         // We define an angle format for the source control here.
         // The range [0, π] is divided into a number of equal ranges, as the number of sources nSrc.
-        roll_src = ((static_cast<int>(( -roll + (float)M_PI)/(M_PI * 2.0f) * 100)) - minAngle) * 127/(maxAngle-minAngle);
+        roll_src = static_cast<int>( ( ( roll * 180/M_PI) - minAngle ) * 127/fabs(maxAngle-minAngle) );
         if ( roll_src < 1 ) roll_src = 1;
         else if ( roll_src > 127 ) roll_src = 127;
     }
@@ -107,7 +107,10 @@ public:
             
             // Notify the Myo that the pose has resulted in an action, in this case changing
             // the text on the screen. The Myo will vibrate through the function 'notifyUserAction()'.
-            myo->notifyUserAction();
+
+            // I commented this out because we want only our feedback vibrations!!!
+//            myo->notifyUserAction();
+            
         } else {
             // Tell the Myo to stay unlocked only for a short period. This allows the Myo to stay unlocked while poses
             // are being performed, but lock after inactivity.
@@ -270,6 +273,9 @@ int main() {
         int samePoseTh = 15;    // if the same position is obtained for more then samePoseTh measures, then a vibration is sent.
         int samePose = 0;       // same position index: keep trace of how many consecutive same position are measured.
         string previousPoseString = "blabla";   // previous position to be compared with each measured position (initialized "randomly" to blabla).
+        
+        int sameVolTh = 15;
+        int sameVol = 0;
 
         // Variable for presets.
         int preset = 0;         // Current preset (initialized to zero)
@@ -290,6 +296,7 @@ int main() {
             // PRESET SELECTION
             // ----------------
             
+            // Haptic feedback
             // If measured pose is the same as previous => increment samePose.
             if ( poseString == previousPoseString )
                 samePose++;
@@ -302,14 +309,14 @@ int main() {
                 
                 // Increment preset if waveIn pose.
                 if ( poseString.compare("waveIn") == 0 ) {
-                    presetNum--;
+                    preset--;
                     if ( preset < 0 )
                         preset = presetNum;
                 }
                 
                 // Decrement preset if waveOut pose.
                 else {
-                    presetNum++;
+                    preset++;
                     if ( preset > presetNum )
                         preset = 0;
                 }
@@ -333,6 +340,20 @@ int main() {
                 buffer[2] = 'l';
                 buffer[3] = collector.roll_vol;
                 hamlet = true;
+                
+                // haptic feedback on minimum volume
+                if ( collector.roll_vol == 1 || collector.roll_vol == 127 ) {
+                    sameVol++;
+                    if ( sameVol == 1 ) {
+                        myo->vibrate(myo::Myo::vibrationShort);
+                    }
+                    else if ( sameVol == sameVolTh ) {
+                        sameVol = 0;
+                    }
+                }
+                
+                else sameVol = 0;
+                
             }
             
             

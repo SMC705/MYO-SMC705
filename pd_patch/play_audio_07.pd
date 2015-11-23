@@ -1,4 +1,4 @@
-#N canvas 401 163 650 572 10;
+#N canvas 398 168 650 572 10;
 #X declare -lib mrpeach;
 #X obj 130 -255 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
 -66577 0;
@@ -739,7 +739,7 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 13 0 0 0;
 #X connect 32 0 8 0;
 #X restore 267 -2 pd phone_osc;
-#N canvas 683 82 683 686 test 0;
+#N canvas 680 87 683 686 test 0;
 #X obj -104 -83 cnv 15 100 130 empty empty file_ops 20 12 0 14 -232576
 -66577 0;
 #X obj -3 -83 cnv 15 100 130 empty empty subject 20 12 0 14 -203904
@@ -866,7 +866,7 @@ the counter increase by 1 Every time the MYO unlock \, counter is reset
 #X obj -98 506 r txt;
 #N canvas 104 300 659 427 subjectCALC 0;
 #X msg -13 292 set \$1;
-#X msg -13 355 100;
+#X msg -13 355 102;
 #X msg 69 305 \; scrollfile 0;
 #X obj 22 407 s subjectID;
 #X obj 22 381 + 1;
@@ -932,6 +932,74 @@ the write command is sent. the rows end with a semicolon.;
 #X connect 34 1 36 1;
 #X connect 35 0 34 0;
 #X restore 267 -31 pd test;
+#N canvas 0 82 1351 686 questionnaire 0;
+#X text 18 12 USER INFORMATIONS;
+#X text 24 32 Age;
+#X text 24 84 Do you use an hearing aid?;
+#X floatatom 24 58 5 0 0 0 - - -;
+#X obj 24 110 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -262144 -1
+-1 0;
+#X text 24 150 If yes \, have you ever used the Oticon app before?
+;
+#X obj 24 176 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -262144 -1
+-1 0;
+#X text 24 216 Rate your experience with technology;
+#X obj 24 242 hradio 15 1 0 7 empty empty empty 0 -8 0 10 -262144 -1
+-1 0;
+#X text 24 267 Have you ever used the Myo before?;
+#X obj 24 293 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -262144 -1
+-1 0;
+#X text 24 333 Do you work in the field of hearing aids?;
+#X obj 24 359 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -262144 -1
+-1 0;
+#X text 650 9 ANSWER TO THESE SIMPLE QUESTIONS:;
+#X text 651 32 Would you use it in the following situations?;
+#X obj 656 65 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 656 85 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 656 105 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 656 125 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 656 145 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 656 165 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 656 185 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X text 681 64 Office;
+#X text 681 84 Public transport;
+#X text 681 104 While driving;
+#X text 681 124 With relatives;
+#X text 681 144 With friends;
+#X text 681 163 Work dinner or dating (when you want to be elegant)
+;
+#X text 681 182 Silent environment (i.e. library or cinema);
+#X text 44 106 Yes;
+#X text 46 173 Yes;
+#X text 48 289 Yes;
+#X text 46 355 Yes;
+#X text 47 372 No;
+#X text 48 306 No;
+#X text 46 188 No;
+#X text 45 123 No;
+#X text 653 220 How much do you find the MYO easy to use?;
+#X obj 653 246 hradio 15 1 0 7 empty empty empty 0 -8 0 10 -262144
+-1 -1 0;
+#X obj 653 291 hradio 15 1 0 7 empty empty empty 0 -8 0 10 -262144
+-1 -1 0;
+#X obj 653 350 hradio 15 1 0 7 empty empty empty 0 -8 0 10 -262144
+-1 -1 0;
+#X text 653 324 How much do you find the SMARTPHONE easy to use?;
+#X text 652 266 How much do you find it discreet?;
+#X obj 653 395 hradio 15 1 0 7 empty empty empty 0 -8 0 10 -262144
+-1 -1 0;
+#X text 653 371 How much do you find it discreet?;
+#X text 653 453 Would you like to give feedback on your experience?
+(comments and critics are well accepted);
+#X text 662 511 put textbox here;
+#X restore 268 -58 pd questionnaire;
 #X connect 3 0 2 0;
 #X connect 5 0 4 0;
 #X connect 8 0 9 0;

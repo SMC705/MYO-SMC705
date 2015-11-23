@@ -409,7 +409,7 @@ int main() {
             // NOTE: if I scroll more than one source, the myo vibrates many times as the number of sources passed with the movement.
             
             else if ( poseString.compare("fingersSpread") == 0 && samePose > samePoseTh2 ) {
-                
+/*
                 int previousSrc = 0;
                 int sameSrc = 0;
                 int sameSrcTh = 5;
@@ -418,18 +418,18 @@ int main() {
                     cout << sameSrc << endl;
                     if ( sameSrc > sameSrcTh ) myo->vibrate(myo::Myo::vibrationShort);
                 }
-                
+*/
                 // Source increment
                 if ( collector.roll_src > src * srcRange + srcThr ) {
                     src++;
-//                    myo->notifyUserAction();
+                    myo->notifyUserAction();
                 }
                 else if ( collector.roll_src < (src-1) * srcRange - srcThr) {
                     src--;
-//                    myo->vibrate(myo::Myo::vibrationShort);
+                    myo->vibrate(myo::Myo::vibrationShort);
                 }
                 
-                previousSrc = src;
+//                previousSrc = src;
                 
                 buffer[0] = 's';
                 buffer[1] = 'r';

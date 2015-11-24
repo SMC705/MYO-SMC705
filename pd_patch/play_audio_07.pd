@@ -1,4 +1,4 @@
-#N canvas 395 173 650 572 10;
+#N canvas 389 183 650 572 10;
 #X declare -lib mrpeach;
 #X obj 130 -255 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
 -66577 0;
@@ -20,7 +20,7 @@
 -66577 0;
 #X text -45 149 Audio Players;
 #X obj -30 249 dac~;
-#N canvas 174 143 1045 584 Audio 0;
+#N canvas 512 152 1045 584 Audio 0;
 #N canvas 367 22 369 393 audio_in_out 0;
 #X obj 143 72 readsf~ 2;
 #X msg 143 44 open audio_in_out_s.wav;
@@ -497,7 +497,7 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X restore -59 170 pd Audio Players;
 #X obj 261 -36 cnv 15 110 290 empty empty empty 20 12 0 14 -261682
 -66577 0;
-#N canvas 144 173 676 533 osc_things 1;
+#N canvas 702 207 676 533 osc_things 0;
 #X msg -987 -139 47 \$1 \$2 \$3 0 0 0 0 44 105 0 0 0 0 0 \$4;
 #X obj -987 -113 unpackOSC;
 #X obj -987 -166 udpreceive 7890;
@@ -507,8 +507,8 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X obj -813 -57 change;
 #X obj -519 -163 import mrpeach;
 #X obj -903 51 s volume_slider;
-#X obj -858 -57 - 1;
-#N canvas 715 107 645 424 rotation 0;
+#X obj -862 -47 - 1;
+#N canvas 712 112 645 424 rotation 0;
 #X obj -782 -88 vsl 15 248 0 127 0 0 empty empty empty 0 -9 0 10 -262144
 -1 -1 0 1;
 #X obj -659 196 spigot;
@@ -558,7 +558,7 @@ when change;
 #X connect 19 0 2 0;
 #X connect 20 0 21 0;
 #X connect 21 0 18 0;
-#X restore -858 -5 pd rotation threshold;
+#X restore -582 27 pd rotation threshold;
 #X obj -903 -85 routeOSC /vol /src /pst /ulk;
 #X obj -767 -57 s unlocked;
 #X text -977 211 udpreceive receives 4 ASCII values from C++ via port
@@ -572,6 +572,7 @@ in the ASCII list). vol = volume src = source pst = presets ulk = locked/unlocke
 MYO;
 #X obj -733 -118 s gestcount;
 #X msg -733 -141 float \$1\$2\$3;
+#X obj -862 -6 s input_select;
 #X connect 0 0 1 0;
 #X connect 1 0 3 0;
 #X connect 1 0 11 0;
@@ -579,7 +580,7 @@ MYO;
 #X connect 2 0 15 0;
 #X connect 5 0 8 0;
 #X connect 6 0 4 0;
-#X connect 9 0 10 0;
+#X connect 9 0 16 0;
 #X connect 11 0 5 0;
 #X connect 11 1 9 0;
 #X connect 11 2 6 0;
@@ -739,7 +740,7 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 13 0 0 0;
 #X connect 32 0 8 0;
 #X restore 267 -2 pd phone_osc;
-#N canvas 674 97 683 686 test 0;
+#N canvas 671 102 683 686 test 0;
 #X obj -104 -83 cnv 15 100 130 empty empty file_ops 20 12 0 14 -232576
 -66577 0;
 #X obj -3 -83 cnv 15 100 130 empty empty subject 20 12 0 14 -203904
@@ -932,73 +933,195 @@ the write command is sent. the rows end with a semicolon.;
 #X connect 34 1 36 1;
 #X connect 35 0 34 0;
 #X restore 267 -31 pd test;
-#N canvas 0 82 1351 686 questionnaire 0;
+#N canvas 595 87 769 686 questionnaire 0;
 #X text 18 12 USER INFORMATIONS;
-#X text 24 32 Age;
-#X text 24 84 Do you use an hearing aid?;
-#X floatatom 24 58 5 0 0 0 - - -;
-#X obj 24 110 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -262144 -1
+#X floatatom 24 58 5 0 0 0 - - age;
+#X obj 24 110 vradio 15 1 0 2 deafness empty empty 0 -8 0 10 -204800
+-1 -1 0;
+#X obj 24 176 vradio 15 1 0 2 app_user empty empty 0 -8 0 10 -204800
+-1 -1 0;
+#X obj 24 242 hradio 15 1 0 7 tech_exp empty empty 0 -8 0 10 -204800
+-1 -1 0;
+#X obj 24 293 vradio 15 1 0 2 myo_usr empty empty 0 -8 0 10 -204800
+-1 -1 0;
+#X obj 24 359 vradio 15 1 0 2 job empty empty 0 -8 0 10 -204800 -1
 -1 0;
-#X text 24 150 If yes \, have you ever used the Oticon app before?
+#X text 404 9 ANSWER TO THESE SIMPLE QUESTIONS:;
+#X obj 410 65 tgl 15 0 s1 empty empty 17 7 0 10 -204800 -1 -1 0 1;
+#X obj 410 85 tgl 15 0 s2 empty empty 17 7 0 10 -204800 -1 -1 0 1;
+#X obj 410 105 tgl 15 0 s3 empty empty 17 7 0 10 -204800 -1 -1 0 1
 ;
-#X obj 24 176 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -262144 -1
--1 0;
-#X text 24 216 Rate your experience with technology;
-#X obj 24 242 hradio 15 1 0 7 empty empty empty 0 -8 0 10 -262144 -1
--1 0;
-#X text 24 267 Have you ever used the Myo before?;
-#X obj 24 293 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -262144 -1
--1 0;
-#X text 24 333 Do you work in the field of hearing aids?;
-#X obj 24 359 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -262144 -1
--1 0;
-#X text 650 9 ANSWER TO THESE SIMPLE QUESTIONS:;
-#X text 651 32 Would you use it in the following situations?;
-#X obj 656 65 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 656 85 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 656 105 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 656 125 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 656 145 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 656 165 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 656 185 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X text 681 64 Office;
-#X text 681 84 Public transport;
-#X text 681 104 While driving;
-#X text 681 124 With relatives;
-#X text 681 144 With friends;
-#X text 681 163 Work dinner or dating (when you want to be elegant)
+#X obj 410 125 tgl 15 0 s4 empty empty 17 7 0 10 -204800 -1 -1 0 1
 ;
-#X text 681 182 Silent environment (i.e. library or cinema);
-#X text 44 106 Yes;
-#X text 46 173 Yes;
-#X text 48 289 Yes;
-#X text 46 355 Yes;
-#X text 47 372 No;
-#X text 48 306 No;
-#X text 46 188 No;
-#X text 45 123 No;
-#X text 653 220 How much do you find the MYO easy to use?;
-#X obj 653 246 hradio 15 1 0 7 empty empty empty 0 -8 0 10 -262144
+#X obj 410 145 tgl 15 0 s5 empty empty 17 7 0 10 -204800 -1 -1 0 1
+;
+#X obj 410 165 tgl 15 0 s6 empty empty 17 7 0 10 -204800 -1 -1 0 1
+;
+#X obj 410 185 tgl 15 0 s7 empty empty 17 7 0 10 -204800 -1 -1 0 1
+;
+#X text 435 64 Office;
+#X text 435 84 Public transport;
+#X text 435 104 While driving;
+#X text 435 124 With relatives;
+#X text 435 144 With friends;
+#X text 435 163 Work dinner or dating (when you want to be elegant)
+;
+#X text 435 182 Silent environment (i.e. library or cinema);
+#X text 43 123 Yes;
+#X text 46 189 Yes;
+#X text 45 306 Yes;
+#X text 43 373 Yes;
+#X text 44 357 No;
+#X text 44 292 No;
+#X text 46 174 No;
+#X text 45 106 No;
+#X obj 407 246 hradio 15 1 0 7 myo_easy empty empty 0 -8 0 10 -204800
 -1 -1 0;
-#X obj 653 291 hradio 15 1 0 7 empty empty empty 0 -8 0 10 -262144
+#X obj 407 291 hradio 15 1 0 7 myo_discreet empty empty 0 -8 0 10 -204800
 -1 -1 0;
-#X obj 653 350 hradio 15 1 0 7 empty empty empty 0 -8 0 10 -262144
+#X obj 407 350 hradio 15 1 0 7 pho_easy empty empty 0 -8 0 10 -204800
 -1 -1 0;
-#X text 653 324 How much do you find the SMARTPHONE easy to use?;
-#X text 652 266 How much do you find it discreet?;
-#X obj 653 395 hradio 15 1 0 7 empty empty empty 0 -8 0 10 -262144
+#X obj 407 395 hradio 15 1 0 7 pho_discreet empty empty 0 -8 0 10 -204800
 -1 -1 0;
-#X text 653 371 How much do you find it discreet?;
-#X text 653 453 Would you like to give feedback on your experience?
+#X obj 405 483 bng 15 250 50 0 empty empty send_comment 17 7 0 10 -4032
+-1 -1;
+#X obj 405 508 entry 358 145 grey70 black;
+#X obj 23 407 bng 15 250 50 0 empty empty send_infos 17 7 0 10 -4032
+-1 -1;
+#N canvas 632 289 450 300 receive_infos 0;
+#X obj 59 36 r age;
+#X obj 100 36 r deafness;
+#X obj 239 36 r tech_exp;
+#X obj 309 36 r myo_usr;
+#X obj 370 36 r job;
+#X obj 66 77 r s1;
+#X obj 262 77 r s7;
+#X obj 230 77 r s6;
+#X obj 197 77 r s5;
+#X obj 163 77 r s4;
+#X obj 131 77 r s3;
+#X obj 99 77 r s2;
+#X obj 66 110 r myo_easy;
+#X obj 137 110 r myo_discreet;
+#X obj 303 110 r pho_discreet;
+#X obj 232 110 r pho_easy;
+#X obj 46 8 r subjectID;
+#X obj 170 36 r app_user;
+#X obj 31 100 f;
+#X obj 46 150 pack f f f f f f f f f f f f f f f f f f;
+#X obj 103 230 textfile;
+#X msg 132 198 write results/usr_infos.txt;
+#X obj 46 173 prepend add;
+#X obj 6 9 inlet;
+#X text 11 253 this patch receive the data from the questionnaire and
+write it in file 'results/infos.txt';
+#X obj 132 174 r writefile;
+#X connect 0 0 19 1;
+#X connect 1 0 19 2;
+#X connect 2 0 19 4;
+#X connect 3 0 19 5;
+#X connect 4 0 19 6;
+#X connect 5 0 19 7;
+#X connect 6 0 19 13;
+#X connect 7 0 19 12;
+#X connect 8 0 19 11;
+#X connect 9 0 19 10;
+#X connect 10 0 19 9;
+#X connect 11 0 19 8;
+#X connect 12 0 19 14;
+#X connect 13 0 19 15;
+#X connect 14 0 19 17;
+#X connect 15 0 19 16;
+#X connect 16 0 18 1;
+#X connect 17 0 19 3;
+#X connect 18 0 19 0;
+#X connect 19 0 22 0;
+#X connect 21 0 20 0;
+#X connect 22 0 20 0;
+#X connect 23 0 18 0;
+#X connect 25 0 21 0;
+#X restore 23 433 pd receive_infos;
+#N canvas 910 92 450 300 comments 0;
+#X obj 62 66 list trim;
+#X msg 139 62 write results/comments.txt;
+#X obj 62 88 prepend add;
+#X msg 150 81 clear;
+#X obj 62 40 t l b;
+#X msg 10 57 clear;
+#X obj 139 109 textfile;
+#X obj 62 15 inlet;
+#X obj 10 84 outlet;
+#X obj 139 35 r writefile;
+#X connect 0 0 2 0;
+#X connect 1 0 6 0;
+#X connect 2 0 6 0;
+#X connect 3 0 6 0;
+#X connect 4 0 0 0;
+#X connect 4 1 5 0;
+#X connect 5 0 8 0;
+#X connect 7 0 4 0;
+#X connect 9 0 1 0;
+#X restore 405 661 pd comments;
+#X text 24 32 1- Age;
+#X text 24 84 2- Do you use an hearing aid?;
+#X text 24 150 3- If yes \, have you ever used the Oticon app before?
+;
+#X text 24 216 4- Rate your experience with technology;
+#X text 24 267 5- Have you ever used the Myo before?;
+#X text 24 333 6- Do you work in the field of hearing aids?;
+#X text 405 32 7- Would you use it in the following situations?;
+#X text 407 220 8- How much do you find the MYO easy to use?;
+#X text 406 266 9- How much do you find it discreet?;
+#X text 407 324 10- How much do you find the SMARTPHONE easy to use?
+;
+#X text 407 371 11- How much do you find it discreet?;
+#X text 405 443 12- Would you like to give feedback on your experience?
 (comments and critics are well accepted);
-#X text 662 511 put textbox here;
+#X msg 352 481 clear;
+#X obj 23 483 s writefile;
+#X obj 23 461 bng 15 250 50 0 empty empty save_files 17 7 0 10 -260097
+-1 -1;
+#X text 28 240 1;
+#X text 42 240 2;
+#X text 58 240 3;
+#X text 73 240 4;
+#X text 88 240 5;
+#X text 103 240 6;
+#X text 118 240 7;
+#X text 411 244 1;
+#X text 425 244 2;
+#X text 441 244 3;
+#X text 456 244 4;
+#X text 471 244 5;
+#X text 486 244 6;
+#X text 501 244 7;
+#X text 411 289 1;
+#X text 425 289 2;
+#X text 441 289 3;
+#X text 456 289 4;
+#X text 471 289 5;
+#X text 486 289 6;
+#X text 501 289 7;
+#X text 411 348 1;
+#X text 425 348 2;
+#X text 441 348 3;
+#X text 456 348 4;
+#X text 471 348 5;
+#X text 486 348 6;
+#X text 501 348 7;
+#X text 410 393 1;
+#X text 424 393 2;
+#X text 440 393 3;
+#X text 455 393 4;
+#X text 470 393 5;
+#X text 485 393 6;
+#X text 500 393 7;
+#X connect 34 0 35 0;
+#X connect 35 0 38 0;
+#X connect 36 0 37 0;
+#X connect 38 0 35 0;
+#X connect 51 0 35 0;
+#X connect 53 0 52 0;
 #X restore 268 -58 pd questionnaire;
 #X connect 3 0 2 0;
 #X connect 5 0 4 0;

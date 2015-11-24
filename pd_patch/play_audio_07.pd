@@ -1,4 +1,4 @@
-#N canvas 165 178 650 572 10;
+#N canvas 162 183 650 572 10;
 #X declare -lib mrpeach;
 #X obj 130 -255 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
 -66577 0;
@@ -20,7 +20,7 @@
 -66577 0;
 #X text -45 149 Audio Players;
 #X obj -30 249 dac~;
-#N canvas -381 184 1045 584 Audio 1;
+#N canvas 148 168 1045 584 Audio 0;
 #N canvas 367 22 369 393 audio_in_out 0;
 #X obj 143 72 readsf~ 2;
 #X msg 143 44 open audio_in_out_s.wav;
@@ -61,7 +61,7 @@
 #X connect 15 0 6 0;
 #X connect 16 0 9 0;
 #X restore 353 -243 pd audio_in_out;
-#N canvas 0 82 369 393 microphone 1;
+#N canvas 0 87 369 393 microphone 0;
 #X obj 143 72 readsf~ 2;
 #X msg 68 37 start;
 #X msg -24 35 stop;
@@ -316,7 +316,7 @@ master_volume] before being sent to the left and right [outlet~]'s.
 -1 -1;
 #X obj 510 -298 inlet;
 #X obj 441 -298 loadbang 0;
-#N canvas 235 686 450 300 bass_boost 0;
+#N canvas 232 468 450 300 bass_boost 0;
 #X obj -168 -35 inlet;
 #X obj -168 13 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
@@ -328,11 +328,12 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X connect 0 0 2 0;
 #X connect 2 0 1 0;
 #X connect 2 0 3 0;
+#X connect 2 1 6 0;
 #X connect 3 0 4 0;
 #X connect 5 0 6 0;
 #X connect 6 0 4 0;
 #X restore 576 -213 pd bass_boost;
-#N canvas 774 468 450 300 treble_boost 0;
+#N canvas 771 445 450 300 treble_boost 0;
 #X obj -486 -223 inlet;
 #X obj -486 -175 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
@@ -347,9 +348,10 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X connect 5 0 3 0;
 #X connect 6 0 1 0;
 #X connect 6 0 4 0;
+#X connect 6 1 5 0;
 #X restore 675 -214 pd treble_boost;
 #X obj 552 -299 r preset_select;
-#N canvas 903 224 450 300 noise_reduce 0;
+#N canvas 900 229 450 300 noise_reduce 0;
 #X obj -169 -1 inlet;
 #X obj -164 54 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
@@ -367,12 +369,13 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X connect 3 0 6 0;
 #X connect 5 0 1 0;
 #X connect 5 0 8 0;
+#X connect 5 1 9 0;
 #X connect 6 0 7 0;
 #X connect 8 0 6 1;
 #X connect 9 0 6 1;
 #X connect 10 0 9 0;
 #X restore 577 -238 pd noise_reduce;
-#N canvas 1325 424 538 458 feedback_killer 0;
+#N canvas 828 310 538 458 feedback_killer 0;
 #X obj 3 -19 inlet;
 #X obj 102 -4 cnv 15 270 360 empty empty empty 20 12 0 14 -260097 -66577
 0;
@@ -448,6 +451,7 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X connect 29 0 30 0;
 #X connect 30 0 32 0;
 #X connect 31 0 26 0;
+#X connect 31 1 30 0;
 #X connect 32 0 2 1;
 #X connect 32 0 3 1;
 #X restore 676 -239 pd feedback_killer;
@@ -696,7 +700,7 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 13 0 0 0;
 #X connect 32 0 8 0;
 #X restore 267 -2 pd phone_osc;
-#N canvas 635 87 683 686 test 0;
+#N canvas 632 92 683 686 test 0;
 #X obj -104 -83 cnv 15 100 130 empty empty file_ops 20 12 0 14 -232576
 -66577 0;
 #X obj -3 -83 cnv 15 100 130 empty empty subject 20 12 0 14 -203904
@@ -724,11 +728,8 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X floatatom 305 20 5 0 0 0 - - -;
 #X text 310 1 Clicks;
 #X obj 9 -19 r subjectID;
-#X msg -100 295 \; txt write results/tasks.txt;
+#X msg -100 217 \; txt write results/tasks.txt;
 #X obj 33 185 s txt;
-#X msg -92 240 \; txt clear;
-#X obj -92 16 bng 15 250 50 0 empty empty clear 17 7 0 10 -33289 -262144
--1;
 #X obj 9 -60 bng 15 250 50 0 empty empty next_subject 17 7 0 10 -4032
 -1 -1;
 #X obj 9 -40 s nextsubj;
@@ -811,9 +812,7 @@ the counter increase by 1 Every time the MYO unlock \, counter is reset
 #X connect 6 0 4 0;
 #X connect 7 0 5 0;
 #X restore 305 -59 pd clicks;
-#X text -95 265 clear current data memory (not file \, but be CAREFUL)
-;
-#X text -100 323 write the content of textfile object inda file;
+#X text -100 245 write the content of textfile object inda file;
 #X obj -104 466 cnv 15 500 130 empty empty rows→file 20 12 0 14 -233017
 -66577 0;
 #X obj -98 530 textfile;
@@ -877,34 +876,33 @@ the write command is sent. the rows end with a semicolon.;
 #X connect 16 0 6 0;
 #X connect 17 0 16 3;
 #X connect 19 0 15 0;
-#X connect 23 0 22 0;
-#X connect 24 0 25 0;
-#X connect 26 0 13 0;
-#X connect 27 0 26 0;
-#X connect 28 0 26 1;
-#X connect 29 0 14 0;
-#X connect 30 0 17 0;
-#X connect 34 0 36 0;
-#X connect 34 1 36 1;
-#X connect 35 0 34 0;
-#X connect 38 0 29 0;
+#X connect 22 0 23 0;
+#X connect 24 0 13 0;
+#X connect 25 0 24 0;
+#X connect 26 0 24 1;
+#X connect 27 0 14 0;
+#X connect 28 0 17 0;
+#X connect 31 0 33 0;
+#X connect 31 1 33 1;
+#X connect 32 0 31 0;
+#X connect 35 0 27 0;
 #X restore 267 -31 pd test;
-#N canvas 586 102 769 686 questionnaire 0;
+#N canvas 583 107 769 686 questionnaire 0;
 #X text 18 12 USER INFORMATIONS;
 #X floatatom 24 58 5 0 0 0 - - age;
 #X obj 24 110 vradio 15 1 0 2 deafness empty empty 0 -8 0 10 -204800
--1 -1 0;
+-1 -1 1;
 #X obj 24 176 vradio 15 1 0 2 app_user empty empty 0 -8 0 10 -204800
--1 -1 0;
+-1 -1 1;
 #X obj 24 242 hradio 15 1 0 7 tech_exp empty empty 0 -8 0 10 -204800
--1 -1 0;
+-1 -1 4;
 #X obj 24 293 vradio 15 1 0 2 myo_usr empty empty 0 -8 0 10 -204800
 -1 -1 0;
 #X obj 24 359 vradio 15 1 0 2 job empty empty 0 -8 0 10 -204800 -1
--1 0;
+-1 1;
 #X text 404 9 ANSWER TO THESE SIMPLE QUESTIONS:;
-#X obj 410 65 tgl 15 0 s1 empty empty 17 7 0 10 -204800 -1 -1 0 1;
-#X obj 410 85 tgl 15 0 s2 empty empty 17 7 0 10 -204800 -1 -1 0 1;
+#X obj 410 65 tgl 15 0 s1 empty empty 17 7 0 10 -204800 -1 -1 1 1;
+#X obj 410 85 tgl 15 0 s2 empty empty 17 7 0 10 -204800 -1 -1 1 1;
 #X obj 410 105 tgl 15 0 s3 empty empty 17 7 0 10 -204800 -1 -1 0 1
 ;
 #X obj 410 125 tgl 15 0 s4 empty empty 17 7 0 10 -204800 -1 -1 0 1
@@ -932,13 +930,13 @@ the write command is sent. the rows end with a semicolon.;
 #X text 46 174 No;
 #X text 45 106 No;
 #X obj 407 246 hradio 15 1 0 7 myo_easy empty empty 0 -8 0 10 -204800
--1 -1 0;
+-1 -1 3;
 #X obj 407 291 hradio 15 1 0 7 myo_discreet empty empty 0 -8 0 10 -204800
--1 -1 0;
+-1 -1 1;
 #X obj 407 350 hradio 15 1 0 7 pho_easy empty empty 0 -8 0 10 -204800
--1 -1 0;
+-1 -1 6;
 #X obj 407 395 hradio 15 1 0 7 pho_discreet empty empty 0 -8 0 10 -204800
--1 -1 0;
+-1 -1 6;
 #X obj 180 483 bng 15 250 50 0 empty empty send_comment 17 7 0 10 -4032
 -1 -1;
 #X obj 180 508 entry 358 145 grey70 black;

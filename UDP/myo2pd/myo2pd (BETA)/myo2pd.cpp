@@ -116,7 +116,7 @@ public:
             // the text on the screen. The Myo will vibrate through the function 'notifyUserAction()'.
 
             // I commented this out because we want only our feedback vibrations!!!
-//            myo->notifyUserAction();
+            myo->notifyUserAction();
             
         } else {
             // Tell the Myo to stay unlocked only for a short period. This allows the Myo to stay unlocked while poses
@@ -328,16 +328,18 @@ int main() {
  
  //NOTE: impossible to setup the isUnlock method in this way: the buffer will be surely overwritten by other gestures in the same iteration of the while loop.
 // It's much better to implement another buffer with the message is unlocked --->>> TALK WITH DEVID WHICH WAY HE PREFERS TO RECEIVE IT!
-            if ( collector.isUnlocked == true ) {
-                bufferLock[3] = 1;
-                sendto(clientSocket,bufferLock,bufferLength,0,(struct sockaddr *)&serverAddr,addr_size);
-            }
-
-            else if ( collector.isUnlocked == false ) {
+            if ( collector.isUnlocked == false ) {
                 bufferLock[3] = 0;
                 sendto(clientSocket,bufferLock,bufferLength,0,(struct sockaddr *)&serverAddr,addr_size);
+                outputFile << "locked" << endl;
             }
-
+            
+            else if ( collector.isUnlocked == true ) {
+                bufferLock[3] = 1;
+                sendto(clientSocket,bufferLock,bufferLength,0,(struct sockaddr *)&serverAddr,addr_size);
+                outputFile << "unlocked" << endl;
+            }
+            
             
             
             // VOLUME CONTROL

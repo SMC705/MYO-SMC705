@@ -1,4 +1,4 @@
-#N canvas 203 179 650 572 10;
+#N canvas 195 184 650 572 10;
 #X declare -lib mrpeach;
 #X obj 130 -255 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
 -66577 0;
@@ -497,7 +497,7 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X restore -59 170 pd Audio Players;
 #X obj 261 -36 cnv 15 110 290 empty empty empty 20 12 0 14 -261682
 -66577 0;
-#N canvas 690 212 676 533 osc_things 0;
+#N canvas 685 219 676 533 osc_things 0;
 #X msg -987 -139 47 \$1 \$2 \$3 0 0 0 0 44 105 0 0 0 0 0 \$4;
 #X obj -987 -113 unpackOSC;
 #X obj -987 -166 udpreceive 7890;
@@ -519,24 +519,27 @@ use with the adress)- routeOSC reads the unpacked OSC data and routes
 the values to an output denpendant on the address (first four values
 in the ASCII list). vol = volume src = source pst = presets ulk = locked/unlocked
 MYO;
-#X obj -733 -118 s gestcount;
-#X msg -733 -141 float \$1\$2\$3;
+#X obj -650 -95 s gestcount;
 #X obj -862 -6 s input_select;
 #X obj -862 -57 change;
+#X msg -650 -139 \$1\$2\$3;
+#X obj -650 -118 atoi;
+#X text -654 -77 to gesture counter (N° clicks);
 #X connect 0 0 1 0;
 #X connect 1 0 3 0;
 #X connect 1 0 10 0;
 #X connect 2 0 0 0;
-#X connect 2 0 14 0;
+#X connect 2 0 16 0;
 #X connect 5 0 8 0;
 #X connect 6 0 4 0;
-#X connect 9 0 15 0;
+#X connect 9 0 14 0;
 #X connect 10 0 5 0;
-#X connect 10 1 16 0;
+#X connect 10 1 15 0;
 #X connect 10 2 6 0;
 #X connect 10 3 11 0;
-#X connect 14 0 13 0;
-#X connect 16 0 9 0;
+#X connect 15 0 9 0;
+#X connect 16 0 17 0;
+#X connect 17 0 13 0;
 #X restore 267 24 pd osc_things;
 #X obj 273 221 s master_volume;
 #X obj 273 86 vsl 85 128 0 1 0 0 empty empty Volume 0 -9 0 10 -204786
@@ -691,7 +694,7 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 13 0 0 0;
 #X connect 32 0 8 0;
 #X restore 267 -2 pd phone_osc;
-#N canvas 671 102 683 686 test 0;
+#N canvas 665 82 683 686 test 1;
 #X obj -104 -83 cnv 15 100 130 empty empty file_ops 20 12 0 14 -232576
 -66577 0;
 #X obj -3 -83 cnv 15 100 130 empty empty subject 20 12 0 14 -203904
@@ -785,7 +788,7 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 6 1 3 1;
 #X connect 8 0 6 0;
 #X restore 210 -59 pd timer;
-#N canvas 934 314 294 248 clicks 0;
+#N canvas 928 324 323 259 clicks 1;
 #X obj 0 -55 cnv 15 200 200 empty empty count_number_actions 20 12
 0 14 -233017 -66577 0;
 #X floatatom 92 84 5 0 0 0 - - -;
@@ -796,11 +799,11 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X obj 92 11 change;
 #X obj 9 34 r clickreset;
 #X obj 92 -25 r gestcount;
+#X obj 92 104 outlet;
 #X text 0 145 Every new gesture (UNLOCK \, FIST \, F.SPREAD \, FIST)
 the counter increase by 1 Every time the MYO unlock \, counter is reset
 ;
-#X obj 92 104 outlet;
-#X connect 1 0 9 0;
+#X connect 1 0 8 0;
 #X connect 2 0 4 0;
 #X connect 3 0 4 1;
 #X connect 4 0 3 0;

@@ -66,7 +66,7 @@ MYO;
 #X restore 55 -99 pd osc_things;
 #X obj 61 98 s master_volume;
 #X obj 61 -37 vsl 85 128 0 1 0 0 empty empty Volume 0 -9 0 10 -204786
--258113 -4160 0 1;
+-258113 -4160 9400 1;
 #X obj 56 -74 r volume_slider;
 #X text -10 -329 This patch plays the audio from (at present) 6 different
 inputs simultaneously. To select which audio to hear \, choose a source
@@ -79,7 +79,7 @@ values.;
 #X obj -82 -156 cnv 15 130 150 empty empty empty 20 12 0 14 -257985
 -66577 0;
 #X obj -77 -133 vradio 25 1 0 4 empty preset_select Preset_Select 0
--8 0 10 -262144 -1 -1 0;
+-8 0 10 -262144 -1 -1 1;
 #X text -49 -132 Noise Reduction;
 #X text -49 -81 Bass Boost;
 #X text -50 -56 Treble Boost;
@@ -104,8 +104,8 @@ values.;
 #X obj 252 -894 s input_select;
 #N canvas 823 285 379 357 step_volume 0;
 #X msg 61 -805 set \$1;
-#X msg 145 -779 0.850394;
-#X msg -12 -778 0.850394;
+#X msg 145 -779 0.740157;
+#X msg -12 -778 0.740157;
 #X obj 65 -842 clip 0 1;
 #X obj 46 -891 r master_volume;
 #X obj 65 -863 r step_volume;

@@ -270,8 +270,7 @@ int main() {
         
         ofstream outputFile;
         outputFile.open( "/Users/Paolo/Documents/prova.txt");
-        outputFile << "ciao\n";
-        outputFile.close();
+
         
         
         
@@ -464,6 +463,8 @@ int main() {
             delete[] buffer;
 
         }
+        
+        outputFile.close();
         
     }
 

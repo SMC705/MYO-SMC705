@@ -331,13 +331,13 @@ int main() {
             if ( collector.isUnlocked == false ) {
                 bufferLock[3] = 0;
                 sendto(clientSocket,bufferLock,bufferLength,0,(struct sockaddr *)&serverAddr,addr_size);
-                outputFile << "locked" << endl;
+                outputFile << "locked";
             }
             
             else if ( collector.isUnlocked == true ) {
                 bufferLock[3] = 1;
                 sendto(clientSocket,bufferLock,bufferLength,0,(struct sockaddr *)&serverAddr,addr_size);
-                outputFile << "unlocked" << endl;
+                outputFile << "unlocked";
             }
             
             
@@ -351,6 +351,8 @@ int main() {
                 buffer[2] = 'l';
                 buffer[3] = collector.roll_vol;
                 hamlet = true;
+                
+                outputFile << " vol" << collector.roll_vol;
                 
                 // Haptic feedback on min and max volume
                 if ( collector.roll_vol == 1 || collector.roll_vol == 127 ) {
@@ -394,6 +396,8 @@ int main() {
                 buffer[3] = preset;
                 hamlet = true;
                 
+                outputFile << " pst" << preset;
+                
                 // Haptic feedback and samePose reset
                 myo->vibrate(myo::Myo::vibrationShort);
                 samePose = 0;
@@ -410,6 +414,8 @@ int main() {
                 buffer[2] = 't';
                 buffer[3] = preset;
                 hamlet = true;
+                
+                outputFile << " pst" << preset;
                 
                 // Haptic feedback and samePose reset
                 myo->vibrate(myo::Myo::vibrationShort);
@@ -440,7 +446,9 @@ int main() {
                 buffer[2] = 'c';
                 buffer[3] = src;
                 hamlet = true;
-                cout << "\n" << src << endl;
+
+                outputFile << " src" << src;
+                
             }
             
             previousPoseString = poseString;

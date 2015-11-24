@@ -269,9 +269,8 @@ int main() {
         // here we export all the data of a user to a file.
         
         ofstream outputFile;
-        outputFile.open( "prova.dat");
-        outputFile << "ciao\n";
-        outputFile.close();
+        outputFile.open( "/Users/Paolo/Documents/prova.txt");
+
         
         
         
@@ -294,10 +293,16 @@ int main() {
         // Variables for presets.
         int preset = 0;         // Current preset (initialized to zero)
         
+        char bufferLock[bufferLength];
+        bufferLock[0] = 'u';
+        bufferLock[1] = 'l';
+        bufferLock[2] = 'k';
+        
         // Enter a main loop that print position, pose and state of the Myo for every iteration.
         while(1) {
             
             char * buffer = new char[bufferLength];     // NOTE: allocate memory here or outside the loop????
+            
             
             // The function hub.run(duration) runs the event loop for the specified duration (ms).
             // Need to change the output rate? DO IT HERE!
@@ -319,24 +324,20 @@ int main() {
             // LOCK / UNLOCK
             // ----------------
 
-/*
+
  
- NOTE: impossible to setup the isUnlock method in this way: the buffer will be surely overwritten by other gestures in the same iteration of the while loop.
- It's much better to implement another buffer with the message is unlocked --->>> TALK WITH DEVID WHICH WAY HE PREFERS TO RECEIVE IT!
+ //NOTE: impossible to setup the isUnlock method in this way: the buffer will be surely overwritten by other gestures in the same iteration of the while loop.
+// It's much better to implement another buffer with the message is unlocked --->>> TALK WITH DEVID WHICH WAY HE PREFERS TO RECEIVE IT!
             if ( collector.isUnlocked == true ) {
-                buffer[0] = 'u';
-                buffer[1] = 'l';
-                buffer[2] = 'k';
-                buffer[3] = 1;
+                bufferLock[3] = 1;
+                sendto(clientSocket,bufferLock,bufferLength,0,(struct sockaddr *)&serverAddr,addr_size);
             }
 
             else if ( collector.isUnlocked == false ) {
-                buffer[0] = 'u';
-                buffer[1] = 'l';
-                buffer[2] = 'k';
-                buffer[3] = 0;
+                bufferLock[3] = 0;
+                sendto(clientSocket,bufferLock,bufferLength,0,(struct sockaddr *)&serverAddr,addr_size);
             }
-*/
+
             
             
             // VOLUME CONTROL
@@ -459,9 +460,11 @@ int main() {
                 sendto(clientSocket,buffer,nBytes,0,(struct sockaddr *)&serverAddr,addr_size);
             }
             
-    delete[] buffer;
+            delete[] buffer;
 
         }
+        
+        outputFile.close();
         
     }
 

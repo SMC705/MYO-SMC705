@@ -464,8 +464,6 @@ int main() {
 
         }
         
-        outputFile.close();
-        
     }
 
 // If a standard exception occurred, we print out its message and exit.

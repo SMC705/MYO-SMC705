@@ -19,10 +19,13 @@
 
 using namespace std;
 
-
+// User ID
+const int userID = 1;
 // Minimum and maximum roll angle
 const int minAngle = -100;
 const int maxAngle = 9;
+// Filename to record user's actions
+const string fileName = "/Users/Paolo/Documents/AAU/2015-2016/MYO-test" + to_string(userID) + ".txt";
 // Number of audio sources
 const int srcNum = 6;
 // Single source rotation range
@@ -269,8 +272,8 @@ int main() {
         // here we export all the data of a user to a file.
         
         ofstream outputFile;
-        outputFile.open( "/Users/Paolo/Documents/prova.txt");
-
+        outputFile.open( fileName );
+        
         
         
         
@@ -470,6 +473,7 @@ int main() {
                 sendto(clientSocket,buffer,nBytes,0,(struct sockaddr *)&serverAddr,addr_size);
             }
             
+            outputFile << endl;
             delete[] buffer;
 
         }

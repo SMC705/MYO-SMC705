@@ -1,4 +1,4 @@
-#N canvas 389 183 650 572 10;
+#N canvas 203 179 650 572 10;
 #X declare -lib mrpeach;
 #X obj 130 -255 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
 -66577 0;
@@ -20,7 +20,7 @@
 -66577 0;
 #X text -45 149 Audio Players;
 #X obj -30 249 dac~;
-#N canvas 512 152 1045 584 Audio 0;
+#N canvas 321 157 1045 584 Audio 0;
 #N canvas 367 22 369 393 audio_in_out 0;
 #X obj 143 72 readsf~ 2;
 #X msg 143 44 open audio_in_out_s.wav;
@@ -349,7 +349,7 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X connect 6 0 4 0;
 #X restore 675 -214 pd treble_boost;
 #X obj 552 -299 r preset_select;
-#N canvas 906 219 450 300 noise_reduce 0;
+#N canvas 903 224 450 300 noise_reduce 0;
 #X obj -169 -1 inlet;
 #X obj -164 54 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
@@ -497,7 +497,7 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X restore -59 170 pd Audio Players;
 #X obj 261 -36 cnv 15 110 290 empty empty empty 20 12 0 14 -261682
 -66577 0;
-#N canvas 702 207 676 533 osc_things 0;
+#N canvas 690 212 676 533 osc_things 0;
 #X msg -987 -139 47 \$1 \$2 \$3 0 0 0 0 44 105 0 0 0 0 0 \$4;
 #X obj -987 -113 unpackOSC;
 #X obj -987 -166 udpreceive 7890;
@@ -507,58 +507,7 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X obj -813 -57 change;
 #X obj -519 -163 import mrpeach;
 #X obj -903 51 s volume_slider;
-#X obj -862 -47 - 1;
-#N canvas 712 112 645 424 rotation 0;
-#X obj -782 -88 vsl 15 248 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
-#X obj -659 196 spigot;
-#X floatatom -660 -57 5 1 200 0 - - -;
-#X floatatom -645 61 5 0 0 0 - - -;
-#X msg -600 -4 set;
-#X obj -600 19 list append;
-#X obj -600 41 list trim;
-#X obj -660 81 -;
-#X obj -660 100 abs;
-#X floatatom -582 124 5 0 0 0 - - -;
-#X msg -657 156 0;
-#X msg -611 156 1;
-#X obj -645 -28 delay 20;
-#X obj -660 125 moses 0.015;
-#X text -763 -73 test slider;
-#X text -543 123 minimum change required to pass value here is 1.5%
-;
-#X text -585 -28 time between comparison values for rotation;
-#X obj -741 -21 inlet;
-#X obj -659 258 s input_select;
-#X obj -737 35 expr $f1 / 127 * 6;
-#X obj -659 218 int;
-#X obj -659 238 change;
-#X text -561 261 Output is thresholded source number and bang only
-when change;
-#X connect 0 0 19 0;
-#X connect 1 0 20 0;
-#X connect 2 0 5 1;
-#X connect 2 0 7 0;
-#X connect 2 0 12 0;
-#X connect 3 0 7 1;
-#X connect 4 0 5 0;
-#X connect 5 0 6 0;
-#X connect 6 0 3 0;
-#X connect 7 0 8 0;
-#X connect 8 0 9 0;
-#X connect 8 0 13 0;
-#X connect 10 0 1 1;
-#X connect 11 0 1 1;
-#X connect 12 0 4 0;
-#X connect 12 0 3 0;
-#X connect 13 0 10 0;
-#X connect 13 1 11 0;
-#X connect 17 0 19 0;
-#X connect 19 0 1 0;
-#X connect 19 0 2 0;
-#X connect 20 0 21 0;
-#X connect 21 0 18 0;
-#X restore -582 27 pd rotation threshold;
+#X obj -862 -31 - 1;
 #X obj -903 -85 routeOSC /vol /src /pst /ulk;
 #X obj -767 -57 s unlocked;
 #X text -977 211 udpreceive receives 4 ASCII values from C++ via port
@@ -573,19 +522,21 @@ MYO;
 #X obj -733 -118 s gestcount;
 #X msg -733 -141 float \$1\$2\$3;
 #X obj -862 -6 s input_select;
+#X obj -862 -57 change;
 #X connect 0 0 1 0;
 #X connect 1 0 3 0;
-#X connect 1 0 11 0;
+#X connect 1 0 10 0;
 #X connect 2 0 0 0;
-#X connect 2 0 15 0;
+#X connect 2 0 14 0;
 #X connect 5 0 8 0;
 #X connect 6 0 4 0;
-#X connect 9 0 16 0;
-#X connect 11 0 5 0;
-#X connect 11 1 9 0;
-#X connect 11 2 6 0;
-#X connect 11 3 12 0;
-#X connect 15 0 14 0;
+#X connect 9 0 15 0;
+#X connect 10 0 5 0;
+#X connect 10 1 16 0;
+#X connect 10 2 6 0;
+#X connect 10 3 11 0;
+#X connect 14 0 13 0;
+#X connect 16 0 9 0;
 #X restore 267 24 pd osc_things;
 #X obj 273 221 s master_volume;
 #X obj 273 86 vsl 85 128 0 1 0 0 empty empty Volume 0 -9 0 10 -204786

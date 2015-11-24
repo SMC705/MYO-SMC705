@@ -1,4 +1,4 @@
-#N canvas 183 176 650 572 10;
+#N canvas 171 196 650 572 10;
 #X declare -lib mrpeach;
 #X obj 130 -255 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
 -66577 0;
@@ -694,7 +694,7 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 13 0 0 0;
 #X connect 32 0 8 0;
 #X restore 267 -2 pd phone_osc;
-#N canvas 650 92 683 686 test 0;
+#N canvas 638 82 683 686 test 1;
 #X obj -104 -83 cnv 15 100 130 empty empty file_ops 20 12 0 14 -232576
 -66577 0;
 #X obj -3 -83 cnv 15 100 130 empty empty subject 20 12 0 14 -203904
@@ -816,13 +816,11 @@ the counter increase by 1 Every time the MYO unlock \, counter is reset
 -66577 0;
 #X obj -98 530 textfile;
 #X obj -98 506 r txt;
-#N canvas 98 310 659 427 subjectCALC 0;
+#N canvas 206 175 659 427 subjectCALC 0;
 #X msg -13 268 set \$1;
-#X msg -13 355 1;
 #X msg 69 281 \; scrollfile 0;
 #X obj 22 407 s subjectID;
 #X obj 22 381 + 1;
-#X obj -13 381 f;
 #X obj -13 245 inlet;
 #X obj 69 247 inlet;
 #X obj -87 169 metro 1;
@@ -843,21 +841,21 @@ there every time is sent bang to "nextsubj";
 #X text 191 141 2- when the file is open \, scroll every line and send
 sbj n° to counter;
 #X text 192 5 THIS PATCH CALCULATE CURRENT SUBJECT;
-#X obj 20 333 loadbang;
-#X connect 0 0 1 0;
-#X connect 1 0 5 0;
-#X connect 4 0 5 1;
-#X connect 4 0 3 0;
-#X connect 5 0 4 0;
-#X connect 6 0 0 0;
-#X connect 7 0 1 0;
-#X connect 7 0 2 0;
-#X connect 8 0 12 0;
-#X connect 9 0 13 0;
-#X connect 10 0 8 0;
-#X connect 11 0 9 0;
-#X connect 18 0 5 0;
-#X connect 23 0 1 0;
+#X obj -13 381 f 0;
+#X msg -13 355 0;
+#X connect 0 0 22 0;
+#X connect 3 0 2 0;
+#X connect 3 0 21 1;
+#X connect 4 0 0 0;
+#X connect 5 0 22 0;
+#X connect 5 0 1 0;
+#X connect 6 0 10 0;
+#X connect 7 0 11 0;
+#X connect 8 0 6 0;
+#X connect 9 0 7 0;
+#X connect 16 0 21 0;
+#X connect 21 0 3 0;
+#X connect 22 0 21 0;
 #X restore -98 565 pd subjectCALC;
 #X text -1 494 FILE WRITING: this object should receive the values
 from the tracking of the actions performed with the app and write them

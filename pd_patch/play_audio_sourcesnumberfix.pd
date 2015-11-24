@@ -1,0 +1,1130 @@
+#N canvas 195 184 650 572 10;
+#X declare -lib mrpeach;
+#X obj 130 -255 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
+-66577 0;
+#X obj -93 -255 cnv 15 175 175 empty empty empty 20 12 0 14 -261234
+-66577 0;
+#X obj -78 -106 s global_stop;
+#X obj -78 -128 bng 15 250 50 0 empty empty empty 17 7 0 10 -258113
+-1 -1;
+#X msg -81 -221 \; pd dsp \$1;
+#X obj -81 -246 tgl 15 0 empty empty empty 17 7 0 10 -204786 -1 -1
+0 1;
+#X text -54 -248 Turn DSP On/Off;
+#X text -56 -128 Stop all audio files;
+#X obj -81 -176 bng 15 250 50 0 empty empty empty 17 7 0 10 -4034 -1
+-1;
+#X obj -81 -154 s global_start;
+#X text -59 -176 Start all audio files;
+#X obj -71 -35 cnv 15 115 250 empty empty empty 20 12 0 14 -204800
+-66577 0;
+#X text -45 125 Audio Players;
+#X obj -26 184 dac~;
+#N canvas 321 157 1045 584 Audio 0;
+#N canvas 367 22 369 393 audio_in_out 0;
+#X obj 143 72 readsf~ 2;
+#X msg 143 44 open audio_in_out_s.wav;
+#X msg 68 37 start;
+#X msg -24 35 stop;
+#X obj 194 97 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 184 213 line~;
+#X obj 168 247 *~;
+#X obj 144 246 *~;
+#X obj 184 187 r to_line_1;
+#X msg 194 120 \; pd dsp 1 \; to_line_1 0 \, 1 500 \; rpt_audio_1 bang
+;
+#X obj 68 -9 r rpt_audio_1;
+#X obj 68 14 t b b;
+#X obj 143 341 outlet~;
+#X obj 168 314 outlet~;
+#X obj -24 13 r global_stop;
+#X obj 70 190 r volume_1;
+#X obj 216 95 r global_start;
+#X connect 0 0 7 0;
+#X connect 0 1 6 0;
+#X connect 0 2 4 0;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 9 0;
+#X connect 5 0 6 1;
+#X connect 5 0 7 1;
+#X connect 6 0 13 0;
+#X connect 7 0 12 0;
+#X connect 8 0 5 0;
+#X connect 10 0 11 0;
+#X connect 11 0 2 0;
+#X connect 11 1 1 0;
+#X connect 14 0 3 0;
+#X connect 15 0 7 0;
+#X connect 15 0 6 0;
+#X connect 16 0 9 0;
+#X restore 353 -243 pd audio_in_out;
+#N canvas 0 23 369 393 microphone 0;
+#X obj 143 72 readsf~ 2;
+#X msg 68 37 start;
+#X msg -24 35 stop;
+#X obj 194 97 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 184 213 line~;
+#X obj 168 247 *~;
+#X obj 144 246 *~;
+#X obj 68 14 t b b;
+#X obj 143 341 outlet~;
+#X obj 168 314 outlet~;
+#X obj -24 13 r global_stop;
+#X msg 143 44 open microphone_s.wav;
+#X obj 68 -9 r rpt_audio_2;
+#X msg 194 120 \; pd dsp 1 \; to_line_2 0 \, 1 500 \; rpt_audio_2 bang
+;
+#X obj 184 187 r to_line_2;
+#X obj 80 197 r volume_2;
+#X obj 215 96 r global_start;
+#X obj -19 197 catch~ feedback;
+#X connect 0 0 6 0;
+#X connect 0 1 5 0;
+#X connect 0 2 3 0;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 13 0;
+#X connect 4 0 5 1;
+#X connect 4 0 6 1;
+#X connect 5 0 9 0;
+#X connect 6 0 8 0;
+#X connect 7 0 1 0;
+#X connect 7 1 11 0;
+#X connect 10 0 2 0;
+#X connect 11 0 0 0;
+#X connect 12 0 7 0;
+#X connect 14 0 4 0;
+#X connect 15 0 6 0;
+#X connect 15 0 5 0;
+#X connect 16 0 13 0;
+#X connect 17 0 5 0;
+#X connect 17 0 6 0;
+#X restore 354 -210 pd microphone;
+#N canvas 18 23 369 393 music 0;
+#X obj 143 72 readsf~ 2;
+#X msg 68 37 start;
+#X msg -24 35 stop;
+#X obj 194 97 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 184 213 line~;
+#X obj 168 247 *~;
+#X obj 144 246 *~;
+#X obj 68 14 t b b;
+#X obj 143 341 outlet~;
+#X obj 168 314 outlet~;
+#X obj -24 13 r global_stop;
+#X obj 68 -9 r rpt_audio_3;
+#X msg 143 44 open music_s.wav;
+#X msg 194 120 \; pd dsp 1 \; to_line_3 0 \, 1 500 \; rpt_audio_3 bang
+;
+#X obj 184 187 r to_line_3;
+#X obj 70 190 r volume_3;
+#X obj 215 96 r global_start;
+#X connect 0 0 6 0;
+#X connect 0 1 5 0;
+#X connect 0 2 3 0;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 13 0;
+#X connect 4 0 5 1;
+#X connect 4 0 6 1;
+#X connect 5 0 9 0;
+#X connect 6 0 8 0;
+#X connect 7 0 1 0;
+#X connect 7 1 12 0;
+#X connect 10 0 2 0;
+#X connect 11 0 7 0;
+#X connect 12 0 0 0;
+#X connect 14 0 4 0;
+#X connect 15 0 6 0;
+#X connect 15 0 5 0;
+#X connect 16 0 13 0;
+#X restore 354 -175 pd music;
+#N canvas 74 37 369 393 phone 0;
+#X obj 143 72 readsf~ 2;
+#X msg 68 37 start;
+#X msg -24 35 stop;
+#X obj 194 97 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 184 213 line~;
+#X obj 168 247 *~;
+#X obj 143 247 *~;
+#X obj 68 14 t b b;
+#X obj 143 335 outlet~;
+#X obj 168 314 outlet~;
+#X obj -24 13 r global_stop;
+#X obj 68 -9 r rpt_audio_4;
+#X msg 143 44 open phone_s.wav;
+#X msg 194 120 \; pd dsp 1 \; to_line_4 0 \, 1 500 \; rpt_audio_4 bang
+;
+#X obj 184 187 r to_line_4;
+#X obj 70 190 r volume_4;
+#X obj 214 97 r global_start;
+#X obj -17 189 catch~ noise;
+#X connect 0 0 6 0;
+#X connect 0 1 5 0;
+#X connect 0 2 3 0;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 13 0;
+#X connect 4 0 5 1;
+#X connect 4 0 6 1;
+#X connect 5 0 9 0;
+#X connect 6 0 8 0;
+#X connect 7 0 1 0;
+#X connect 7 1 12 0;
+#X connect 10 0 2 0;
+#X connect 11 0 7 0;
+#X connect 12 0 0 0;
+#X connect 14 0 4 0;
+#X connect 15 0 6 0;
+#X connect 15 0 5 0;
+#X connect 16 0 13 0;
+#X connect 17 0 6 0;
+#X connect 17 0 5 0;
+#X restore 355 -142 pd phone;
+#N canvas 848 367 369 393 radio 0;
+#X obj 143 72 readsf~ 2;
+#X msg 68 37 start;
+#X msg -24 35 stop;
+#X obj 194 97 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 184 213 line~;
+#X obj 168 247 *~;
+#X obj 144 246 *~;
+#X obj 68 14 t b b;
+#X obj 143 299 outlet~;
+#X obj 206 304 outlet~;
+#X obj -24 13 r global_stop;
+#X obj 68 -9 r rpt_audio_5;
+#X msg 194 120 \; pd dsp 1 \; to_line_5 0 \, 1 500 \; rpt_audio_5 bang
+;
+#X obj 184 187 r to_line_5;
+#X obj 70 190 r volume_5;
+#X msg 143 44 open radio_s.wav;
+#X obj 214 95 r global_start;
+#X obj 143 272 hip~ 500;
+#X obj 205 272 hip~ 500;
+#X obj 212 245 r freqbass;
+#X connect 0 0 6 0;
+#X connect 0 1 5 0;
+#X connect 0 2 3 0;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 12 0;
+#X connect 4 0 5 1;
+#X connect 4 0 6 1;
+#X connect 5 0 18 0;
+#X connect 6 0 17 0;
+#X connect 7 0 1 0;
+#X connect 7 1 15 0;
+#X connect 10 0 2 0;
+#X connect 11 0 7 0;
+#X connect 13 0 4 0;
+#X connect 14 0 6 0;
+#X connect 14 0 5 0;
+#X connect 15 0 0 0;
+#X connect 16 0 12 0;
+#X connect 17 0 8 0;
+#X connect 18 0 9 0;
+#X connect 19 0 18 1;
+#X connect 19 0 17 1;
+#X restore 356 -106 pd radio;
+#N canvas 23 23 369 393 tv 0;
+#X obj -146 -64 readsf~ 2;
+#X msg -221 -99 start;
+#X msg -313 -101 stop;
+#X obj -95 -39 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj -105 77 line~;
+#X obj -121 111 *~;
+#X obj -145 110 *~;
+#X obj -221 -122 t b b;
+#X obj -146 205 outlet~;
+#X obj -121 178 outlet~;
+#X obj -313 -123 r global_stop;
+#X msg -146 -92 open tv_s.wav;
+#X obj -219 54 r volume_6;
+#X obj -105 51 r to_line_6;
+#X obj -221 -145 r rpt_audio_6;
+#X msg -95 -16 \; pd dsp 1 \; to_line_6 0 \, 1 500 \; rpt_audio_6 bang
+;
+#X obj -73 -40 r global_start;
+#X obj -123 145 lop~;
+#X obj -154 169 lop~;
+#X obj -43 121 r freqtreb;
+#X connect 0 0 6 0;
+#X connect 0 1 5 0;
+#X connect 0 2 3 0;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 15 0;
+#X connect 4 0 5 1;
+#X connect 4 0 6 1;
+#X connect 5 0 17 0;
+#X connect 6 0 18 0;
+#X connect 7 0 1 0;
+#X connect 7 1 11 0;
+#X connect 10 0 2 0;
+#X connect 11 0 0 0;
+#X connect 12 0 6 0;
+#X connect 12 0 5 0;
+#X connect 13 0 4 0;
+#X connect 14 0 7 0;
+#X connect 16 0 15 0;
+#X connect 17 0 9 0;
+#X connect 18 0 8 0;
+#X connect 19 0 17 1;
+#X connect 19 0 18 1;
+#X restore 357 -73 pd tv;
+#X obj 224 26 line~;
+#X obj 427 24 line~;
+#X obj 210 50 *~;
+#X obj 411 50 *~;
+#X obj 224 4 r to_line_out;
+#X obj 427 2 r to_line_out;
+#X obj 279 105 *~;
+#X obj 330 106 *~;
+#X obj 274 54 r master_volume;
+#X obj 76 -154 r input_select;
+#X floatatom 34 -104 5 0 5 0 - - -;
+#X obj 34 -80 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X msg -33 -54 \; to_line_out 0 \, 1 500 \;;
+#X obj 279 135 outlet~;
+#X obj 330 135 outlet~;
+#X obj 34 -153 inlet;
+#X text -45 -311 Each audio sub_patch sends a stereo signal from it's
+bottom two outputs (1+2 or L+R). The signals are then sent to the [multiplex~]
+objects which act as a gate \, only passing the signal from the channel
+number it receives. The channel numbers are received from the 'Audio_Select'
+radio object in the main patch and the [r Input_select]. To avoid clicks
+in the audio \, there is a [line~] object that ramps the gain from
+0 to 1 over 500ms every time the channel is changed. This signal is
+then sent to the next gain which is multipled by 0 to 1 from the [r
+master_volume] before being sent to the left and right [outlet~]'s.
+;
+#X obj 209 -38 multiplex~ 1 2 3 4 5 6;
+#X obj 411 -35 multiplex~ 1 2 3 4 5 6;
+#X floatatom 552 -274 5 0 5 0 - - -;
+#X obj 539 -250 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 510 -298 inlet;
+#X obj 441 -298 loadbang 0;
+#N canvas 235 686 450 300 bass_boost 0;
+#X obj -168 -35 inlet;
+#X obj -168 13 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj -168 -12 route 2;
+#X msg -138 31 0;
+#X obj -102 68 s freqbass;
+#X obj -106 -12 r inputnum;
+#X msg -106 30 2000;
+#X connect 0 0 2 0;
+#X connect 2 0 1 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 5 0 6 0;
+#X connect 6 0 4 0;
+#X restore 576 -213 pd bass_boost;
+#N canvas 774 468 450 300 treble_boost 0;
+#X obj -486 -223 inlet;
+#X obj -486 -175 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj -424 -200 r inputnum;
+#X obj -420 -120 s freqtreb;
+#X msg -456 -157 44100;
+#X msg -417 -154 300;
+#X obj -486 -200 route 3;
+#X connect 0 0 6 0;
+#X connect 2 0 5 0;
+#X connect 4 0 3 0;
+#X connect 5 0 3 0;
+#X connect 6 0 1 0;
+#X connect 6 0 4 0;
+#X restore 675 -214 pd treble_boost;
+#X obj 552 -299 r preset_select;
+#N canvas 903 224 450 300 noise_reduce 0;
+#X obj -169 -1 inlet;
+#X obj -164 54 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj -169 78 cnv 15 100 60 empty empty empty 20 12 0 14 -258113 -66577
+0;
+#X obj -141 112 noise~;
+#X text -142 84 Noise;
+#X obj -166 25 route 0;
+#X obj -141 150 *~ 0.5;
+#X obj -142 180 throw~ noise;
+#X msg -78 113 0;
+#X msg -47 117 0.05;
+#X obj -50 65 r inputnum;
+#X connect 0 0 5 0;
+#X connect 3 0 6 0;
+#X connect 5 0 1 0;
+#X connect 5 0 8 0;
+#X connect 6 0 7 0;
+#X connect 8 0 6 1;
+#X connect 9 0 6 1;
+#X connect 10 0 9 0;
+#X restore 577 -238 pd noise_reduce;
+#N canvas 1325 424 538 458 feedback_killer 0;
+#X obj 3 -19 inlet;
+#X obj 102 -4 cnv 15 270 360 empty empty empty 20 12 0 14 -260097 -66577
+0;
+#X obj 114 334 *~ 0.5;
+#X obj 202 334 *~ 0.5;
+#X obj 114 307 cycle~ 990;
+#X obj 202 306 cycle~ 1020;
+#X floatatom 164 136 5 0 0 0 - - -;
+#X floatatom 203 137 5 0 0 0 - - -;
+#X obj 202 160 / 2;
+#X msg 114 237 \$1 500;
+#X obj 114 262 line~;
+#X obj 114 214 -;
+#X msg 202 238 \$1 500;
+#X obj 202 263 line~;
+#X obj 202 215 +;
+#X obj 202 185 t b f;
+#X obj 114 188 t b f;
+#X obj 203 82 metro 1000;
+#X obj 203 59 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 203 29 loadbang;
+#X msg 164 84 6000;
+#X msg 280 81 2;
+#X obj 203 112 counter;
+#X msg 311 81 0;
+#X msg 341 81 23;
+#X text 112 2 Feedback Simulator;
+#X msg 3 303 0;
+#X obj 114 367 throw~ feedback;
+#X obj 282 304 r set_off;
+#X obj 27 256 r inputnum;
+#X obj 29 278 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 5 5 route 1;
+#X msg 31 300 0.01;
+#X connect 0 0 31 0;
+#X connect 2 0 27 0;
+#X connect 3 0 27 0;
+#X connect 4 0 2 0;
+#X connect 5 0 3 0;
+#X connect 6 0 14 0;
+#X connect 6 0 11 0;
+#X connect 7 0 8 0;
+#X connect 8 0 15 0;
+#X connect 8 0 16 0;
+#X connect 9 0 10 0;
+#X connect 10 0 4 0;
+#X connect 11 0 9 0;
+#X connect 12 0 13 0;
+#X connect 13 0 5 0;
+#X connect 14 0 12 0;
+#X connect 15 0 14 0;
+#X connect 15 1 14 1;
+#X connect 16 0 11 0;
+#X connect 16 1 11 1;
+#X connect 17 0 22 0;
+#X connect 18 0 17 0;
+#X connect 19 0 18 0;
+#X connect 19 0 20 0;
+#X connect 19 0 21 0;
+#X connect 19 0 23 0;
+#X connect 19 0 24 0;
+#X connect 20 0 6 0;
+#X connect 21 0 22 1;
+#X connect 22 0 7 0;
+#X connect 23 0 22 2;
+#X connect 24 0 22 4;
+#X connect 26 0 2 1;
+#X connect 26 0 3 1;
+#X connect 28 0 2 1;
+#X connect 28 0 3 1;
+#X connect 29 0 30 0;
+#X connect 30 0 32 0;
+#X connect 31 0 26 0;
+#X connect 32 0 2 1;
+#X connect 32 0 3 1;
+#X restore 676 -239 pd feedback_killer;
+#X obj 55 -84 s inputnum;
+#X obj 160 -76 r inputnum;
+#X obj 464 -90 r inputnum;
+#X obj 34 -127 + 1;
+#X obj -35 -153 loadbang 1;
+#X connect 0 0 23 0;
+#X connect 0 1 24 0;
+#X connect 1 0 23 1;
+#X connect 1 1 24 1;
+#X connect 2 0 23 2;
+#X connect 2 1 24 2;
+#X connect 3 0 23 3;
+#X connect 3 1 24 3;
+#X connect 4 0 23 4;
+#X connect 4 1 24 4;
+#X connect 5 0 23 5;
+#X connect 5 1 24 5;
+#X connect 6 0 8 1;
+#X connect 7 0 9 1;
+#X connect 8 0 12 0;
+#X connect 9 0 13 0;
+#X connect 10 0 6 0;
+#X connect 11 0 7 0;
+#X connect 12 0 19 0;
+#X connect 13 0 20 0;
+#X connect 14 0 12 1;
+#X connect 14 0 13 1;
+#X connect 15 0 37 0;
+#X connect 16 0 17 0;
+#X connect 16 0 34 0;
+#X connect 17 0 18 0;
+#X connect 21 0 37 0;
+#X connect 23 0 8 0;
+#X connect 24 0 9 0;
+#X connect 25 0 26 0;
+#X connect 25 0 29 0;
+#X connect 25 0 32 0;
+#X connect 25 0 33 0;
+#X connect 25 0 30 0;
+#X connect 27 0 25 0;
+#X connect 28 0 25 0;
+#X connect 31 0 25 0;
+#X connect 35 0 23 0;
+#X connect 36 0 24 0;
+#X connect 37 0 16 0;
+#X connect 38 0 16 0;
+#X restore -59 146 pd Audio Players;
+#X obj 261 -36 cnv 15 110 290 empty empty empty 20 12 0 14 -261682
+-66577 0;
+#N canvas 685 219 676 533 osc_things 0;
+#X msg -987 -139 47 \$1 \$2 \$3 0 0 0 0 44 105 0 0 0 0 0 \$4;
+#X obj -987 -113 unpackOSC;
+#X obj -987 -166 udpreceive 7890;
+#X obj -987 -59 print OSCrcv;
+#X obj -813 -33 s preset_select;
+#X obj -903 24 expr ( $f1 - 1 ) / 127;
+#X obj -813 -57 change;
+#X obj -519 -163 import mrpeach;
+#X obj -903 51 s volume_slider;
+#X obj -862 -31 - 1;
+#X obj -903 -85 routeOSC /vol /src /pst /ulk;
+#X obj -767 -57 s unlocked;
+#X text -977 211 udpreceive receives 4 ASCII values from C++ via port
+7890 (in this case) OSC values are formatted in groups of four so that
+unpackOSC can read and translate from 'ASCII list' to values that Pd
+understands. 1 = / 2 = v- 3 = o- 4 = l- 5 = 0 6 = 0 7 = 0 8 = 0 9 =
+\, 10 =i 11 =0 12 =0 13 =0 14 =0 15 =0 16 = 1-127 (received value to
+use with the adress)- routeOSC reads the unpacked OSC data and routes
+the values to an output denpendant on the address (first four values
+in the ASCII list). vol = volume src = source pst = presets ulk = locked/unlocked
+MYO;
+#X obj -650 -95 s gestcount;
+#X obj -862 -6 s input_select;
+#X obj -862 -57 change;
+#X msg -650 -139 \$1\$2\$3;
+#X obj -650 -118 atoi;
+#X text -654 -77 to gesture counter (N° clicks);
+#X connect 0 0 1 0;
+#X connect 1 0 3 0;
+#X connect 1 0 10 0;
+#X connect 2 0 0 0;
+#X connect 2 0 16 0;
+#X connect 5 0 8 0;
+#X connect 6 0 4 0;
+#X connect 9 0 14 0;
+#X connect 10 0 5 0;
+#X connect 10 1 15 0;
+#X connect 10 2 6 0;
+#X connect 10 3 11 0;
+#X connect 15 0 9 0;
+#X connect 16 0 17 0;
+#X connect 17 0 13 0;
+#X restore 267 24 pd osc_things;
+#X obj 273 221 s master_volume;
+#X obj 273 86 vsl 85 128 0 1 0 0 empty empty Volume 0 -9 0 10 -204786
+-258113 -4160 0 1;
+#X obj 268 49 r volume_slider;
+#X obj -59 -7 vradio 25 1 0 5 empty input_select Audio_Select 0 -8
+0 10 -262144 -1 -1 0;
+#X text -31 -5 Microphone;
+#X text -31 17 Music;
+#X text -32 42 Phone;
+#X text -32 67 Radio;
+#X text -30 92 TV;
+#X text 138 -251 This patch plays the audio from (at present) 6 different
+inputs simultaneously. To select which audio to hear \, choose a source
+from the radio object (a number from 0-5). Each input/audio player
+will loop it's audio file until it receives the global stop command.
+Each audio player has it's own volume receive which takes input 0 as
+minimum volume and 1 as max (if we decide to give each source this
+function?). There is also a master volume which takes the same min/max
+values.;
+#X text 125 -263 comment;
+#X obj 56 -33 cnv 15 130 150 empty empty empty 20 12 0 14 -257985 -66577
+0;
+#X obj 61 -9 vradio 25 1 0 4 empty preset_select Preset_Select 0 -8
+0 10 -262144 -1 -1 0;
+#X text 89 -8 Noise Reduction;
+#X text 89 43 Bass Boost;
+#X text 88 68 Treble Boost;
+#X text 89 18 Feedback Killer;
+#N canvas 671 230 591 497 phone_osc 0;
+#X obj 15 -1060 unpackOSC;
+#X obj 15 -994 select 1;
+#X obj 74 -996 s vm;
+#X obj 116 -948 s p1;
+#X obj 139 -923 s p2;
+#X obj 162 -901 s p3;
+#X obj 185 -881 s p4;
+#X obj 116 -976 select 1 2 3;
+#X obj 252 -970 int;
+#X msg 252 -947 set \$1;
+#X msg 252 -918 5;
+#X obj 15 -1019 routeOSC /volume /vmute /preset /setsource /source
+;
+#X obj 193 -933 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 15 -1096 udpreceive 9000;
+#X obj 252 -894 s input_select;
+#N canvas 823 285 379 357 step_volume 0;
+#X msg 61 -805 set \$1;
+#X msg 145 -779 0.716535;
+#X msg -12 -778 0.716535;
+#X obj 65 -842 clip 0 1;
+#X obj 46 -891 r master_volume;
+#X obj 65 -863 r step_volume;
+#X msg 58 -670 \; volume_slider \$1 \; step_volume \$1;
+#X obj -12 -816 inlet;
+#X obj 145 -814 inlet;
+#X obj -12 -756 + 0.25;
+#X obj 146 -758 - 0.25;
+#X obj 207 -814 inlet;
+#X text -16 -837 Increase;
+#X text 143 -835 Decrease;
+#X text 210 -834 Mute;
+#X obj 58 -691 *;
+#X obj 220 -742 t b f;
+#X obj -5 -866 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 58 -724 5 0 0 0 - - -;
+#X obj 207 -790 select 0;
+#X msg 207 -765 1;
+#X msg 252 -765 0;
+#X text -4 -611 This subpatch receive a bang from the + and - button
+of the phone and increment the volume in the main patch. It also receive
+values of the current main volume.;
+#X connect 0 0 1 0;
+#X connect 0 0 2 0;
+#X connect 1 0 10 0;
+#X connect 2 0 9 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 3 0;
+#X connect 7 0 2 0;
+#X connect 8 0 1 0;
+#X connect 9 0 18 0;
+#X connect 10 0 18 0;
+#X connect 11 0 19 0;
+#X connect 15 0 6 0;
+#X connect 16 0 15 0;
+#X connect 16 1 15 1;
+#X connect 17 0 2 0;
+#X connect 18 0 15 0;
+#X connect 19 0 20 0;
+#X connect 19 1 21 0;
+#X connect 20 0 16 0;
+#X connect 21 0 16 0;
+#X restore 15 -968 pd step_volume;
+#X obj 362 -896 cnv 15 140 200 empty empty Phone_screen 20 0 0 14 -203904
+-66577 0;
+#X obj 458 -814 bng 20 250 50 0 empty volume_up + 7 10 2 12 -228856
+-128992 -1;
+#X obj 458 -783 bng 20 250 50 0 empty volume_down _ 7 5 2 12 -228856
+-128992 -1;
+#X obj 483 -796 tgl 15 0 empty vm M 4 7 2 10 -228856 -86277 -1 0 1
+;
+#X obj 389 -879 bng 20 250 50 0 empty p1 P1 4 11 2 12 -228856 -128992
+-1;
+#X obj 415 -879 bng 20 250 50 0 empty p2 P2 4 11 2 12 -228856 -128992
+-1;
+#X obj 441 -880 bng 20 250 50 0 empty p3 P3 4 11 2 12 -228856 -128992
+-1;
+#X obj 467 -880 bng 20 250 50 0 empty p4 P4 4 11 2 12 -228856 -128992
+-1;
+#X obj 430 -848 vradio 20 1 0 6 empty input_select empty 0 -8 0 10
+-228856 -1 -1 0;
+#X text 408 -748 TV;
+#X text 364 -829 Microphone;
+#X text 391 -809 Music;
+#X text 404 -850 Aux;
+#X text 367 -789 Telephone;
+#X text 392 -768 Radio;
+#X obj 430 -723 bng 20 250 50 0 empty input_select S 8 10 0 10 -262144
+-1 -1;
+#X obj 252 -994 expr ($f1 + 0.1)* 6;
+#X text 245 -638 The index of the sources in the phone app is incorrect
+;
+#X text 297 -977 need to check if source sel from the phone is precise
+;
+#X obj -4 -851 cnv 15 350 70 empty empty empty 20 12 0 14 -204786 -66577
+0;
+#X text -6 -858 comment;
+#X text 1 -842 This subpatch receives values from the TouchOSC app
+installed on Tom's phone simulating the ConnectLine from Oticon. Then
+\, it shows the value received and it routes them to the main patch.
+;
+#X connect 0 0 11 0;
+#X connect 1 0 15 0;
+#X connect 1 1 15 1;
+#X connect 7 0 3 0;
+#X connect 7 1 4 0;
+#X connect 7 2 5 0;
+#X connect 7 3 6 0;
+#X connect 8 0 9 0;
+#X connect 9 0 10 0;
+#X connect 10 0 14 0;
+#X connect 11 0 1 0;
+#X connect 11 1 2 0;
+#X connect 11 2 7 0;
+#X connect 11 3 12 0;
+#X connect 11 4 32 0;
+#X connect 12 0 10 0;
+#X connect 13 0 0 0;
+#X connect 32 0 8 0;
+#X restore 267 -2 pd phone_osc;
+#N canvas 0 0 1920 976 test 0;
+#X obj -124 -428 cnv 15 100 130 empty empty file_ops 20 12 0 14 -232576
+-66577 0;
+#X obj -23 -428 cnv 15 100 130 empty empty subject 20 12 0 14 -203904
+-66577 0;
+#X obj 371 -424 cnv 15 100 130 empty empty n°_clicks 20 12 0 14 -262130
+-66577 0;
+#X obj 179 -428 cnv 15 190 130 empty empty timer_(unlock/lock) 20 12
+0 14 -204786 -66577 0;
+#X obj 78 -428 cnv 15 100 130 empty empty tasks 20 12 0 14 -204800
+-66577 0;
+#X obj 13 -186 prepend add;
+#X obj 96 -187 print TXTfile;
+#X obj -121 -405 bng 15 250 50 0 empty empty add_values 17 7 0 10 -4034
+-262144 -1;
+#X text -6 -342 N° subject;
+#X text 96 -343 N° task;
+#X text 195 -344 Time;
+#X obj -120 -353 bng 15 250 50 0 empty empty save_file 17 7 0 10 -258113
+-1 -1;
+#X obj 13 -239 f;
+#X floatatom 89 -325 5 0 5 0 - - -;
+#X floatatom 190 -325 5 0 0 0 - - -;
+#X floatatom -11 -325 5 0 1000 0 - - -;
+#X floatatom 376 -321 5 0 0 0 - - -;
+#X text 381 -340 Clicks;
+#X obj -11 -364 r subjectID;
+#X msg -120 -50 \; txt write results/tasks.txt;
+#X obj 13 -160 s txt;
+#X msg -112 -105 \; txt clear;
+#X obj -112 -329 bng 15 250 50 0 empty empty clear 17 7 0 10 -33289
+-262144 -1;
+#X obj -11 -405 bng 15 250 50 0 empty empty next_subject 17 7 0 10
+-4032 -1 -1;
+#X obj -11 -385 s nextsubj;
+#N canvas 461 378 450 300 tasks 0;
+#X obj -70 1 cnv 15 250 200 empty empty Task_selection 20 12 0 14 -233017
+-66577 0;
+#X obj 56 108 select 0;
+#X obj 56 131 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X msg 61 57 1;
+#X obj 61 32 loadbang;
+#X text 72 57 reset;
+#X text 75 129 Test complete;
+#X msg 6 57 inc;
+#X msg -49 57 dec;
+#X text -32 57 rease;
+#X text 23 57 rease;
+#X obj -49 36 inlet;
+#X obj 6 36 inlet;
+#X text 37 36 2;
+#X text -17 36 1;
+#X obj 14 159 outlet;
+#X obj 14 84 counter 1 5;
+#X connect 1 0 2 0;
+#X connect 3 0 16 3;
+#X connect 4 0 3 0;
+#X connect 7 0 16 0;
+#X connect 8 0 16 0;
+#X connect 11 0 8 0;
+#X connect 12 0 7 0;
+#X connect 16 0 15 0;
+#X connect 16 2 1 0;
+#X restore 89 -384 pd tasks;
+#X obj 89 -405 bng 15 250 50 0 empty empty prev 17 7 0 10 -257985 -1
+-1;
+#X obj 140 -405 bng 15 250 50 0 empty empty next 17 7 0 10 -257985
+-1 -1;
+#N canvas 547 348 360 206 timer 0;
+#X obj -70 -55 cnv 15 350 200 empty empty timer_for_current_attempt
+20 12 0 14 -233017 -66577 0;
+#X text 53 -26 start/stop;
+#X obj 55 -7 r unlocked;
+#X obj 55 46 timer;
+#X floatatom 55 98 5 0 0 0 - - -;
+#X obj 55 72 / 1000;
+#X obj 55 20 select 1 0;
+#X msg -61 46 \; clickreset 0;
+#X obj -5 -23 tgl 15 0 empty empty test 17 7 0 10 -262144 -1 -1 0 1
+;
+#X text 93 98 Seconds the MYO stayed unlocked;
+#X text -72 79 every new UNLOCK \, reset the timer;
+#X obj 55 121 outlet;
+#X connect 2 0 6 0;
+#X connect 3 0 5 0;
+#X connect 4 0 11 0;
+#X connect 5 0 4 0;
+#X connect 6 0 3 0;
+#X connect 6 0 7 0;
+#X connect 6 1 3 1;
+#X connect 8 0 6 0;
+#X restore 190 -404 pd timer;
+#N canvas 665 545 323 235 clicks 0;
+#X obj 0 -55 cnv 15 200 200 empty empty count_number_actions 20 12
+0 14 -233017 -66577 0;
+#X floatatom 92 84 5 0 0 0 - - -;
+#X obj 92 35 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 120 62 + 1;
+#X obj 92 63 f 0;
+#X obj 92 11 change;
+#X obj 9 34 r clickreset;
+#X obj 92 -25 r gestcount;
+#X obj 92 104 outlet;
+#X text 0 145 Every new gesture (UNLOCK \, FIST \, F.SPREAD \, FIST)
+the counter increase by 1 Every time the MYO unlock \, counter is reset
+;
+#X connect 1 0 8 0;
+#X connect 2 0 4 0;
+#X connect 3 0 4 1;
+#X connect 4 0 3 0;
+#X connect 4 0 1 0;
+#X connect 5 0 2 0;
+#X connect 6 0 4 0;
+#X connect 7 0 5 0;
+#X restore 376 -400 pd clicks;
+#X text -115 -80 clear current data memory (not file \, but be CAREFUL)
+;
+#X text -120 -22 write the content of textfile object inda file;
+#X obj -124 121 cnv 15 500 130 empty empty rows→file 20 12 0 14 -233017
+-66577 0;
+#X obj -118 185 textfile;
+#X obj -118 161 r txt;
+#N canvas 621 280 659 427 subjectCALC 0;
+#X msg -13 292 set \$1;
+#X msg -13 355 102;
+#X msg 69 305 \; scrollfile 0;
+#X obj 22 407 s subjectID;
+#X obj 22 381 + 1;
+#X obj -13 381 f;
+#X obj -13 269 inlet;
+#X obj 69 271 inlet;
+#X obj -87 169 metro 1;
+#X msg -86 51 read results/tasks.txt \, rewind \; scrollfile 1;
+#X obj -87 145 r scrollfile;
+#X obj -86 27 loadbang;
+#X msg -87 191 \; txt bang;
+#X obj -86 101 s txt;
+#X text 12 354 last subject n°;
+#X text 187 28 1- when the patch load \, open the file and put reading
+index on the beginning;
+#X text 19 269 1;
+#X text 100 272 2;
+#X obj -85 269 r nextsubj;
+#X text 54 380 basic counter;
+#X text 193 267 3- receive ID of last subject and start counting from
+there every time is sent bang to "nextsubj";
+#X text 191 141 2- when the file is open \, scroll every line and send
+sbj n° to counter;
+#X text 192 5 THIS PATCH CALCULATE CURRENT SUBJECT;
+#X connect 0 0 1 0;
+#X connect 1 0 5 0;
+#X connect 4 0 5 1;
+#X connect 4 0 3 0;
+#X connect 5 0 4 0;
+#X connect 6 0 0 0;
+#X connect 7 0 1 0;
+#X connect 7 0 2 0;
+#X connect 8 0 12 0;
+#X connect 9 0 13 0;
+#X connect 10 0 8 0;
+#X connect 11 0 9 0;
+#X connect 18 0 5 0;
+#X restore -118 220 pd subjectCALC;
+#X text -21 149 FILE WRITING: this object should receive the values
+from the tracking of the actions performed with the app and write them
+in a .txt file called "tasks.txt" in the '/result' folder. all values
+are collected as rows in the memory of the "textfile" object until
+the write command is sent. the rows end with a semicolon.;
+#X obj 473 -427 cnv 15 190 130 empty empty timer_(manual) 20 12 0 14
+-261682 -66577 0;
+#X obj 489 -395 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 579 -395 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 489 -320 5 0 0 0 - - -;
+#X text 505 -396 Start/Pause;
+#X text 597 -396 Reset;
+#N canvas 765 257 450 300 timermanual 0;
+#X obj -22871 -358 + 1;
+#X floatatom -22902 -272 5 0 0 0 - - -;
+#X obj -22901 -358 f;
+#X msg -22844 -379 0;
+#X floatatom -22900 -336 5 0 0 0 - - -;
+#X obj -22901 -315 / 1000;
+#X obj -22902 -293 int;
+#X obj -22899 -398 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1
+-1 0 1;
+#X obj -22900 -378 metro 1;
+#X obj -22901 -252 outlet;
+#X obj -22899 -420 inlet;
+#X obj -22811 -419 inlet;
+#X connect 0 0 2 1;
+#X connect 1 0 9 0;
+#X connect 2 0 0 0;
+#X connect 2 0 4 0;
+#X connect 3 0 2 0;
+#X connect 4 0 5 0;
+#X connect 5 0 6 0;
+#X connect 6 0 1 0;
+#X connect 7 0 8 0;
+#X connect 8 0 2 0;
+#X connect 10 0 7 0;
+#X connect 11 0 3 0;
+#X restore 489 -376 pd timermanual;
+#X obj 13 -217 pack f f f f f;
+#X connect 5 0 20 0;
+#X connect 7 0 12 0;
+#X connect 11 0 19 0;
+#X connect 12 0 44 0;
+#X connect 13 0 44 1;
+#X connect 14 0 44 2;
+#X connect 15 0 12 1;
+#X connect 16 0 44 3;
+#X connect 18 0 15 0;
+#X connect 22 0 21 0;
+#X connect 23 0 24 0;
+#X connect 25 0 13 0;
+#X connect 26 0 25 0;
+#X connect 27 0 25 1;
+#X connect 28 0 14 0;
+#X connect 29 0 16 0;
+#X connect 33 0 35 0;
+#X connect 33 1 35 1;
+#X connect 34 0 33 0;
+#X connect 38 0 43 0;
+#X connect 39 0 43 1;
+#X connect 40 0 44 4;
+#X connect 43 0 40 0;
+#X connect 44 0 5 0;
+#X connect 44 0 6 0;
+#X restore 267 -31 pd test;
+#N canvas 595 87 769 686 questionnaire 0;
+#X text 18 12 USER INFORMATIONS;
+#X floatatom 24 58 5 0 0 0 - - age;
+#X obj 24 110 vradio 15 1 0 2 deafness empty empty 0 -8 0 10 -204800
+-1 -1 0;
+#X obj 24 176 vradio 15 1 0 2 app_user empty empty 0 -8 0 10 -204800
+-1 -1 0;
+#X obj 24 242 hradio 15 1 0 7 tech_exp empty empty 0 -8 0 10 -204800
+-1 -1 0;
+#X obj 24 293 vradio 15 1 0 2 myo_usr empty empty 0 -8 0 10 -204800
+-1 -1 0;
+#X obj 24 359 vradio 15 1 0 2 job empty empty 0 -8 0 10 -204800 -1
+-1 0;
+#X text 404 9 ANSWER TO THESE SIMPLE QUESTIONS:;
+#X obj 410 65 tgl 15 0 s1 empty empty 17 7 0 10 -204800 -1 -1 0 1;
+#X obj 410 85 tgl 15 0 s2 empty empty 17 7 0 10 -204800 -1 -1 0 1;
+#X obj 410 105 tgl 15 0 s3 empty empty 17 7 0 10 -204800 -1 -1 0 1
+;
+#X obj 410 125 tgl 15 0 s4 empty empty 17 7 0 10 -204800 -1 -1 0 1
+;
+#X obj 410 145 tgl 15 0 s5 empty empty 17 7 0 10 -204800 -1 -1 0 1
+;
+#X obj 410 165 tgl 15 0 s6 empty empty 17 7 0 10 -204800 -1 -1 0 1
+;
+#X obj 410 185 tgl 15 0 s7 empty empty 17 7 0 10 -204800 -1 -1 0 1
+;
+#X text 435 64 Office;
+#X text 435 84 Public transport;
+#X text 435 104 While driving;
+#X text 435 124 With relatives;
+#X text 435 144 With friends;
+#X text 435 163 Work dinner or dating (when you want to be elegant)
+;
+#X text 435 182 Silent environment (i.e. library or cinema);
+#X text 43 123 Yes;
+#X text 46 189 Yes;
+#X text 45 306 Yes;
+#X text 43 373 Yes;
+#X text 44 357 No;
+#X text 44 292 No;
+#X text 46 174 No;
+#X text 45 106 No;
+#X obj 407 246 hradio 15 1 0 7 myo_easy empty empty 0 -8 0 10 -204800
+-1 -1 0;
+#X obj 407 291 hradio 15 1 0 7 myo_discreet empty empty 0 -8 0 10 -204800
+-1 -1 0;
+#X obj 407 350 hradio 15 1 0 7 pho_easy empty empty 0 -8 0 10 -204800
+-1 -1 0;
+#X obj 407 395 hradio 15 1 0 7 pho_discreet empty empty 0 -8 0 10 -204800
+-1 -1 0;
+#X obj 405 483 bng 15 250 50 0 empty empty send_comment 17 7 0 10 -4032
+-1 -1;
+#X obj 405 508 entry 358 145 grey70 black;
+#X obj 23 407 bng 15 250 50 0 empty empty send_infos 17 7 0 10 -4032
+-1 -1;
+#N canvas 632 289 450 300 receive_infos 0;
+#X obj 59 36 r age;
+#X obj 100 36 r deafness;
+#X obj 239 36 r tech_exp;
+#X obj 309 36 r myo_usr;
+#X obj 370 36 r job;
+#X obj 66 77 r s1;
+#X obj 262 77 r s7;
+#X obj 230 77 r s6;
+#X obj 197 77 r s5;
+#X obj 163 77 r s4;
+#X obj 131 77 r s3;
+#X obj 99 77 r s2;
+#X obj 66 110 r myo_easy;
+#X obj 137 110 r myo_discreet;
+#X obj 303 110 r pho_discreet;
+#X obj 232 110 r pho_easy;
+#X obj 46 8 r subjectID;
+#X obj 170 36 r app_user;
+#X obj 31 100 f;
+#X obj 46 150 pack f f f f f f f f f f f f f f f f f f;
+#X obj 103 230 textfile;
+#X msg 132 198 write results/usr_infos.txt;
+#X obj 46 173 prepend add;
+#X obj 6 9 inlet;
+#X text 11 253 this patch receive the data from the questionnaire and
+write it in file 'results/infos.txt';
+#X obj 132 174 r writefile;
+#X connect 0 0 19 1;
+#X connect 1 0 19 2;
+#X connect 2 0 19 4;
+#X connect 3 0 19 5;
+#X connect 4 0 19 6;
+#X connect 5 0 19 7;
+#X connect 6 0 19 13;
+#X connect 7 0 19 12;
+#X connect 8 0 19 11;
+#X connect 9 0 19 10;
+#X connect 10 0 19 9;
+#X connect 11 0 19 8;
+#X connect 12 0 19 14;
+#X connect 13 0 19 15;
+#X connect 14 0 19 17;
+#X connect 15 0 19 16;
+#X connect 16 0 18 1;
+#X connect 17 0 19 3;
+#X connect 18 0 19 0;
+#X connect 19 0 22 0;
+#X connect 21 0 20 0;
+#X connect 22 0 20 0;
+#X connect 23 0 18 0;
+#X connect 25 0 21 0;
+#X restore 23 433 pd receive_infos;
+#N canvas 910 92 450 300 comments 0;
+#X obj 62 66 list trim;
+#X msg 139 62 write results/comments.txt;
+#X obj 62 88 prepend add;
+#X msg 150 81 clear;
+#X obj 62 40 t l b;
+#X msg 10 57 clear;
+#X obj 139 109 textfile;
+#X obj 62 15 inlet;
+#X obj 10 84 outlet;
+#X obj 139 35 r writefile;
+#X connect 0 0 2 0;
+#X connect 1 0 6 0;
+#X connect 2 0 6 0;
+#X connect 3 0 6 0;
+#X connect 4 0 0 0;
+#X connect 4 1 5 0;
+#X connect 5 0 8 0;
+#X connect 7 0 4 0;
+#X connect 9 0 1 0;
+#X restore 405 661 pd comments;
+#X text 24 32 1- Age;
+#X text 24 84 2- Do you use an hearing aid?;
+#X text 24 150 3- If yes \, have you ever used the Oticon app before?
+;
+#X text 24 216 4- Rate your experience with technology;
+#X text 24 267 5- Have you ever used the Myo before?;
+#X text 24 333 6- Do you work in the field of hearing aids?;
+#X text 405 32 7- Would you use it in the following situations?;
+#X text 407 220 8- How much do you find the MYO easy to use?;
+#X text 406 266 9- How much do you find it discreet?;
+#X text 407 324 10- How much do you find the SMARTPHONE easy to use?
+;
+#X text 407 371 11- How much do you find it discreet?;
+#X text 405 443 12- Would you like to give feedback on your experience?
+(comments and critics are well accepted);
+#X msg 352 481 clear;
+#X obj 23 483 s writefile;
+#X obj 23 461 bng 15 250 50 0 empty empty save_files 17 7 0 10 -260097
+-1 -1;
+#X text 28 240 1;
+#X text 42 240 2;
+#X text 58 240 3;
+#X text 73 240 4;
+#X text 88 240 5;
+#X text 103 240 6;
+#X text 118 240 7;
+#X text 411 244 1;
+#X text 425 244 2;
+#X text 441 244 3;
+#X text 456 244 4;
+#X text 471 244 5;
+#X text 486 244 6;
+#X text 501 244 7;
+#X text 411 289 1;
+#X text 425 289 2;
+#X text 441 289 3;
+#X text 456 289 4;
+#X text 471 289 5;
+#X text 486 289 6;
+#X text 501 289 7;
+#X text 411 348 1;
+#X text 425 348 2;
+#X text 441 348 3;
+#X text 456 348 4;
+#X text 471 348 5;
+#X text 486 348 6;
+#X text 501 348 7;
+#X text 410 393 1;
+#X text 424 393 2;
+#X text 440 393 3;
+#X text 455 393 4;
+#X text 470 393 5;
+#X text 485 393 6;
+#X text 500 393 7;
+#X connect 34 0 35 0;
+#X connect 35 0 38 0;
+#X connect 36 0 37 0;
+#X connect 38 0 35 0;
+#X connect 51 0 35 0;
+#X connect 53 0 52 0;
+#X restore 268 -58 pd questionnaire;
+#X text -31 -34;
+#X connect 3 0 2 0;
+#X connect 5 0 4 0;
+#X connect 8 0 9 0;
+#X connect 14 0 13 0;
+#X connect 14 1 13 1;
+#X connect 18 0 17 0;
+#X connect 19 0 18 0;
+#X connect 20 0 14 0;
+#X connect 29 0 14 1;

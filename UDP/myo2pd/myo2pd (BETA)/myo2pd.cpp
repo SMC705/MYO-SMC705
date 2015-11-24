@@ -278,8 +278,6 @@ int main() {
         //==========================================================================
         // WHILE LOOP
         
-        char * buffer = new char[bufferLength];     // NOTE: allocate memory here or inside the loop????
-        
         // Variables for haptic feedback.
         int samePoseTh = 15;    // if the same position is obtained for more then samePoseTh measures, then a vibration is sent.
         int samePoseTh2 = 5;    // this threshold is used to avoid noise in recognizing a command (fx: a fist can be recognized erroneously.
@@ -288,6 +286,7 @@ int main() {
         
         int sameVolTh = 15;
         int sameVol = 0;
+        int previousVol = 0;
 
         // Variables for source selection
         int src = 0;
@@ -297,6 +296,9 @@ int main() {
         
         // Enter a main loop that print position, pose and state of the Myo for every iteration.
         while(1) {
+            
+            char * buffer = new char[bufferLength];     // NOTE: allocate memory here or outside the loop????
+            
             // The function hub.run(duration) runs the event loop for the specified duration (ms).
             // Need to change the output rate? DO IT HERE!
             hub.run(1000/20);
@@ -359,6 +361,16 @@ int main() {
                 }
                 
                 else sameVol = 0;
+                
+                // Haptic feedback on middle volume
+                if ( previousVol < 64 && collector.roll_vol >= 64 ) {
+                    myo->notifyUserAction();
+                }
+                else if ( previousVol >= 64 && collector.roll_vol < 64 ) {
+                    myo->notifyUserAction();
+                }
+                
+                previousVol = collector.roll_vol;
                 
             }
    
@@ -446,10 +458,11 @@ int main() {
                 nBytes = bufferLength;
                 sendto(clientSocket,buffer,nBytes,0,(struct sockaddr *)&serverAddr,addr_size);
             }
+            
+    delete[] buffer;
 
         }
         
-        delete[] buffer;
     }
 
 // If a standard exception occurred, we print out its message and exit.

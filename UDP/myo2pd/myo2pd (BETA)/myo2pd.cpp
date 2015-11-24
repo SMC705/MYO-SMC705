@@ -24,7 +24,7 @@ using namespace std;
 const int minAngle = -100;
 const int maxAngle = 9;
 // Number of audio sources
-const int srcNum = 5;
+const int srcNum = 6;
 // Single source rotation range
 const int srcRange = 30;
 // Total source rotation range

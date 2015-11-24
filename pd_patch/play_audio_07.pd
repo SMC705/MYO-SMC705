@@ -9,7 +9,7 @@
 -1 -1;
 #X msg -185 -299 \; pd dsp \$1;
 #X obj -185 -324 tgl 15 0 empty empty empty 17 7 0 10 -204786 -1 -1
-0 1;
+1 1;
 #X text -158 -326 Turn DSP On/Off;
 #X text -160 -206 Stop all audio files;
 #X obj -185 -254 bng 15 250 50 0 empty empty empty 17 7 0 10 -4034
@@ -64,7 +64,7 @@ MYO;
 #X restore 55 -99 pd osc_things;
 #X obj 61 98 s master_volume;
 #X obj 61 -37 vsl 85 128 0 1 0 0 empty empty Volume 0 -9 0 10 -204786
--258113 -4160 0 1;
+-258113 -4160 4400 1;
 #X obj 56 -74 r volume_slider;
 #X text -10 -329 This patch plays the audio from (at present) 6 different
 inputs simultaneously. To select which audio to hear \, choose a source
@@ -102,8 +102,8 @@ values.;
 #X obj 252 -894 s input_select;
 #N canvas 823 285 379 357 step_volume 0;
 #X msg 61 -805 set \$1;
-#X msg 145 -779 0.850394;
-#X msg -12 -778 0.850394;
+#X msg 145 -779 0.346457;
+#X msg -12 -778 0.346457;
 #X obj 65 -842 clip 0 1;
 #X obj 46 -891 r master_volume;
 #X obj 65 -863 r step_volume;
@@ -166,7 +166,7 @@ values of the current main volume.;
 #X obj 467 -880 bng 20 250 50 0 empty p4 P4 4 11 2 12 -228856 -128992
 -1;
 #X obj 430 -848 vradio 20 1 0 6 empty input_select empty 0 -8 0 10
--228856 -1 -1 0;
+-228856 -1 -1 5;
 #X text 408 -748 TV;
 #X text 364 -829 Microphone;
 #X text 391 -809 Music;
@@ -206,7 +206,7 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 13 0 0 0;
 #X connect 32 0 8 0;
 #X restore 55 -125 pd phone_osc;
-#N canvas 403 239 780 501 test 0;
+#N canvas 403 239 780 501 test 1;
 #X obj -296 -522 cnv 15 100 130 empty empty file_ops 20 12 0 14 -232576
 -66577 0;
 #X obj -195 -522 cnv 15 100 130 empty empty subject 20 12 0 14 -203904
@@ -293,7 +293,7 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 5 1 2 1;
 #X connect 10 0 5 0;
 #X restore 18 -476 pd timer;
-#N canvas 691 367 378 339 clicks 0;
+#N canvas 691 367 378 339 clicks 1;
 #X obj -9 -55 cnv 15 250 270 empty empty count_number_actions 20 12
 0 14 -233017 -66577 0;
 #X floatatom 131 161 5 0 0 0 - - -;
@@ -301,7 +301,6 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 -1 -1;
 #X obj 159 139 + 1;
 #X obj 131 140 f 0;
-#X obj 80 68 change;
 #X obj 48 111 r clickreset;
 #X obj 80 -29 r gestcount;
 #X obj 131 181 outlet;
@@ -311,20 +310,19 @@ the counter increase by 1 Every time the MYO unlock \, counter is reset
 #X obj 80 23 select 1.17101e+08;
 #X obj 80 -4 atoi;
 #X msg 80 46 1;
-#X obj 131 90 change;
-#X connect 1 0 8 0;
+#X obj 80 68 change 4;
+#X connect 1 0 7 0;
 #X connect 2 0 4 0;
 #X connect 3 0 4 1;
 #X connect 4 0 3 0;
 #X connect 4 0 1 0;
-#X connect 5 0 13 0;
-#X connect 6 0 4 0;
-#X connect 7 0 11 0;
-#X connect 10 0 12 0;
-#X connect 10 1 13 0;
-#X connect 11 0 10 0;
-#X connect 12 0 5 0;
-#X connect 13 0 2 0;
+#X connect 5 0 4 0;
+#X connect 6 0 10 0;
+#X connect 9 0 11 0;
+#X connect 9 1 2 0;
+#X connect 10 0 9 0;
+#X connect 11 0 12 0;
+#X connect 12 0 2 0;
 #X restore 193 -498 pd clicks;
 #X text -292 -194 write the content of textfile object inda file;
 #X obj -293 -169 cnv 15 500 130 empty empty rows→file 20 12 0 14
@@ -637,7 +635,7 @@ write it in file 'results/infos.txt';
 #X obj -198 -157 cnv 15 115 250 empty empty empty 20 12 0 14 -204800
 -66577 0;
 #X obj -186 -129 vradio 25 1 0 5 empty input_select Audio_Select 0
--8 0 10 -262144 -1 -1 0;
+-8 0 10 -262144 -1 -1 4;
 #X text -158 -127 Microphone;
 #X text -158 -105 Music;
 #X text -159 -80 Phone;

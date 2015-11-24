@@ -116,7 +116,7 @@ public:
             // the text on the screen. The Myo will vibrate through the function 'notifyUserAction()'.
 
             // I commented this out because we want only our feedback vibrations!!!
-//            myo->notifyUserAction();
+            myo->notifyUserAction();
             
         } else {
             // Tell the Myo to stay unlocked only for a short period. This allows the Myo to stay unlocked while poses
@@ -328,16 +328,18 @@ int main() {
  
  //NOTE: impossible to setup the isUnlock method in this way: the buffer will be surely overwritten by other gestures in the same iteration of the while loop.
 // It's much better to implement another buffer with the message is unlocked --->>> TALK WITH DEVID WHICH WAY HE PREFERS TO RECEIVE IT!
-            if ( collector.isUnlocked == true ) {
-                bufferLock[3] = 1;
-                sendto(clientSocket,bufferLock,bufferLength,0,(struct sockaddr *)&serverAddr,addr_size);
-            }
-
-            else if ( collector.isUnlocked == false ) {
+            if ( collector.isUnlocked == false ) {
                 bufferLock[3] = 0;
                 sendto(clientSocket,bufferLock,bufferLength,0,(struct sockaddr *)&serverAddr,addr_size);
+                outputFile << "locked";
             }
-
+            
+            else if ( collector.isUnlocked == true ) {
+                bufferLock[3] = 1;
+                sendto(clientSocket,bufferLock,bufferLength,0,(struct sockaddr *)&serverAddr,addr_size);
+                outputFile << "unlocked";
+            }
+            
             
             
             // VOLUME CONTROL
@@ -349,6 +351,8 @@ int main() {
                 buffer[2] = 'l';
                 buffer[3] = collector.roll_vol;
                 hamlet = true;
+                
+                outputFile << " vol" << collector.roll_vol;
                 
                 // Haptic feedback on min and max volume
                 if ( collector.roll_vol == 1 || collector.roll_vol == 127 ) {
@@ -392,6 +396,8 @@ int main() {
                 buffer[3] = preset;
                 hamlet = true;
                 
+                outputFile << " pst" << preset;
+                
                 // Haptic feedback and samePose reset
                 myo->vibrate(myo::Myo::vibrationShort);
                 samePose = 0;
@@ -408,6 +414,8 @@ int main() {
                 buffer[2] = 't';
                 buffer[3] = preset;
                 hamlet = true;
+                
+                outputFile << " pst" << preset;
                 
                 // Haptic feedback and samePose reset
                 myo->vibrate(myo::Myo::vibrationShort);
@@ -438,7 +446,9 @@ int main() {
                 buffer[2] = 'c';
                 buffer[3] = src;
                 hamlet = true;
-                cout << "\n" << src << endl;
+
+                outputFile << " src" << src;
+                
             }
             
             previousPoseString = poseString;

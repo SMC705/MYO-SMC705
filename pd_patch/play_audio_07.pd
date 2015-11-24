@@ -1,4 +1,4 @@
-#N canvas 171 196 650 572 10;
+#N canvas 168 173 650 572 10;
 #X declare -lib mrpeach;
 #X obj 130 -255 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
 -66577 0;
@@ -497,7 +497,7 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X restore -59 170 pd Audio Players;
 #X obj 261 -36 cnv 15 110 290 empty empty empty 20 12 0 14 -261682
 -66577 0;
-#N canvas 685 219 676 533 osc_things 0;
+#N canvas 682 224 676 533 osc_things 0;
 #X msg -987 -139 47 \$1 \$2 \$3 0 0 0 0 44 105 0 0 0 0 0 \$4;
 #X obj -987 -113 unpackOSC;
 #X obj -987 -166 udpreceive 7890;
@@ -509,7 +509,7 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X obj -903 51 s volume_slider;
 #X obj -862 -31 - 1;
 #X obj -903 -85 routeOSC /vol /src /pst /ulk;
-#X obj -767 -57 s unlocked;
+#X obj -712 -35 s unlocked;
 #X text -977 211 udpreceive receives 4 ASCII values from C++ via port
 7890 (in this case) OSC values are formatted in groups of four so that
 unpackOSC can read and translate from 'ASCII list' to values that Pd
@@ -525,6 +525,7 @@ MYO;
 #X msg -650 -139 \$1\$2\$3;
 #X obj -650 -118 atoi;
 #X text -654 -77 to gesture counter (N° clicks);
+#X obj -712 -57 change;
 #X connect 0 0 1 0;
 #X connect 1 0 3 0;
 #X connect 1 0 10 0;
@@ -536,10 +537,11 @@ MYO;
 #X connect 10 0 5 0;
 #X connect 10 1 15 0;
 #X connect 10 2 6 0;
-#X connect 10 3 11 0;
+#X connect 10 3 19 0;
 #X connect 15 0 9 0;
 #X connect 16 0 17 0;
 #X connect 17 0 13 0;
+#X connect 19 0 11 0;
 #X restore 267 24 pd osc_things;
 #X obj 273 221 s master_volume;
 #X obj 273 86 vsl 85 128 0 1 0 0 empty empty Volume 0 -9 0 10 -204786
@@ -694,7 +696,7 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 13 0 0 0;
 #X connect 32 0 8 0;
 #X restore 267 -2 pd phone_osc;
-#N canvas 638 82 683 686 test 1;
+#N canvas 635 87 683 686 test 0;
 #X obj -104 -83 cnv 15 100 130 empty empty file_ops 20 12 0 14 -232576
 -66577 0;
 #X obj -3 -83 cnv 15 100 130 empty empty subject 20 12 0 14 -203904

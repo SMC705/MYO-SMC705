@@ -20,8 +20,8 @@ using namespace std;
 
 
 // Minimum and maximum roll angle
-const int minAngle = 3;
-const int maxAngle = 93;
+const int minAngle = -105;
+const int maxAngle = -4;
 // Number of audio sources
 const int nSrc = 6;
 // Number of audio presets

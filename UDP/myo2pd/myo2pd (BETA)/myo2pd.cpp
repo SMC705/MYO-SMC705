@@ -21,10 +21,10 @@ using namespace std;
 
 
 // Minimum and maximum roll angle
-const int minAngle = -128;
-const int maxAngle = 5;
+const int minAngle = -60;
+const int maxAngle = 20;
 // Number of audio sources
-const int srcNum = 6;
+const int srcNum = 5;
 // Single source rotation range
 const int srcRange = 30;
 // Total source rotation range
@@ -282,7 +282,7 @@ int main() {
         
         // Variables for haptic feedback.
         int samePoseTh = 15;    // if the same position is obtained for more then samePoseTh measures, then a vibration is sent.
-        int samePoseTh2 = 5;    // this threshold is used to avoid noise in recognizing a command (fx: a fst can be recognized erroneously.
+        int samePoseTh2 = 5;    // this threshold is used to avoid noise in recognizing a command (fx: a fist can be recognized erroneously.
         int samePose = 0;       // same position index: keep trace of how many consecutive same position are measured.
         string previousPoseString = "blabla";   // previous position to be compared with each measured position (initialized "randomly" to blabla).
         
@@ -409,27 +409,16 @@ int main() {
             // NOTE: if I scroll more than one source, the myo vibrates many times as the number of sources passed with the movement.
             
             else if ( poseString.compare("fingersSpread") == 0 && samePose > samePoseTh2 ) {
-/*
-                int previousSrc = 0;
-                int sameSrc = 0;
-                int sameSrcTh = 5;
-                if ( src == previousSrc ) {
-                    sameSrc++;
-                    cout << sameSrc << endl;
-                    if ( sameSrc > sameSrcTh ) myo->vibrate(myo::Myo::vibrationShort);
-                }
-*/
+
                 // Source increment
                 if ( collector.roll_src > src * srcRange + srcThr ) {
                     src++;
-                    myo->notifyUserAction();
+                    myo->vibrate(myo::Myo::vibrationShort);
                 }
                 else if ( collector.roll_src < (src-1) * srcRange - srcThr) {
                     src--;
                     myo->vibrate(myo::Myo::vibrationShort);
                 }
-                
-//                previousSrc = src;
                 
                 buffer[0] = 's';
                 buffer[1] = 'r';

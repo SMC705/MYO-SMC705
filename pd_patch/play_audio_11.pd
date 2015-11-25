@@ -1,4 +1,4 @@
-#N canvas 280 244 570 492 10;
+#N canvas 564 63 570 492 10;
 #X declare -lib mrpeach;
 #X obj -18 -333 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
 -66577 0;
@@ -9,7 +9,7 @@
 -1 -1;
 #X msg -185 -299 \; pd dsp \$1;
 #X obj -185 -324 tgl 15 0 empty empty empty 17 7 0 10 -204786 -1 -1
-0 1;
+1 1;
 #X text -158 -326 Turn DSP On/Off;
 #X text -160 -206 Stop all audio files;
 #X obj -185 -254 bng 15 250 50 0 empty empty empty 17 7 0 10 -4034
@@ -66,7 +66,7 @@ MYO;
 #X restore 55 -97 pd osc_things;
 #X obj 57 100 s master_volume;
 #X obj 57 -35 vsl 85 128 0 1 0 0 empty empty Volume 0 -9 0 10 -204786
--258113 -4160 0 1;
+-258113 -4160 12600 1;
 #X obj 56 -72 r volume_slider;
 #X text -10 -329 This patch plays the audio from (at present) 6 different
 inputs simultaneously. To select which audio to hear \, choose a source
@@ -84,7 +84,7 @@ values.;
 #X text -49 -81 Bass Boost;
 #X text -50 -56 Treble Boost;
 #X text -49 -106 Feedback Killer;
-#N canvas 659 250 591 497 phone_osc 0;
+#N canvas 685 255 591 497 phone_osc 0;
 #X obj 15 -1060 unpackOSC;
 #X obj 15 -994 select 1;
 #X obj 74 -996 s vm;
@@ -104,8 +104,8 @@ values.;
 #X obj 252 -894 s input_select;
 #N canvas 823 285 379 357 step_volume 0;
 #X msg 61 -805 set \$1;
-#X msg 145 -779 0.826772;
-#X msg -12 -778 0.826772;
+#X msg 145 -779 0.992126;
+#X msg -12 -778 0.992126;
 #X obj 65 -842 clip 0 1;
 #X obj 46 -891 r master_volume;
 #X obj 65 -863 r step_volume;
@@ -242,7 +242,7 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 13 0 0 0;
 #X connect 32 0 8 0;
 #X restore 55 -123 pd phone_osc;
-#N canvas 573 175 775 502 test 0;
+#N canvas 573 175 775 502 test 1;
 #X obj -296 -522 cnv 15 100 130 empty empty file_ops 20 12 0 14 -232576
 -66577 0;
 #X obj -195 -522 cnv 15 100 130 empty empty subject 20 12 0 14 -203904
@@ -695,7 +695,7 @@ write it in file 'results/infos.txt';
 #X text -157 -30 TV;
 #X text -172 7 Audio Players;
 #X obj -157 65 dac~;
-#N canvas 569 174 794 594 Audio 0;
+#N canvas 323 113 794 594 Audio 0;
 #X obj -91 -447 cnv 15 370 160 empty empty empty 20 12 0 14 -257985
 -66577 0;
 #X text -86 -445 Each audio sub_patch sends a stereo signal from it's
@@ -985,13 +985,13 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X obj 116 -68 multiplex~ 1 2 3 4 5 6;
 #X obj -57 -192 r inputnum;
 #X obj 169 -123 r inputnum;
-#X obj 279 -287 cnv 15 400 190 empty empty empty 20 12 0 14 -204786
+#X obj 280 -127 cnv 15 400 190 empty empty empty 20 12 0 14 -204786
 -66577 0;
-#X floatatom 398 -247 5 0 5 0 - - -;
-#X obj 385 -223 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X floatatom 415 -87 5 0 5 0 - - -;
+#X obj 402 -63 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 356 -271 inlet;
-#X obj 287 -271 loadbang 0;
+#X obj 373 -111 inlet;
+#X obj 304 -111 loadbang 0;
 #N canvas 232 468 450 300 bass_boost 0;
 #X obj -168 -35 inlet;
 #X obj -168 13 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
@@ -1008,7 +1008,7 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X connect 3 0 4 0;
 #X connect 5 0 6 0;
 #X connect 6 0 4 0;
-#X restore 398 -128 pd bass_boost;
+#X restore 415 32 pd bass_boost;
 #N canvas 771 445 450 300 treble_boost 0;
 #X obj -486 -223 inlet;
 #X obj -486 -175 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
@@ -1025,8 +1025,8 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X connect 6 0 1 0;
 #X connect 6 0 4 0;
 #X connect 6 1 5 0;
-#X restore 416 -181 pd treble_boost;
-#X obj 398 -272 r preset_select;
+#X restore 433 -21 pd treble_boost;
+#X obj 415 -112 r preset_select;
 #N canvas 900 229 450 300 noise_reduce 0;
 #X obj -169 -1 inlet;
 #X obj -164 54 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
@@ -1050,7 +1050,7 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X connect 8 0 6 1;
 #X connect 9 0 6 1;
 #X connect 10 0 9 0;
-#X restore 409 -156 pd noise_reduce;
+#X restore 426 4 pd noise_reduce;
 #N canvas 828 310 538 458 feedback_killer 0;
 #X obj 3 -19 inlet;
 #X obj 102 -4 cnv 15 270 360 empty empty empty 20 12 0 14 -260097 -66577
@@ -1130,27 +1130,27 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X connect 31 1 30 0;
 #X connect 32 0 2 1;
 #X connect 32 0 3 1;
-#X restore 417 -206 pd feedback_killer;
-#X text 540 -207 Works with Microphone;
-#X text 510 -155 Works with Phone;
-#X text 491 -130 Works with Radio;
-#X text 518 -183 Works with TV;
+#X restore 434 -46 pd feedback_killer;
+#X text 557 -47 Works with Microphone;
+#X text 527 5 Works with Phone;
+#X text 508 30 Works with Radio;
+#X text 535 -23 Works with TV;
 #X obj 281 -449 cnv 15 400 160 empty empty empty 20 12 0 14 -4032 -66577
 0;
 #X text 294 -443 'Preset Select' receives nubers 0 to 3 When a preset
 receives it's number \, the corresponding effect is turned to 0 (by
 sending a bang);
-#X obj 280 -96 cnv 15 250 160 empty empty empty 20 12 0 14 -261234
+#X obj 223 -287 cnv 15 250 160 empty empty empty 20 12 0 14 -261234
 -66577 0;
-#X obj 404 -80 r input_select;
-#X floatatom 362 -30 5 0 5 0 - - -;
-#X obj 362 -6 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X msg 295 20 \; to_line_out 0 \, 1 500 \;;
-#X obj 362 -79 inlet;
-#X obj 383 -10 s inputnum;
-#X obj 362 -53 + 1;
-#X obj 293 -79 loadbang 0;
+#X obj 347 -271 r input_select;
+#X floatatom 305 -221 5 0 5 0 - - -;
+#X obj 305 -197 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 238 -171 \; to_line_out 0 \, 1 500 \;;
+#X obj 305 -270 inlet;
+#X obj 326 -201 s inputnum;
+#X obj 305 -244 + 1;
+#X obj 236 -270 loadbang 0;
 #X connect 3 0 20 0;
 #X connect 3 1 21 0;
 #X connect 4 0 20 1;
@@ -1178,10 +1178,10 @@ sending a bang);
 #X connect 22 0 20 0;
 #X connect 23 0 21 0;
 #X connect 25 0 26 0;
-#X connect 25 0 29 0;
-#X connect 25 0 32 0;
 #X connect 25 0 33 0;
 #X connect 25 0 30 0;
+#X connect 25 0 32 0;
+#X connect 25 0 29 0;
 #X connect 27 0 25 0;
 #X connect 28 0 25 0;
 #X connect 31 0 25 0;

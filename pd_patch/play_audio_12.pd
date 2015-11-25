@@ -1,4 +1,4 @@
-#N canvas 77 188 570 492 10;
+#N canvas 79 187 570 492 10;
 #X declare -lib mrpeach;
 #X obj -18 -333 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
 -66577 0;
@@ -18,7 +18,7 @@
 #X text -163 -254 Start all audio files;
 #X obj 49 -157 cnv 15 110 290 empty empty empty 20 12 0 14 -261682
 -66577 0;
-#N canvas 677 234 676 533 osc_things 1;
+#N canvas 674 211 676 533 osc_things 0;
 #X msg -987 -139 47 \$1 \$2 \$3 0 0 0 0 44 105 0 0 0 0 0 \$4;
 #X obj -987 -113 unpackOSC;
 #X obj -987 -166 udpreceive 7890;
@@ -47,8 +47,6 @@ MYO;
 #X text -654 -97 to gesture counter (N° clicks);
 #X obj -712 -57 change;
 #X obj -813 -34 - 1;
-#X obj -625 -43 sel 0;
-#X obj -625 -22 s addvalu;
 #X connect 0 0 1 0;
 #X connect 1 0 3 0;
 #X connect 1 0 10 0;
@@ -64,9 +62,7 @@ MYO;
 #X connect 15 0 9 0;
 #X connect 16 0 13 0;
 #X connect 18 0 11 0;
-#X connect 18 0 20 0;
 #X connect 19 0 4 0;
-#X connect 20 0 21 0;
 #X restore 55 -97 pd osc_things;
 #X obj 57 100 s master_volume;
 #X obj 57 -35 vsl 85 128 0 1 0 0 empty empty Volume 0 -9 0 10 -204786
@@ -88,7 +84,7 @@ values.;
 #X text -49 -81 Bass Boost;
 #X text -50 -56 Treble Boost;
 #X text -49 -106 Feedback Killer;
-#N canvas 685 255 591 497 phone_osc 0;
+#N canvas 682 260 591 497 phone_osc 0;
 #X obj 15 -1060 unpackOSC;
 #X obj 15 -994 select 1;
 #X obj 74 -996 s vm;
@@ -193,7 +189,7 @@ values of the current main volume.;
 installed on Tom's phone simulating the ConnectLine from Oticon. Then
 \, it shows the value received and it routes them to the main patch.
 ;
-#N canvas 191 277 327 300 countclicks 0;
+#N canvas 188 282 327 300 countclicks 0;
 #X obj -23 -251 inlet;
 #X obj -23 -226 routeOSC /volume /vmute /preset /setsource /source
 ;
@@ -246,7 +242,7 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 13 0 0 0;
 #X connect 32 0 8 0;
 #X restore 55 -123 pd phone_osc;
-#N canvas 625 87 645 502 test 1;
+#N canvas 689 85 645 502 test 1;
 #X obj -296 -522 cnv 15 100 130 empty empty file_ops 20 12 0 14 -232576
 -66577 0;
 #X obj -195 -522 cnv 15 100 130 empty empty subject 20 12 0 14 -203904
@@ -274,7 +270,7 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X obj -183 -499 bng 15 250 50 0 empty empty next_subject 17 7 0 10
 -4032 -1 -1;
 #X obj -183 -479 s nextsubj;
-#N canvas 37 197 450 300 tasks 0;
+#N canvas 34 202 450 300 tasks 0;
 #X obj -121 1 cnv 15 250 250 empty empty Task_selection 20 12 0 14
 -233017 -66577 0;
 #X obj 56 174 select 0;
@@ -294,7 +290,7 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X text -31 36 2;
 #X text -85 36 1;
 #X obj 14 225 outlet;
-#X msg -25 80 \; phoneclick_reset 0;
+#X msg -25 80 \; phoneclick_reset 0 \; newtask bang;
 #X connect 1 0 2 0;
 #X connect 3 0 16 0;
 #X connect 3 2 1 0;
@@ -310,7 +306,7 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 -1 -1;
 #X obj -32 -499 bng 15 250 50 0 empty empty next 17 7 0 10 -257985
 -1 -1;
-#N canvas 424 255 378 339 clicks 0;
+#N canvas 418 265 378 336 clicks 0;
 #X obj -9 -55 cnv 15 250 270 empty empty count_number_actions 20 12
 0 14 -233017 -66577 0;
 #X floatatom 131 161 5 0 0 0 - - -;
@@ -318,7 +314,6 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 -1 -1;
 #X obj 159 139 + 1;
 #X obj 131 140 f 0;
-#X obj 48 111 r clickreset;
 #X obj 80 -29 r gestcount;
 #X obj 131 181 outlet;
 #X text -9 221 Every new gesture (UNLOCK \, FIST \, F.SPREAD \, FIST)
@@ -327,16 +322,17 @@ the counter increase by 1 Every time the MYO unlock \, counter is reset
 #X obj 80 -4 atoi;
 #X obj 80 68 change;
 #X obj 177 160 r phoneclicks;
-#X connect 1 0 7 0;
+#X obj 48 111 r unlocked;
+#X connect 1 0 6 0;
 #X connect 2 0 4 0;
 #X connect 3 0 4 1;
 #X connect 4 0 3 0;
 #X connect 4 0 1 0;
-#X connect 5 0 4 0;
-#X connect 6 0 9 0;
-#X connect 9 0 10 0;
-#X connect 10 0 2 0;
-#X connect 11 0 7 0;
+#X connect 5 0 8 0;
+#X connect 8 0 9 0;
+#X connect 9 0 2 0;
+#X connect 10 0 6 0;
+#X connect 11 0 4 0;
 #X restore 12 -498 pd clicks;
 #X text -292 -194 write the content of textfile object inda file;
 #X obj -293 -169 cnv 15 500 130 empty empty rows→file 20 12 0 14
@@ -402,32 +398,32 @@ the write command is sent. the rows end with a semicolon.;
 #X floatatom 112 -414 5 0 0 0 - - -;
 #X text 128 -490 Start/Pause;
 #X text 220 -490 Reset;
-#N canvas 762 262 450 300 timermanual 0;
-#X obj -22871 -358 + 1;
-#X floatatom -22902 -272 5 0 0 0 - - -;
-#X obj -22901 -358 f;
-#X msg -22844 -379 0;
-#X floatatom -22900 -336 5 0 0 0 - - -;
-#X obj -22901 -315 / 1000;
-#X obj -22902 -293 int;
+#N canvas 741 297 450 300 timermanual 0;
+#X obj -22901 -327 f;
+#X msg -22773 -361 0;
+#X floatatom -22900 -305 5 0 0 0 - - -;
 #X obj -22899 -398 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1
--1 0 1;
-#X obj -22900 -378 metro 1;
+-1 1 1;
+#X obj -22900 -360 metro 1;
 #X obj -22901 -252 outlet;
 #X obj -22899 -420 inlet;
-#X obj -22811 -419 inlet;
-#X connect 0 0 2 1;
-#X connect 1 0 9 0;
-#X connect 2 0 0 0;
-#X connect 2 0 4 0;
-#X connect 3 0 2 0;
-#X connect 4 0 5 0;
-#X connect 5 0 6 0;
-#X connect 6 0 1 0;
-#X connect 7 0 8 0;
-#X connect 8 0 2 0;
-#X connect 10 0 7 0;
-#X connect 11 0 3 0;
+#X obj -22772 -401 inlet;
+#X obj -22901 -284 / 10;
+#X obj -22871 -327 + 0.01;
+#X obj -22728 -400 r newtask;
+#X obj -22873 -386 s if_addvalues;
+#X connect 0 0 2 0;
+#X connect 0 0 9 0;
+#X connect 1 0 0 0;
+#X connect 2 0 8 0;
+#X connect 3 0 4 0;
+#X connect 3 0 11 0;
+#X connect 4 0 0 0;
+#X connect 6 0 3 0;
+#X connect 7 0 1 0;
+#X connect 8 0 5 0;
+#X connect 9 0 0 1;
+#X connect 10 0 1 0;
 #X restore 112 -470 pd timermanual;
 #X obj 61 -375 select 0;
 #X msg 61 -351 myo;
@@ -438,16 +434,26 @@ the write command is sent. the rows end with a semicolon.;
 -1 -1 0;
 #X text 307 -466 MYO;
 #X text 306 -453 phone;
-#X obj -289 -496 r addvalu;
 #X obj 61 -326 symbol;
 #X obj -159 -311 pack f f f f s;
+#N canvas 264 299 450 300 addvalues 0;
+#X obj 133 119 outlet;
+#X obj 58 37 r unlocked;
+#X obj 167 69 r if_addvalues;
+#X obj 134 96 spigot;
+#X obj 58 69 sel 0;
+#X connect 1 0 4 0;
+#X connect 2 0 3 1;
+#X connect 3 0 0 0;
+#X connect 4 0 3 0;
+#X restore -292 -499 pd addvalues;
 #X connect 4 0 17 0;
 #X connect 6 0 10 0;
 #X connect 9 0 16 0;
-#X connect 10 0 46 0;
-#X connect 11 0 46 1;
+#X connect 10 0 45 0;
+#X connect 11 0 45 1;
 #X connect 12 0 10 1;
-#X connect 13 0 46 2;
+#X connect 13 0 45 2;
 #X connect 15 0 12 0;
 #X connect 18 0 19 0;
 #X connect 20 0 11 0;
@@ -459,17 +465,17 @@ the write command is sent. the rows end with a semicolon.;
 #X connect 27 0 26 0;
 #X connect 31 0 36 0;
 #X connect 32 0 36 1;
-#X connect 33 0 46 3;
+#X connect 33 0 45 3;
 #X connect 36 0 33 0;
 #X connect 37 0 38 0;
 #X connect 37 1 39 0;
-#X connect 38 0 45 0;
-#X connect 39 0 45 0;
+#X connect 38 0 44 0;
+#X connect 39 0 44 0;
 #X connect 41 0 37 0;
-#X connect 44 0 6 0;
-#X connect 45 0 46 4;
-#X connect 46 0 4 0;
-#X connect 46 0 5 0;
+#X connect 44 0 45 4;
+#X connect 45 0 4 0;
+#X connect 45 0 5 0;
+#X connect 46 0 6 0;
 #X restore 55 -152 pd test;
 #N canvas 580 82 769 686 questionnaire 0;
 #X text 18 12 USER INFORMATIONS;

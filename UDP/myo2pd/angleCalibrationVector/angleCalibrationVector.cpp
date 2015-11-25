@@ -233,8 +233,8 @@ int main() {
         
         // A threshold value is added from the minimum and removed from the maximum in order to reduce the range: some users may exagerate the rotation during calibration.
         myo->vibrate(myo::Myo::vibrationShort);
-        cout << "The minimum angle is: " << angles.front() + 10 << endl;
-        cout << "The maximum angle is: " << angles.back() - 10 << endl;
+        cout << "The minimum angle is: " << angles.front() + 20 << endl;
+        cout << "The maximum angle is: " << angles.back() - 20 << endl;
     
   }
     // If a standard exception occurred, we print out its message and exit.

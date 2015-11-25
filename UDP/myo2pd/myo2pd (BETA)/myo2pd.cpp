@@ -3,6 +3,7 @@
 #include <cmath>
 #include <iostream>
 #include <fstream>
+#include <ctime>
 #include <iomanip>
 #include <stdexcept>
 #include <string>
@@ -22,20 +23,20 @@ using namespace std;
 // User ID
 const int userID = 1;
 // Minimum and maximum roll angle
-const int minAngle = -100;
-const int maxAngle = 9;
+const int minAngle = -91;
+const int maxAngle = 21;
 // Filename to record user's actions
 const string fileName = "/Users/Paolo/Documents/AAU/2015-2016/MYO-test" + to_string(userID) + ".txt";
 // Number of audio sources
-const int srcNum = 6;
-// Single source rotation range
-const int srcRange = 30;
-// Total source rotation range
-const int srcTotRange = srcRange * srcNum;
-// Source selection threshold
-const int srcThr = 5;
+const int srcNum = 5;
 // Number of audio presets
-const int presetNum = 3;
+const int presetNum = 4;
+// Single source rotation range
+const int presetRange = 30;
+// Total source rotation range
+const int presetTotRange = presetRange * presetNum;
+// Source selection threshold
+const int presetThr = 10;
 
 // UDP connection settings (set ipAddress to 127.0.0.1 for local communication, 10.42.0.1 for Devid computer communication)
 const int portNum = 7890;
@@ -48,7 +49,7 @@ const int bufferLength = 4;
 class DataCollector : public myo::DeviceListener {
 public:
     // Class constructor
-    DataCollector() : onArm(false), isUnlocked(false), roll_vol(0), roll_src(0), currentPose()
+    DataCollector() : onArm(false), isUnlocked(false), roll_vol(0), roll_pst(0), currentPose()
     {
     }
     
@@ -60,7 +61,7 @@ public:
         // We've lost a Myo.
         // Let's clean up some leftover state.
         roll_vol = 0;
-        roll_src = 0;
+        roll_pst = 0;
         onArm = false;
         isUnlocked = false;
     }
@@ -94,9 +95,9 @@ public:
         
         // We define an angle format for the source control here.
         // The range [0, π] is divided into a number of equal ranges, as the number of sources srcNum.
-        roll_src = static_cast<int>( ( ( roll * 180/M_PI) - minAngle ) * srcTotRange/fabs(maxAngle-minAngle) );
-        if ( roll_src < 1 ) roll_src = 1;
-        else if ( roll_src > srcTotRange ) roll_src = srcTotRange;
+        roll_pst = static_cast<int>( ( ( roll * 180/M_PI) - minAngle ) * presetTotRange/fabs(maxAngle-minAngle) );
+        if ( roll_pst < 1 ) roll_pst = 1;
+        else if ( roll_pst > presetTotRange ) roll_pst = presetTotRange;
     }
     
     
@@ -179,7 +180,7 @@ public:
             if ( poseString.compare("fist") == 0 )
                 cout << roll_vol;
             else if ( poseString.compare("fingersSpread") == 0 )
-                cout << roll_src;
+                cout << roll_pst;
             else if ( poseString.compare("waveIn") == 0 )
                 cout << 1;
             else if ( poseString.compare("waveOut") == 0 )
@@ -202,7 +203,7 @@ public:
     bool isUnlocked;
     
     // These values are set by onOrientationData() and onPose() above.
-    float roll_vol, roll_src;
+    float roll_vol, roll_pst;
     myo::Pose currentPose;
 };
 
@@ -294,12 +295,14 @@ int main() {
         int src = 0;
         
         // Variables for presets.
-        int preset = 0;         // Current preset (initialized to zero)
+        int preset = 1;         // Current preset (initialized to zero)
         
+        // Variables for lock/unlock information
         char bufferLock[bufferLength];
         bufferLock[0] = 'u';
         bufferLock[1] = 'l';
         bufferLock[2] = 'k';
+        bool previousUnlock = false;
         
         // Enter a main loop that print position, pose and state of the Myo for every iteration.
         while(1) {
@@ -331,16 +334,23 @@ int main() {
  
  //NOTE: impossible to setup the isUnlock method in this way: the buffer will be surely overwritten by other gestures in the same iteration of the while loop.
 // It's much better to implement another buffer with the message is unlocked --->>> TALK WITH DEVID WHICH WAY HE PREFERS TO RECEIVE IT!
+            
             if ( collector.isUnlocked == false ) {
-                bufferLock[3] = 0;
-                sendto(clientSocket,bufferLock,bufferLength,0,(struct sockaddr *)&serverAddr,addr_size);
                 outputFile << "locked";
+                if ( previousUnlock == true ) {
+                    bufferLock[3] = 0;
+                    sendto(clientSocket,bufferLock,bufferLength,0,(struct sockaddr *)&serverAddr,addr_size);
+                    previousUnlock = false;
+                }
             }
             
             else if ( collector.isUnlocked == true ) {
-                bufferLock[3] = 1;
-                sendto(clientSocket,bufferLock,bufferLength,0,(struct sockaddr *)&serverAddr,addr_size);
                 outputFile << "unlocked";
+                if ( previousUnlock == false ) {
+                    bufferLock[3] = 1;
+                    sendto(clientSocket,bufferLock,bufferLength,0,(struct sockaddr *)&serverAddr,addr_size);
+                    previousUnlock = true;
+                }
             }
             
             
@@ -384,73 +394,73 @@ int main() {
    
 
             
-            // PRESET SELECTION
-            // ----------------
-
-            // Presets increment
-            else if ( poseString == "waveOut" && samePose == samePoseTh ) {
-                preset++;
-                if ( preset > presetNum ) preset = 0;
-                
-                // Fill buffer array with the preset number.
-                buffer[0] = 'p';
-                buffer[1] = 's';
-                buffer[2] = 't';
-                buffer[3] = preset;
-                hamlet = true;
-                
-                outputFile << " pst" << preset;
-                
-                // Haptic feedback and samePose reset
-                myo->vibrate(myo::Myo::vibrationShort);
-                samePose = 0;
-            }
-            
-            // Presets decrement
-            else if ( poseString == "waveIn" && samePose == samePoseTh ) {
-                preset--;
-                if ( preset < 0 ) preset = presetNum;
-                
-                // Fill buffer array with the preset number.
-                buffer[0] = 'p';
-                buffer[1] = 's';
-                buffer[2] = 't';
-                buffer[3] = preset;
-                hamlet = true;
-                
-                outputFile << " pst" << preset;
-                
-                // Haptic feedback and samePose reset
-                myo->vibrate(myo::Myo::vibrationShort);
-                samePose = 0;
-            }
-            
-            
-
             // SOURCE SELECTION
             // ----------------
-            
-            // NOTE: if I scroll more than one source, the myo vibrates many times as the number of sources passed with the movement.
-            
-            else if ( poseString.compare("fingersSpread") == 0 && samePose > samePoseTh2 ) {
 
-                // Source increment
-                if ( collector.roll_src > src * srcRange + srcThr ) {
-                    src++;
-                    myo->vibrate(myo::Myo::vibrationShort);
-                }
-                else if ( collector.roll_src < (src-1) * srcRange - srcThr) {
-                    src--;
-                    myo->vibrate(myo::Myo::vibrationShort);
-                }
+            // Source increment
+            else if ( poseString == "waveOut" && samePose == samePoseTh ) {
+                src++;
+                if ( src > srcNum ) src = 1;
                 
+                // Fill buffer array with the preset number.
                 buffer[0] = 's';
                 buffer[1] = 'r';
                 buffer[2] = 'c';
                 buffer[3] = src;
                 hamlet = true;
-
+                
                 outputFile << " src" << src;
+                
+                // Haptic feedback and samePose reset
+                myo->vibrate(myo::Myo::vibrationShort);
+                samePose = 0;
+            }
+            
+            // Source decrement
+            else if ( poseString == "waveIn" && samePose == samePoseTh ) {
+                src--;
+                if ( src < 1 ) src = srcNum;
+                
+                // Fill buffer array with the preset number.
+                buffer[0] = 's';
+                buffer[1] = 'r';
+                buffer[2] = 'c';
+                buffer[3] = src;
+                hamlet = true;
+                
+                outputFile << " src" << src;
+                
+                // Haptic feedback and samePose reset
+                myo->vibrate(myo::Myo::vibrationShort);
+                samePose = 0;
+            }
+            
+            
+
+            // PRESET SELECTION
+            // ----------------
+            
+            // NOTE to be fixed: if I scroll more than one source, the myo vibrates many times as the number of sources passed with the movement.
+            
+            else if ( poseString.compare("fingersSpread") == 0 && samePose > samePoseTh2 ) {
+
+                // Preset increment
+                if ( collector.roll_pst > preset * presetRange + presetThr ) {
+                    preset++;
+                    myo->notifyUserAction();
+                }
+                else if ( collector.roll_pst < (preset-1) * presetRange - presetThr) {
+                    preset--;
+                    myo->notifyUserAction();
+                }
+                
+                buffer[0] = 'p';
+                buffer[1] = 's';
+                buffer[2] = 't';
+                buffer[3] = preset;
+                hamlet = true;
+
+                outputFile << " pst" << preset;
                 
             }
             

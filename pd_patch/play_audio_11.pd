@@ -1,4 +1,4 @@
-#N canvas 77 188 570 492 10;
+#N canvas 80 183 570 492 10;
 #X declare -lib mrpeach;
 #X obj -18 -333 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
 -66577 0;
@@ -9,7 +9,7 @@
 -1 -1;
 #X msg -185 -299 \; pd dsp \$1;
 #X obj -185 -324 tgl 15 0 empty empty empty 17 7 0 10 -204786 -1 -1
-0 1;
+1 1;
 #X text -158 -326 Turn DSP On/Off;
 #X text -160 -206 Stop all audio files;
 #X obj -185 -254 bng 15 250 50 0 empty empty empty 17 7 0 10 -4034
@@ -18,7 +18,7 @@
 #X text -163 -254 Start all audio files;
 #X obj 49 -157 cnv 15 110 290 empty empty empty 20 12 0 14 -261682
 -66577 0;
-#N canvas 677 234 676 533 osc_things 1;
+#N canvas 680 229 676 533 osc_things 0;
 #X msg -987 -139 47 \$1 \$2 \$3 0 0 0 0 44 105 0 0 0 0 0 \$4;
 #X obj -987 -113 unpackOSC;
 #X obj -987 -166 udpreceive 7890;
@@ -48,7 +48,7 @@ MYO;
 #X obj -712 -57 change;
 #X obj -813 -34 - 1;
 #X obj -625 -43 sel 0;
-#X obj -625 -22 s addvalu;
+#X obj -624 -18 s addvalu;
 #X connect 0 0 1 0;
 #X connect 1 0 3 0;
 #X connect 1 0 10 0;
@@ -70,7 +70,7 @@ MYO;
 #X restore 55 -97 pd osc_things;
 #X obj 57 100 s master_volume;
 #X obj 57 -35 vsl 85 128 0 1 0 0 empty empty Volume 0 -9 0 10 -204786
--258113 -4160 0 1;
+-258113 -4160 5700 1;
 #X obj 56 -72 r volume_slider;
 #X text -10 -329 This patch plays the audio from (at present) 6 different
 inputs simultaneously. To select which audio to hear \, choose a source
@@ -108,8 +108,8 @@ values.;
 #X obj 252 -894 s input_select;
 #N canvas 823 285 379 357 step_volume 0;
 #X msg 61 -805 set \$1;
-#X msg 145 -779 0.622047;
-#X msg -12 -778 0.622047;
+#X msg 145 -779 0.448819;
+#X msg -12 -778 0.448819;
 #X obj 65 -842 clip 0 1;
 #X obj 46 -891 r master_volume;
 #X obj 65 -863 r step_volume;
@@ -172,7 +172,7 @@ values of the current main volume.;
 #X obj 467 -880 bng 20 250 50 0 empty p4 P4 4 11 2 12 -228856 -128992
 -1;
 #X obj 430 -848 vradio 20 1 0 6 empty input_select empty 0 -8 0 10
--228856 -1 -1 0;
+-228856 -1 -1 2;
 #X text 408 -748 TV;
 #X text 364 -829 Microphone;
 #X text 391 -809 Music;
@@ -246,12 +246,14 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 13 0 0 0;
 #X connect 32 0 8 0;
 #X restore 55 -123 pd phone_osc;
-#N canvas 625 87 645 502 test 1;
+#N canvas 501 23 775 502 test 1;
 #X obj -296 -522 cnv 15 100 130 empty empty file_ops 20 12 0 14 -232576
 -66577 0;
 #X obj -195 -522 cnv 15 100 130 empty empty subject 20 12 0 14 -203904
 -66577 0;
-#X obj 7 -522 cnv 15 100 130 empty empty n°_clicks 20 12 0 14 -262130
+#X obj 138 -522 cnv 15 100 130 empty empty n°_clicks 20 12 0 14 -262130
+-66577 0;
+#X obj 7 -522 cnv 15 130 130 empty empty attempt_timer 20 12 0 14 -204786
 -66577 0;
 #X obj -94 -522 cnv 15 100 130 empty empty tasks 20 12 0 14 -204800
 -66577 0;
@@ -261,13 +263,15 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 -262144 -1;
 #X text -178 -436 N° subject;
 #X text -76 -437 N° task;
+#X text 23 -438 Time;
 #X obj -292 -447 bng 15 250 50 0 empty empty save_file 17 7 0 10 -258113
 -1 -1;
 #X obj -159 -333 f;
 #X floatatom -83 -419 5 0 0 0 - - -;
+#X floatatom 18 -419 5 0 0 0 - - -;
 #X floatatom -183 -419 5 0 1000 0 - - -;
-#X floatatom 12 -419 5 0 0 0 - - -;
-#X text 17 -438 Clicks;
+#X floatatom 143 -419 5 0 0 0 - - -;
+#X text 148 -438 Clicks;
 #X obj -183 -458 r subjectID;
 #X msg -292 -222 \; txt write results/tasks.txt;
 #X obj -159 -254 s txt;
@@ -310,6 +314,27 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 -1 -1;
 #X obj -32 -499 bng 15 250 50 0 empty empty next 17 7 0 10 -257985
 -1 -1;
+#N canvas 544 353 360 206 timer 0;
+#X obj -70 -55 cnv 15 350 200 empty empty timer_for_current_attempt
+20 12 0 14 -233017 -66577 0;
+#X text 53 -26 start/stop;
+#X obj 55 46 timer;
+#X floatatom 55 98 5 0 0 0 - - -;
+#X obj 55 72 / 1000;
+#X obj 55 20 select 1 0;
+#X msg -61 46 \; clickreset 0;
+#X text 93 98 Seconds the MYO stayed unlocked;
+#X text -72 79 every new UNLOCK \, reset the timer;
+#X obj 55 121 outlet;
+#X obj 55 -7 r unlocked;
+#X connect 2 0 4 0;
+#X connect 3 0 9 0;
+#X connect 4 0 3 0;
+#X connect 5 0 2 0;
+#X connect 5 0 6 0;
+#X connect 5 1 2 1;
+#X connect 10 0 5 0;
+#X restore 18 -476 pd timer;
 #N canvas 424 255 378 339 clicks 0;
 #X obj -9 -55 cnv 15 250 270 empty empty count_number_actions 20 12
 0 14 -233017 -66577 0;
@@ -337,7 +362,7 @@ the counter increase by 1 Every time the MYO unlock \, counter is reset
 #X connect 9 0 10 0;
 #X connect 10 0 2 0;
 #X connect 11 0 7 0;
-#X restore 12 -498 pd clicks;
+#X restore 143 -498 pd clicks;
 #X text -292 -194 write the content of textfile object inda file;
 #X obj -293 -169 cnv 15 500 130 empty empty rows→file 20 12 0 14
 -233017 -66577 0;
@@ -393,16 +418,16 @@ from the tracking of the actions performed with the app and write them
 in a .txt file called "tasks.txt" in the '/result' folder. all values
 are collected as rows in the memory of the "textfile" object until
 the write command is sent. the rows end with a semicolon.;
-#X obj 103 -521 cnv 15 160 130 empty empty timer_(manual) 20 12 0 14
+#X obj 234 -521 cnv 15 160 130 empty empty timer_(manual) 20 12 0 14
 -261682 -66577 0;
-#X obj 112 -489 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 243 -489 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 202 -489 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 333 -489 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X floatatom 112 -414 5 0 0 0 - - -;
-#X text 128 -490 Start/Pause;
-#X text 220 -490 Reset;
-#N canvas 762 262 450 300 timermanual 0;
+#X floatatom 243 -414 5 0 0 0 - - -;
+#X text 259 -490 Start/Pause;
+#X text 351 -490 Reset;
+#N canvas 765 257 450 300 timermanual 0;
 #X obj -22871 -358 + 1;
 #X floatatom -22902 -272 5 0 0 0 - - -;
 #X obj -22901 -358 f;
@@ -428,48 +453,54 @@ the write command is sent. the rows end with a semicolon.;
 #X connect 8 0 2 0;
 #X connect 10 0 7 0;
 #X connect 11 0 3 0;
-#X restore 112 -470 pd timermanual;
-#X obj 61 -375 select 0;
-#X msg 61 -351 myo;
-#X msg 105 -342 pho;
-#X obj 264 -521 cnv 15 80 130 empty empty device 20 12 0 14 -261234
+#X restore 243 -470 pd timermanual;
+#X obj -159 -311 pack f f f f f s;
+#X obj 192 -375 select 0;
+#X msg 192 -351 myo;
+#X msg 236 -342 pho;
+#X obj 395 -521 cnv 15 80 130 empty empty device 20 12 0 14 -261234
 -66577 0;
-#X obj 286 -464 vradio 15 1 1 2 empty empty empty 0 -8 0 10 -262144
+#X obj 417 -464 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -262144
 -1 -1 0;
-#X text 307 -466 MYO;
-#X text 306 -453 phone;
+#X text 438 -466 MYO;
+#X text 437 -453 phone;
 #X obj -289 -496 r addvalu;
-#X obj 61 -326 symbol;
-#X obj -159 -311 pack f f f f s;
-#X connect 4 0 17 0;
-#X connect 6 0 10 0;
-#X connect 9 0 16 0;
-#X connect 10 0 46 0;
-#X connect 11 0 46 1;
-#X connect 12 0 10 1;
-#X connect 13 0 46 2;
-#X connect 15 0 12 0;
-#X connect 18 0 19 0;
-#X connect 20 0 11 0;
-#X connect 21 0 20 0;
-#X connect 22 0 20 1;
+#X obj 192 -326 symbol;
+#X obj -280 -412 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg -277 -381 \; txt clear;
+#X connect 5 0 20 0;
+#X connect 7 0 12 0;
+#X connect 11 0 19 0;
+#X connect 12 0 41 0;
+#X connect 13 0 41 1;
+#X connect 14 0 41 2;
+#X connect 15 0 12 1;
+#X connect 16 0 41 3;
+#X connect 18 0 15 0;
+#X connect 21 0 22 0;
 #X connect 23 0 13 0;
-#X connect 26 0 28 0;
-#X connect 26 1 28 1;
-#X connect 27 0 26 0;
-#X connect 31 0 36 0;
-#X connect 32 0 36 1;
-#X connect 33 0 46 3;
-#X connect 36 0 33 0;
-#X connect 37 0 38 0;
-#X connect 37 1 39 0;
-#X connect 38 0 45 0;
-#X connect 39 0 45 0;
-#X connect 41 0 37 0;
-#X connect 44 0 6 0;
-#X connect 45 0 46 4;
-#X connect 46 0 4 0;
-#X connect 46 0 5 0;
+#X connect 24 0 23 0;
+#X connect 25 0 23 1;
+#X connect 26 0 14 0;
+#X connect 27 0 16 0;
+#X connect 30 0 32 0;
+#X connect 30 1 32 1;
+#X connect 31 0 30 0;
+#X connect 35 0 40 0;
+#X connect 36 0 40 1;
+#X connect 37 0 41 4;
+#X connect 40 0 37 0;
+#X connect 41 0 5 0;
+#X connect 41 0 6 0;
+#X connect 42 0 43 0;
+#X connect 42 1 44 0;
+#X connect 43 0 50 0;
+#X connect 44 0 50 0;
+#X connect 46 0 42 0;
+#X connect 49 0 7 0;
+#X connect 50 0 41 5;
+#X connect 51 0 52 0;
 #X restore 55 -152 pd test;
 #N canvas 580 82 769 686 questionnaire 0;
 #X text 18 12 USER INFORMATIONS;
@@ -666,7 +697,7 @@ write it in file 'results/infos.txt';
 #X obj -198 -157 cnv 15 115 250 empty empty empty 20 12 0 14 -204800
 -66577 0;
 #X obj -186 -129 vradio 25 1 0 5 empty input_select Audio_Select 0
--8 0 10 -262144 -1 -1 0;
+-8 0 10 -262144 -1 -1 2;
 #X text -158 -127 Microphone;
 #X text -158 -105 Music;
 #X text -159 -80 Phone;

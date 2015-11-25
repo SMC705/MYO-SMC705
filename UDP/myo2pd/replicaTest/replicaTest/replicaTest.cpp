@@ -21,7 +21,8 @@ int main() {
     
     while ( inputFile.eof() ) {
         
-        string myString = inputFile.get();
+        string myString;
+        getline( inputFile, myString );
         cout << myString << endl;
         
     }

@@ -8,7 +8,7 @@
 #include <vector>
 #include <algorithm>
 
-// Myo library (contains all the classes related to the Myo
+// Myo library (contains all the classes related to the Myo)
 #include <myo/myo.hpp>
 
 // UDP libraries
@@ -18,12 +18,18 @@
 
 using namespace std;
 
+
+// Minimum and maximum roll angle
+const int minAngle = -105;
+const int maxAngle = -4;
 // Number of audio sources
-const int nSrc = 3;
+const int nSrc = 6;
 // Number of audio presets
 const int nPrst = 4;
 
 // UDP connection settings (set ipAddress to 127.0.0.1 for local communication, 10.42.0.1 for Devid computer communication)
+const int portNum = 7890;
+const char ipAddress[] = "127.0.0.1";
 const int bufferLength = 4;
 
 
@@ -32,7 +38,7 @@ const int bufferLength = 4;
 class DataCollector : public myo::DeviceListener {
 public:
     // Class constructor
-    DataCollector() : onArm(false), isUnlocked(false), roll_tmp(0), roll_vol(0), roll_src(0), currentPose()
+    DataCollector() : onArm(false), isUnlocked(false), roll_vol(0), roll_src(0), currentPose()
     {
     }
     
@@ -43,7 +49,6 @@ public:
     {
         // We've lost a Myo.
         // Let's clean up some leftover state.
-        roll_tmp = 0;
         roll_vol = 0;
         roll_src = 0;
         onArm = false;
@@ -52,6 +57,7 @@ public:
     
     // onOrientationData() is called whenever the Myo device provides its current orientation, which is represented as a unit quaternion.
     // This function takes the position values from the quaternion and assign new values to roll_w, pitch_w and yaw_w every time new data are provided by the Myo.
+    
     void onOrientationData(myo::Myo* myo, uint64_t timestamp, const myo::Quaternion<float>& quat)
     {
         using std::atan2;
@@ -68,8 +74,8 @@ public:
         // Need to change the format of the angle? DO IT HERE!
         
         // We define an angle format for the volume control here.
-        // It is continuous from 0 to 126.
-        roll_tmp = static_cast<int>(( -roll + (float)M_PI)/(M_PI * 2.0f) * 100);
+        // It is continuous from 1 to 127.
+        roll_vol = static_cast<int>( ( ( roll * 180/M_PI) - minAngle ) * 127/fabs(maxAngle-minAngle) );
         
         // If the angle is 0 or negative => send 1 angle (used as "volume mute" command).
         // If the angle is higher then our maximum 127 => send 127 angle (used as volume max limit).
@@ -78,10 +84,12 @@ public:
         
         // We define an angle format for the source control here.
         // The range [0, π] is divided into a number of equal ranges, as the number of sources nSrc.
-        roll_src = ((static_cast<int>(( -roll + (float)M_PI)/(M_PI * 2.0f) * 1000)) - 400) * nSrc * 100/200;
+        roll_src = static_cast<int>( ( ( roll * 180/M_PI) - minAngle ) * 127/fabs(maxAngle-minAngle) );
         if ( roll_src < 1 ) roll_src = 1;
-        else if ( roll_src > nSrc*100 ) roll_src = nSrc * 100;
+        else if ( roll_src > 127 ) roll_src = 127;
     }
+    
+    
     
     // onPose() is called whenever the Myo detects that the person wearing it has changed their pose, for example,
     // making a fist, or not making a fist anymore.
@@ -99,7 +107,10 @@ public:
             
             // Notify the Myo that the pose has resulted in an action, in this case changing
             // the text on the screen. The Myo will vibrate through the function 'notifyUserAction()'.
-            myo->notifyUserAction();
+
+            // I commented this out because we want only our feedback vibrations!!!
+//            myo->notifyUserAction();
+            
         } else {
             // Tell the Myo to stay unlocked only for a short period. This allows the Myo to stay unlocked while poses
             // are being performed, but lock after inactivity.
@@ -165,6 +176,10 @@ public:
                 cout << roll_vol;
             else if ( poseString.compare("fingersSpread") == 0 )
                 cout << roll_src;
+            else if ( poseString.compare("waveIn") == 0 )
+                cout << 1;
+            else if ( poseString.compare("waveOut") == 0 )
+                cout << 2;
         }
         
         else {
@@ -183,7 +198,7 @@ public:
     bool isUnlocked;
     
     // These values are set by onOrientationData() and onPose() above.
-    float roll_tmp, roll_vol, roll_src;
+    float roll_vol, roll_src;
     myo::Pose currentPose;
 };
 
@@ -197,7 +212,6 @@ int main() {
     
     // The following code might generate exceptions => we try to execute it and catch any resulting exception
     try {
-        
         // Create an Hub. The Hub provides access to one or more Myos.
         myo::Hub hub("com.SMC705.AAU");
         
@@ -223,59 +237,160 @@ int main() {
         // Add the DataCollector object to the Hub.
         // Note: the Hub:addListener() takes the address (&) of any object defined as myo::DeviceListener.
         hub.addListener(&collector);
-
-        // Instructions text.
-        cout << "Please follow the instructions to setup your personal rolling range for volume and sources control." << endl;
-        cout << "------------------------------------------------------------------------------------------------" << endl;
-        cout << "\n\n";
-        cout << "Please be sure to wear the Myo on your right arm and with the USB port pointing to your wrist." << endl;
-        cout << "Press enter when ready..." << endl;
-        cin.get();
+        
+        
         
         //==========================================================================
-        // ZERO ANGLE
+        // UDP CONNECTION SETTINGS
+        // need to change port number (portNum) or ip-address(ipAddress)? DO IT HERE!
         
-        cout << "Setup the zero: " << endl;
-        cout << "Make a fist and rotate your arm counter-clockwise to your zero position for five times. Press enter each time to record the position..." << endl;
-
-        int i=0;
-        double zero = 0;
-        while ( i<3 ) {
-            cout << "Attempt 1...      ";
-            if (cin.get()) {
-                hub.run(1000/20);
-                zero += collector.roll_tmp;
-                cout << "Zero is: " << static_cast<int>(collector.roll_tmp) << endl;
-                i++;
-            }
-        }
+        int clientSocket, nBytes;
+        struct sockaddr_in serverAddr;
+        socklen_t addr_size;
         
-        cout << "Your zero angle is set to " << static_cast<int>(rint(zero/3)) << "\n\n\n" << endl;
+        /*Create UDP socket*/
+        clientSocket = socket(PF_INET, SOCK_DGRAM, 0);
+        
+        /*Configure settings in address struct*/
+        serverAddr.sin_family = AF_INET;
+        serverAddr.sin_port = htons(portNum);      // port
+        serverAddr.sin_addr.s_addr = inet_addr(ipAddress);  // local address (16777343)
+        memset(serverAddr.sin_zero, '\0', sizeof serverAddr.sin_zero);
+        
+        /*Initialize size variable to be used later on*/
+        addr_size = sizeof serverAddr;
+        
+        
+        
         
         //==========================================================================
-        // MAX ANGLE
-
-        cout << "Setup the maximum: " << endl;
-        cout << "Make a fist and rotate your arm counter-clockwise to your maximum position for five times. Press enter each time to record the position..." << endl;
-
-        i=0;
-        double max = 0;
-        while ( i<3 ) {
-            cout << "Attempt 1...      ";
-            if (cin.get()) {
-                hub.run(1000/20);
-                max += collector.roll_tmp;
-                cout << "Maximum is: " << static_cast<int>(collector.roll_tmp) << endl;
-                i++;
-            }
-        }
+        // WHILE LOOP
         
-        cout << "Your maximum angle is set to " << static_cast<int>(rint(max/3)) << "\n\n\n" << endl;
         
+        char * buffer = new char[bufferLength];     // NOTE: allocate memory here or inside the loop????
+        
+        // Variables for haptic feedback.
+        int samePoseTh = 15;    // if the same position is obtained for more then samePoseTh measures, then a vibration is sent.
+        int samePose = 0;       // same position index: keep trace of how many consecutive same position are measured.
+        string previousPoseString = "blabla";   // previous position to be compared with each measured position (initialized "randomly" to blabla).
+        
+        int sameVolTh = 15;
+        int sameVol = 0;
+
+        // Variable for presets.
+        int preset = 0;         // Current preset (initialized to zero)
+        int presetNum = 3;      // Number of presets
+        
+        // Enter a main loop that print position, pose and state of the Myo for every iteration.
         while(1) {
-                hub.run(1000/20);
-            cout << collector.roll_tmp << endl;
+            // The function hub.run(duration) runs the event loop for the specified duration (ms).
+            // Need to change the output rate? DO IT HERE!
+            hub.run(1000/20);
+            
+            bool hamlet = false;    // "to send or not to send" variable: if true => UDP message sent.
+            
+            string poseString = collector.currentPose.toString();
+           
+            
+            
+            // PRESET SELECTION
+            // ----------------
+            
+            // Haptic feedback
+            // If measured pose is the same as previous => increment samePose.
+            if ( poseString == previousPoseString )
+                samePose++;
+            else samePose = 0;
+            
+            // If samePose index reaches the threshold for waveIn or waveOut => give haptic feedback.
+            if ( samePose == samePoseTh && ( poseString == "waveIn" || poseString == "waveOut" ) ) {
+                myo->vibrate(myo::Myo::vibrationShort);
+                samePose = 0;
+                
+                // Increment preset if waveIn pose.
+                if ( poseString.compare("waveIn") == 0 ) {
+                    preset--;
+                    if ( preset < 0 )
+                        preset = presetNum;
+                }
+                
+                // Decrement preset if waveOut pose.
+                else {
+                    preset++;
+                    if ( preset > presetNum )
+                        preset = 0;
+                }
+                
+                // Fill buffer array with the preset number.
+                buffer[0] = 'p';
+                buffer[1] = 's';
+                buffer[2] = 't';
+                buffer[3] = preset;
+                hamlet = true;
+            }
+            
+            
+            
+            // VOLUME CONTROL
+            // ----------------
+            
+            if ( poseString.compare("fist") == 0 ) {
+                buffer[0] = 'v';
+                buffer[1] = 'o';
+                buffer[2] = 'l';
+                buffer[3] = collector.roll_vol;
+                hamlet = true;
+                
+                // haptic feedback on minimum volume
+                if ( collector.roll_vol == 1 || collector.roll_vol == 127 ) {
+                    sameVol++;
+                    if ( sameVol == 1 ) {
+                        myo->vibrate(myo::Myo::vibrationShort);
+                    }
+                    else if ( sameVol == sameVolTh ) {
+                        sameVol = 0;
+                    }
+                }
+                
+                else sameVol = 0;
+                
+            }
+            
+            
+
+            // SOURCE SELECTION (still need to change it to send source number and to add thresholds).
+            // ----------------
+            
+            else if ( poseString.compare("fingersSpread") == 0 ) {
+                buffer[0] = 's';
+                buffer[1] = 'r';
+                buffer[2] = 'c';
+                buffer[3] = collector.roll_src;
+                hamlet = true;
+            }
+            
+
+            
+            // PRINT OUTPUT
+            // ----------------
+            
+            collector.print();
+            
+            
+            // SEND UDP MESSAGE TO PURE DATA
+            // -----------------------------
+            
+            // It sends messages only if hamlet is true ("to send or not to send?")
+            if ( hamlet == true) {
+                nBytes = bufferLength;
+                sendto(clientSocket,buffer,nBytes,0,(struct sockaddr *)&serverAddr,addr_size);
+            }
+            
+            previousPoseString = poseString;
+
         }
+        
+        delete[] buffer;
     }
 
 // If a standard exception occurred, we print out its message and exit.

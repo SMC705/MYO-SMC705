@@ -23,8 +23,8 @@ using namespace std;
 // User ID
 const int userID = 1;
 // Minimum and maximum roll angle
-const int minAngle = -91;
-const int maxAngle = 21;
+const int minAngle = -63;
+const int maxAngle = 67;
 // Filename to record user's actions
 const string fileName = "/Users/Paolo/Documents/AAU/2015-2016/MYO-test" + to_string(userID) + ".txt";
 // Number of audio sources

@@ -1,4 +1,4 @@
-#N canvas 494 275 570 492 10;
+#N canvas 283 239 570 492 10;
 #X declare -lib mrpeach;
 #X obj -18 -333 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
 -66577 0;
@@ -84,7 +84,7 @@ values.;
 #X text -49 -81 Bass Boost;
 #X text -50 -56 Treble Boost;
 #X text -49 -106 Feedback Killer;
-#N canvas 671 230 591 497 phone_osc 0;
+#N canvas 659 250 591 497 phone_osc 0;
 #X obj 15 -1060 unpackOSC;
 #X obj 15 -994 select 1;
 #X obj 74 -996 s vm;
@@ -189,7 +189,41 @@ values of the current main volume.;
 installed on Tom's phone simulating the ConnectLine from Oticon. Then
 \, it shows the value received and it routes them to the main patch.
 ;
+#N canvas 191 277 327 300 countclicks 0;
+#X obj -23 -251 inlet;
+#X obj -23 -226 routeOSC /volume /vmute /preset /setsource /source
+;
+#X msg -23 -202 1;
+#X msg 36 -202 2;
+#X msg 95 -202 3;
+#X msg 155 -202 4;
+#X msg 214 -202 5;
+#X obj -23 -173 change;
+#X obj -23 -113 f 0;
+#X obj 5 -114 + 1;
+#X obj 18 -151 r phoneclick_reset;
+#X floatatom -23 -88 5 0 0 0 - - -;
+#X obj -23 -63 s phoneclicks;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 1 1 3 0;
+#X connect 1 2 4 0;
+#X connect 1 3 5 0;
+#X connect 1 4 6 0;
+#X connect 2 0 7 0;
+#X connect 3 0 7 0;
+#X connect 4 0 7 0;
+#X connect 5 0 7 0;
+#X connect 6 0 7 0;
+#X connect 7 0 8 0;
+#X connect 8 0 9 0;
+#X connect 8 0 11 0;
+#X connect 9 0 8 1;
+#X connect 10 0 8 0;
+#X connect 11 0 12 0;
+#X restore 49 -1040 pd countclicks;
 #X connect 0 0 11 0;
+#X connect 0 0 38 0;
 #X connect 1 0 15 0;
 #X connect 1 1 15 1;
 #X connect 7 0 3 0;
@@ -208,7 +242,7 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 13 0 0 0;
 #X connect 32 0 8 0;
 #X restore 55 -123 pd phone_osc;
-#N canvas 815 141 780 501 test 1;
+#N canvas 569 170 782 502 test 1;
 #X obj -296 -522 cnv 15 100 130 empty empty file_ops 20 12 0 14 -232576
 -66577 0;
 #X obj -195 -522 cnv 15 100 130 empty empty subject 20 12 0 14 -203904
@@ -240,26 +274,27 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X obj -183 -499 bng 15 250 50 0 empty empty next_subject 17 7 0 10
 -4032 -1 -1;
 #X obj -183 -479 s nextsubj;
-#N canvas 461 378 450 300 tasks 0;
-#X obj -70 1 cnv 15 250 200 empty empty Task_selection 20 12 0 14 -233017
--66577 0;
-#X obj 56 108 select 0;
-#X obj 56 131 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+#N canvas 37 197 450 300 tasks 0;
+#X obj -121 1 cnv 15 250 250 empty empty Task_selection 20 12 0 14
+-233017 -66577 0;
+#X obj 56 174 select 0;
+#X obj 56 197 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
-#X obj 14 84 counter 1 7;
-#X msg 61 57 1;
+#X obj 14 150 counter 1 7;
+#X msg 61 123 1;
 #X obj 61 32 loadbang;
-#X text 72 57 reset;
-#X text 75 129 Test complete;
-#X msg 6 57 inc;
-#X msg -49 57 dec;
-#X text -32 57 rease;
-#X text 23 57 rease;
-#X obj -49 36 inlet;
-#X obj 6 36 inlet;
-#X text 37 36 2;
-#X text -17 36 1;
-#X obj 14 159 outlet;
+#X text 72 123 reset;
+#X text 75 195 Test complete;
+#X msg -62 123 inc;
+#X msg -117 123 dec;
+#X text -100 123 rease;
+#X text -45 123 rease;
+#X obj -117 36 inlet;
+#X obj -62 36 inlet;
+#X text -31 36 2;
+#X text -85 36 1;
+#X obj 14 225 outlet;
+#X msg -25 80 \; phoneclick_reset 0;
 #X connect 1 0 2 0;
 #X connect 3 0 16 0;
 #X connect 3 2 1 0;
@@ -269,6 +304,7 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 9 0 3 0;
 #X connect 12 0 9 0;
 #X connect 13 0 8 0;
+#X connect 13 0 17 0;
 #X restore -83 -478 pd tasks;
 #X obj -83 -499 bng 15 250 50 0 empty empty prev 17 7 0 10 -257985
 -1 -1;
@@ -295,7 +331,7 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 5 1 2 1;
 #X connect 10 0 5 0;
 #X restore 18 -476 pd timer;
-#N canvas 691 367 378 339 clicks 0;
+#N canvas 424 255 378 339 clicks 0;
 #X obj -9 -55 cnv 15 250 270 empty empty count_number_actions 20 12
 0 14 -233017 -66577 0;
 #X floatatom 131 161 5 0 0 0 - - -;
@@ -311,6 +347,7 @@ the counter increase by 1 Every time the MYO unlock \, counter is reset
 ;
 #X obj 80 -4 atoi;
 #X obj 80 68 change;
+#X obj 177 160 r phoneclicks;
 #X connect 1 0 7 0;
 #X connect 2 0 4 0;
 #X connect 3 0 4 1;
@@ -320,6 +357,7 @@ the counter increase by 1 Every time the MYO unlock \, counter is reset
 #X connect 6 0 9 0;
 #X connect 9 0 10 0;
 #X connect 10 0 2 0;
+#X connect 11 0 7 0;
 #X restore 193 -498 pd clicks;
 #X text -292 -194 write the content of textfile object inda file;
 #X obj -293 -169 cnv 15 500 130 empty empty rows→file 20 12 0 14
@@ -438,7 +476,7 @@ the write command is sent. the rows end with a semicolon.;
 #X connect 41 0 5 0;
 #X connect 41 0 6 0;
 #X restore 55 -152 pd test;
-#N canvas 583 107 769 686 questionnaire 0;
+#N canvas 580 82 769 686 questionnaire 0;
 #X text 18 12 USER INFORMATIONS;
 #X floatatom 24 58 5 0 0 0 - - age;
 #X obj 24 110 vradio 15 1 0 2 deafness empty empty 0 -8 0 10 -204800
@@ -633,7 +671,7 @@ write it in file 'results/infos.txt';
 #X obj -198 -157 cnv 15 115 250 empty empty empty 20 12 0 14 -204800
 -66577 0;
 #X obj -186 -129 vradio 25 1 0 5 empty input_select Audio_Select 0
--8 0 10 -262144 -1 -1 4;
+-8 0 10 -262144 -1 -1 0;
 #X text -158 -127 Microphone;
 #X text -158 -105 Music;
 #X text -159 -80 Phone;
@@ -641,7 +679,7 @@ write it in file 'results/infos.txt';
 #X text -157 -30 TV;
 #X text -172 7 Audio Players;
 #X obj -157 65 dac~;
-#N canvas 972 164 794 594 Audio 1;
+#N canvas 569 174 794 594 Audio 0;
 #X obj -91 -447 cnv 15 370 160 empty empty empty 20 12 0 14 -257985
 -66577 0;
 #X text -86 -445 Each audio sub_patch sends a stereo signal from it's

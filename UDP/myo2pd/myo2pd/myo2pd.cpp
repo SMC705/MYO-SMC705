@@ -21,12 +21,12 @@
 using namespace std;
 
 // User ID
-const int userID = 1;
+const string userID = '01';
 // Minimum and maximum roll angle
-const int minAngle = -63;
-const int maxAngle = 67;
+const int minAngle = -77;
+const int maxAngle = -24;
 // Filename to record user's actions
-const string fileName = "/Users/Paolo/Documents/AAU/2015-2016/MYO-test" + to_string(userID) + ".txt";
+const string fileName = "/Users/Paolo/Documents/AAU/2015-2016/Fall\ Semester\ Project/MYO-SMC705/Test\ Recordings/user" + userID + ".txt";
 // Number of audio sources
 const int srcNum = 5;
 // Number of audio presets
@@ -331,7 +331,6 @@ int main() {
             // ----------------
 
 
- 
  //NOTE: impossible to setup the isUnlock method in this way: the buffer will be surely overwritten by other gestures in the same iteration of the while loop.
 // It's much better to implement another buffer with the message is unlocked --->>> TALK WITH DEVID WHICH WAY HE PREFERS TO RECEIVE IT!
             

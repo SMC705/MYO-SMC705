@@ -1,4 +1,4 @@
-#N canvas 283 239 570 492 10;
+#N canvas 280 244 570 492 10;
 #X declare -lib mrpeach;
 #X obj -18 -333 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
 -66577 0;
@@ -242,15 +242,15 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 13 0 0 0;
 #X connect 32 0 8 0;
 #X restore 55 -123 pd phone_osc;
-#N canvas 569 170 782 502 test 1;
+#N canvas 573 175 775 502 test 0;
 #X obj -296 -522 cnv 15 100 130 empty empty file_ops 20 12 0 14 -232576
 -66577 0;
 #X obj -195 -522 cnv 15 100 130 empty empty subject 20 12 0 14 -203904
 -66577 0;
-#X obj 188 -522 cnv 15 100 130 empty empty n°_clicks 20 12 0 14 -262130
+#X obj 138 -522 cnv 15 100 130 empty empty n°_clicks 20 12 0 14 -262130
 -66577 0;
-#X obj 7 -522 cnv 15 180 130 empty empty timer_(unlock-lock) 20 12
-0 14 -204786 -66577 0;
+#X obj 7 -522 cnv 15 130 130 empty empty attempt_timer 20 12 0 14 -204786
+-66577 0;
 #X obj -94 -522 cnv 15 100 130 empty empty tasks 20 12 0 14 -204800
 -66577 0;
 #X obj -159 -280 prepend add;
@@ -266,8 +266,8 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X floatatom -83 -419 5 0 0 0 - - -;
 #X floatatom 18 -419 5 0 0 0 - - -;
 #X floatatom -183 -419 5 0 1000 0 - - -;
-#X floatatom 193 -419 5 0 0 0 - - -;
-#X text 198 -438 Clicks;
+#X floatatom 143 -419 5 0 0 0 - - -;
+#X text 148 -438 Clicks;
 #X obj -183 -458 r subjectID;
 #X msg -292 -222 \; txt write results/tasks.txt;
 #X obj -159 -254 s txt;
@@ -358,7 +358,7 @@ the counter increase by 1 Every time the MYO unlock \, counter is reset
 #X connect 9 0 10 0;
 #X connect 10 0 2 0;
 #X connect 11 0 7 0;
-#X restore 193 -498 pd clicks;
+#X restore 143 -498 pd clicks;
 #X text -292 -194 write the content of textfile object inda file;
 #X obj -293 -169 cnv 15 500 130 empty empty rows→file 20 12 0 14
 -233017 -66577 0;
@@ -414,15 +414,15 @@ from the tracking of the actions performed with the app and write them
 in a .txt file called "tasks.txt" in the '/result' folder. all values
 are collected as rows in the memory of the "textfile" object until
 the write command is sent. the rows end with a semicolon.;
-#X obj 284 -521 cnv 15 190 130 empty empty timer_(manual) 20 12 0 14
+#X obj 234 -521 cnv 15 160 130 empty empty timer_(manual) 20 12 0 14
 -261682 -66577 0;
-#X obj 300 -489 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 243 -489 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 390 -489 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 333 -489 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X floatatom 300 -414 5 0 0 0 - - -;
-#X text 316 -490 Start/Pause;
-#X text 408 -490 Reset;
+#X floatatom 243 -414 5 0 0 0 - - -;
+#X text 259 -490 Start/Pause;
+#X text 351 -490 Reset;
 #N canvas 765 257 450 300 timermanual 0;
 #X obj -22871 -358 + 1;
 #X floatatom -22902 -272 5 0 0 0 - - -;
@@ -449,8 +449,18 @@ the write command is sent. the rows end with a semicolon.;
 #X connect 8 0 2 0;
 #X connect 10 0 7 0;
 #X connect 11 0 3 0;
-#X restore 300 -470 pd timermanual;
-#X obj -159 -311 pack f f f f f;
+#X restore 243 -470 pd timermanual;
+#X obj -159 -311 pack f f f f f s;
+#X obj 192 -375 select 0;
+#X msg 192 -351 myo;
+#X msg 236 -342 pho;
+#X obj 192 -326 symbol;
+#X obj 395 -521 cnv 15 80 130 empty empty device 20 12 0 14 -261234
+-66577 0;
+#X obj 417 -464 vradio 15 1 0 2 empty empty empty 0 -8 0 10 -262144
+-1 -1 0;
+#X text 438 -466 MYO;
+#X text 437 -453 phone;
 #X connect 5 0 20 0;
 #X connect 7 0 12 0;
 #X connect 11 0 19 0;
@@ -475,6 +485,12 @@ the write command is sent. the rows end with a semicolon.;
 #X connect 40 0 37 0;
 #X connect 41 0 5 0;
 #X connect 41 0 6 0;
+#X connect 42 0 43 0;
+#X connect 42 1 44 0;
+#X connect 43 0 45 0;
+#X connect 44 0 45 0;
+#X connect 45 0 41 5;
+#X connect 47 0 42 0;
 #X restore 55 -152 pd test;
 #N canvas 580 82 769 686 questionnaire 0;
 #X text 18 12 USER INFORMATIONS;

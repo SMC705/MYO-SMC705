@@ -1,4 +1,4 @@
-#N canvas 616 144 570 492 10;
+#N canvas 613 149 570 492 10;
 #X declare -lib mrpeach;
 #X obj -18 -333 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
 -66577 0;
@@ -9,7 +9,7 @@
 -1 -1;
 #X msg -185 -299 \; pd dsp \$1;
 #X obj -185 -324 tgl 15 0 empty empty empty 17 7 0 10 -204786 -1 -1
-1 1;
+0 1;
 #X text -158 -326 Turn DSP On/Off;
 #X text -160 -206 Stop all audio files;
 #X obj -185 -254 bng 15 250 50 0 empty empty empty 17 7 0 10 -4034
@@ -65,7 +65,7 @@ MYO;
 #X restore 55 -97 pd osc_things;
 #X obj 57 100 s master_volume;
 #X obj 57 -35 vsl 85 128 0 1 0 0 empty empty Volume 0 -9 0 10 -204786
--258113 -4160 12700 1;
+-258113 -4160 0 1;
 #X obj 56 -72 r volume_slider;
 #X text -10 -329 This patch plays the audio from (at present) 6 different
 inputs simultaneously. To select which audio to hear \, choose a source
@@ -78,7 +78,7 @@ values.;
 #X obj -82 -158 cnv 15 130 150 empty empty empty 20 12 0 14 -257985
 -66577 0;
 #X obj -77 -138 vradio 25 1 0 4 empty preset_select Preset_Select 0
--8 0 10 -262144 -1 -1 1;
+-8 0 10 -262144 -1 -1 0;
 #X text -49 -134 Noise Reduction;
 #X text -50 -58 Treble Boost;
 #X text -49 -108 Feedback Killer;
@@ -100,8 +100,8 @@ values.;
 #X obj 245 -792 s input_select;
 #N canvas 820 290 379 357 step_volume 0;
 #X msg 61 -805 set \$1;
-#X msg 145 -779 1;
-#X msg -12 -778 1;
+#X msg 145 -779 0;
+#X msg -12 -778 0;
 #X obj 65 -842 clip 0 1;
 #X obj 46 -891 r master_volume;
 #X obj 65 -863 r step_volume;
@@ -262,7 +262,7 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 44 0 43 0;
 #X connect 45 0 8 0;
 #X restore 55 -123 pd phone_osc;
-#N canvas 498 171 717 502 test 1;
+#N canvas 495 176 717 502 test 1;
 #X obj -296 -522 cnv 15 100 130 empty empty file_ops 20 12 0 14 -232576
 -66577 0;
 #X obj -124 -522 cnv 15 100 130 empty empty subject 20 12 0 14 -203904
@@ -360,7 +360,7 @@ the counter increase by 1 Every time the MYO unlock \, counter is reset
 -233017 -66577 0;
 #X obj -287 -105 textfile;
 #X obj -287 -129 r txt;
-#N canvas 299 316 659 427 subjectCALC 0;
+#N canvas 296 321 659 427 subjectCALC 0;
 #X msg -13 268 set \$1;
 #X msg 69 281 \; scrollfile 0;
 #X obj 22 407 s subjectID;
@@ -391,6 +391,7 @@ there every time is sent bang to "nextsubj";
 sbj n° to counter. At the same times \, it count the lines;
 #X obj -23 190 counter 0;
 #X obj -23 211 s nlines;
+#X obj 4 155 r newline;
 #X connect 0 0 21 0;
 #X connect 3 0 2 0;
 #X connect 3 0 20 1;
@@ -408,6 +409,7 @@ sbj n° to counter. At the same times \, it count the lines;
 #X connect 22 0 23 0;
 #X connect 23 0 20 0;
 #X connect 25 0 26 0;
+#X connect 27 0 25 0;
 #X restore -287 -70 pd subjectCALC;
 #X text -190 -141 FILE WRITING: this object should receive the values
 from the tracking of the actions performed with the app and write them
@@ -495,7 +497,7 @@ manually \, deactivate time only if both lock and deactivate manually
 #X text 378 -466 MYO;
 #X text 377 -453 phone;
 #X obj 331 -334 symbol;
-#N canvas 261 304 450 300 addvalues 0;
+#N canvas 252 319 450 300 addvalues 0;
 #X obj 133 119 outlet;
 #X obj 58 37 r unlocked;
 #X obj 167 69 r if_addvalues;
@@ -514,10 +516,12 @@ manually \, deactivate time only if both lock and deactivate manually
 -66577 0;
 #X obj -188 -493 r nlines;
 #X floatatom -188 -419 5 0 0 0 - - -;
+#X msg -251 -311 \; newline bang;
 #X connect 4 0 17 0;
 #X connect 6 0 10 0;
 #X connect 9 0 16 0;
 #X connect 10 0 48 0;
+#X connect 10 0 52 0;
 #X connect 11 0 48 2;
 #X connect 12 0 48 1;
 #X connect 13 0 48 3;

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #N canvas 48 184 570 492 10;
+=======
+#N canvas 31 151 570 492 10;
+>>>>>>> origin/master
 #X declare -lib mrpeach;
 #X obj -18 -333 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
 -66577 0;
@@ -9,7 +13,7 @@
 -1 -1;
 #X msg -185 -299 \; pd dsp \$1;
 #X obj -185 -324 tgl 15 0 empty empty empty 17 7 0 10 -204786 -1 -1
-0 1;
+1 1;
 #X text -158 -326 Turn DSP On/Off;
 #X text -160 -206 Stop all audio files;
 #X obj -185 -254 bng 15 250 50 0 empty empty empty 17 7 0 10 -4034
@@ -77,8 +81,8 @@ function?). There is also a master volume which takes the same min/max
 values.;
 #X obj -82 -158 cnv 15 130 150 empty empty empty 20 12 0 14 -257985
 -66577 0;
-#X obj -77 -138 vradio 25 1 0 5 empty preset_select Preset_Select 0
--8 0 10 -262144 -1 -1 0;
+#X obj -77 -138 vradio 25 1 0 4 empty preset_select Preset_Select 0
+-8 0 10 -262144 -1 -1 2;
 #X text -49 -134 Noise Reduction;
 #X text -50 -58 Treble Boost;
 #X text -49 -108 Feedback Killer;
@@ -262,7 +266,7 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 44 0 43 0;
 #X connect 45 0 8 0;
 #X restore 55 -123 pd phone_osc;
-#N canvas 578 92 645 502 test 1;
+#N canvas 663 67 645 502 test 0;
 #X obj -296 -522 cnv 15 100 130 empty empty file_ops 20 12 0 14 -232576
 -66577 0;
 #X obj -195 -522 cnv 15 100 130 empty empty subject 20 12 0 14 -203904
@@ -732,7 +736,11 @@ write it in file 'results/infos.txt';
 #X obj -198 -157 cnv 15 115 250 empty empty empty 20 12 0 14 -204800
 -66577 0;
 #X obj -186 -129 vradio 25 1 0 5 empty input_select Audio_Select 0
+<<<<<<< HEAD
 -8 0 10 -262144 -1 -1 4;
+=======
+-8 0 10 -262144 -1 -1 1;
+>>>>>>> origin/master
 #X text -158 -127 Microphone;
 #X text -158 -105 Music;
 #X text -159 -80 Phone;
@@ -740,7 +748,7 @@ write it in file 'results/infos.txt';
 #X text -157 -30 TV;
 #X text -172 7 Audio Players;
 #X obj -157 65 dac~;
-#N canvas 320 118 794 594 Audio 0;
+#N canvas 405 23 794 594 Audio 0;
 #X obj -91 -447 cnv 15 370 160 empty empty empty 20 12 0 14 -257985
 -66577 0;
 #X text -86 -445 Each audio sub_patch sends a stereo signal from it's
@@ -860,7 +868,7 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X obj 200 318 outlet~;
 #X obj 143 292 hip~ 500;
 #X obj 200 291 hip~ 500;
-#X obj 245 259 r freqbass_music;
+#X obj 245 259 r freqbass;
 #X connect 0 0 6 0;
 #X connect 0 1 5 0;
 #X connect 0 2 3 0;
@@ -1168,7 +1176,6 @@ master_volume] before being sent to the left and right [outlet~]'s.
 #X restore 434 -46 pd feedback_killer;
 #X text 557 -47 Works with Microphone;
 #X text 527 5 Works with Phone;
-#X text 508 30 Works with Radio;
 #X text 535 -23 Works with TV;
 #X obj 281 -449 cnv 15 400 160 empty empty empty 20 12 0 14 -4032 -66577
 0;
@@ -1186,41 +1193,32 @@ sending a bang);
 #X obj 326 -201 s inputnum;
 #X obj 305 -244 + 1;
 #X obj 236 -270 loadbang 0;
-#N canvas 336 508 450 300 bass_boost 0;
-#X obj -168 -35 inlet;
-#X obj -168 13 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#N canvas 350 312 564 192 bass_boost 0;
+#X obj -126 -21 inlet;
+#X obj -126 103 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj -168 -12 route 2;
-#X msg -138 31 0;
-#X obj -102 68 s freqbass;
-#X obj -106 -12 r inputnum;
-#X msg -106 30 2000;
-#X connect 0 0 2 0;
-#X connect 2 0 1 0;
+#X msg -103 65 0;
+#X obj -42 105 s freqbass;
+#X obj -43 -22 r inputnum;
+#X msg -43 66 2000;
+#X obj -126 7 route 2;
+#X text 59 -6 The input from the inlet sends a bang out of [route]'s
+left outlet if it receives the 'Bass Boost' preset and a bang out of
+it's right outlet when it receives any other number. The left outlet
+triggers the message 0 to be sent to the filter in the Music and Radio
+subpatches \, turning it off. The right outlet triggers the message
+2000 to be sent \, causing the cutoff frequency to move to 2000hz.
+;
+#X connect 0 0 6 0;
 #X connect 2 0 3 0;
-#X connect 2 1 6 0;
-#X connect 3 0 4 0;
-#X connect 5 0 6 0;
-#X connect 6 0 4 0;
+#X connect 4 0 5 0;
+#X connect 5 0 3 0;
+#X connect 6 0 1 0;
+#X connect 6 0 2 0;
+#X connect 6 1 5 0;
 #X restore 415 32 pd bass_boost 1;
-#N canvas 87 560 450 300 bass_boost 0;
-#X obj -168 -35 inlet;
-#X obj -168 13 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X msg -138 31 0;
-#X obj -106 -12 r inputnum;
-#X msg -106 30 2000;
-#X obj -168 -12 route 4;
-#X obj -102 68 s freqbass_music;
-#X connect 0 0 5 0;
-#X connect 2 0 6 0;
-#X connect 3 0 4 0;
-#X connect 4 0 6 0;
-#X connect 5 0 1 0;
-#X connect 5 0 2 0;
-#X connect 5 1 4 0;
-#X restore 395 60 pd bass_boost 2;
-#X text 498 61 Works with Music;
+#X text 508 30 Works with Radio & Music;
+#X text 498 61;
 #X connect 3 0 20 0;
 #X connect 3 1 21 0;
 #X connect 4 0 20 1;
@@ -1251,21 +1249,19 @@ sending a bang);
 #X connect 25 0 32 0;
 #X connect 25 0 29 0;
 #X connect 25 0 31 0;
-#X connect 25 0 48 0;
-#X connect 25 0 49 0;
+#X connect 25 0 47 0;
 #X connect 27 0 25 0;
 #X connect 28 0 25 0;
 #X connect 30 0 25 0;
-#X connect 40 0 46 0;
+#X connect 39 0 45 0;
+#X connect 40 0 41 0;
+#X connect 40 0 44 0;
 #X connect 41 0 42 0;
-#X connect 41 0 45 0;
-#X connect 42 0 43 0;
-#X connect 44 0 46 0;
-#X connect 46 0 41 0;
-#X connect 47 0 46 0;
+#X connect 43 0 45 0;
+#X connect 45 0 40 0;
+#X connect 46 0 45 0;
 #X restore -186 28 pd Audio Players;
-#X text -49 -83 Bass Boost 1;
-#X text -47 -35 Bass Boost 2;
+#X text -49 -83 Bass Boost;
 #X connect 3 0 2 0;
 #X connect 5 0 4 0;
 #X connect 8 0 9 0;

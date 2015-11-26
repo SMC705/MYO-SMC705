@@ -1,4 +1,4 @@
-#N canvas 114 87 570 492 10;
+#N canvas 48 184 570 492 10;
 #X declare -lib mrpeach;
 #X obj -18 -333 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
 -66577 0;
@@ -65,7 +65,7 @@ MYO;
 #X restore 55 -97 pd osc_things;
 #X obj 57 100 s master_volume;
 #X obj 57 -35 vsl 85 128 0 1 0 0 empty empty Volume 0 -9 0 10 -204786
--258113 -4160 0 1;
+-258113 -4160 12600 1;
 #X obj 56 -72 r volume_slider;
 #X text -10 -329 This patch plays the audio from (at present) 6 different
 inputs simultaneously. To select which audio to hear \, choose a source
@@ -100,8 +100,8 @@ values.;
 #X obj 245 -792 s input_select;
 #N canvas 820 290 379 357 step_volume 0;
 #X msg 61 -805 set \$1;
-#X msg 145 -779 0;
-#X msg -12 -778 0;
+#X msg 145 -779 0.992126;
+#X msg -12 -778 0.992126;
 #X obj 65 -842 clip 0 1;
 #X obj 46 -891 r master_volume;
 #X obj 65 -863 r step_volume;
@@ -166,7 +166,7 @@ values of the current main volume.;
 #X obj 467 -778 bng 20 250 50 0 empty p4 P4 4 11 2 12 -228856 -128992
 -1;
 #X obj 430 -726 vradio 20 1 0 5 empty input_select empty 0 -8 0 10
--228856 -1 -1 0;
+-228856 -1 -1 4;
 #X text 408 -646 TV;
 #X text 364 -727 Microphone;
 #X text 391 -707 Music;
@@ -522,7 +522,10 @@ manually \, deactivate time only if both lock and deactivate manually
 #X connect 26 0 28 0;
 #X connect 26 1 28 1;
 #X connect 27 0 26 0;
+#X connect 31 0 36 0;
+#X connect 32 0 36 1;
 #X connect 33 0 45 3;
+#X connect 36 0 33 0;
 #X connect 37 0 38 0;
 #X connect 37 1 39 0;
 #X connect 38 0 44 0;
@@ -729,7 +732,7 @@ write it in file 'results/infos.txt';
 #X obj -198 -157 cnv 15 115 250 empty empty empty 20 12 0 14 -204800
 -66577 0;
 #X obj -186 -129 vradio 25 1 0 5 empty input_select Audio_Select 0
--8 0 10 -262144 -1 -1 0;
+-8 0 10 -262144 -1 -1 4;
 #X text -158 -127 Microphone;
 #X text -158 -105 Music;
 #X text -159 -80 Phone;

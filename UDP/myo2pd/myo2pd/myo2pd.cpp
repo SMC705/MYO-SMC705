@@ -23,8 +23,8 @@ using namespace std;
 // User ID
 const string userID = "01";
 // Minimum and maximum roll angle
-const int minAngle = -89;
-const int maxAngle = -2;
+const int minAngle = -78;
+const int maxAngle = -14;
 // Filename to record user's actions
 const string fileName = "/Users/Paolo/Documents/AAU/2015-2016/Fall\ Semester\ Project/MYO-SMC705/Test\ Recordings/user" + userID + ".txt";
 // Number of audio sources
@@ -442,6 +442,17 @@ int main() {
             // NOTE to be fixed: if I scroll more than one source, the myo vibrates many times as the number of sources passed with the movement.
             
             else if ( poseString.compare("fingersSpread") == 0 && samePose > samePoseTh2 ) {
+                
+                // Haptic feedback on rotation range limits
+                if ( collector.roll_pst == 1 || collector.roll_pst == presetTotRange ) {
+                    sameVol++;
+                    if ( sameVol == 1 ) {
+                        myo->vibrate(myo::Myo::vibrationShort);
+                    }
+                    else if ( sameVol == sameVolTh ) {
+                        sameVol = 0;
+                    }
+                }
 
                 // Preset increment
                 if ( collector.roll_pst > preset * presetRange + presetThr ) {

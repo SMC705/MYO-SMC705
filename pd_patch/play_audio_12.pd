@@ -1,4 +1,4 @@
-#N canvas 76 192 570 492 10;
+#N canvas 108 259 570 492 10;
 #X declare -lib mrpeach;
 #X obj -18 -333 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
 -66577 0;
@@ -18,7 +18,7 @@
 #X text -163 -254 Start all audio files;
 #X obj 49 -157 cnv 15 110 290 empty empty empty 20 12 0 14 -261682
 -66577 0;
-#N canvas 674 211 676 533 osc_things 0;
+#N canvas 648 214 676 533 osc_things 0;
 #X msg -987 -139 47 \$1 \$2 \$3 0 0 0 0 44 105 0 0 0 0 0 \$4;
 #X obj -987 -113 unpackOSC;
 #X obj -987 -166 udpreceive 7890;
@@ -84,24 +84,22 @@ values.;
 #X text -49 -81 Bass Boost;
 #X text -50 -56 Treble Boost;
 #X text -49 -106 Feedback Killer;
-#N canvas 682 260 591 497 phone_osc 0;
+#N canvas 691 228 637 497 phone_osc 1;
 #X obj 15 -1060 unpackOSC;
-#X obj 15 -994 select 1;
-#X obj 74 -996 s vm;
-#X obj 116 -948 s p1;
-#X obj 139 -923 s p2;
-#X obj 162 -901 s p3;
-#X obj 185 -881 s p4;
-#X obj 116 -976 select 1 2 3;
-#X obj 252 -970 int;
-#X msg 252 -947 set \$1;
-#X msg 252 -918 5;
-#X obj 15 -1019 routeOSC /volume /vmute /preset /setsource /source
-;
-#X obj 193 -933 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 15 -892 select 1;
+#X obj 72 -894 s vm;
+#X obj 116 -846 s p1;
+#X obj 139 -821 s p2;
+#X obj 162 -799 s p3;
+#X obj 185 -779 s p4;
+#X obj 116 -874 select 1 2 3;
+#X obj 245 -868 int;
+#X msg 245 -845 set \$1;
+#X msg 245 -816 5;
+#X obj 193 -831 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 15 -1096 udpreceive 9000;
-#X obj 252 -894 s input_select;
+#X obj 245 -792 s input_select;
 #N canvas 823 285 379 357 step_volume 0;
 #X msg 61 -805 set \$1;
 #X msg 145 -779 0.622047;
@@ -150,42 +148,42 @@ values of the current main volume.;
 #X connect 19 1 21 0;
 #X connect 20 0 16 0;
 #X connect 21 0 16 0;
-#X restore 15 -968 pd step_volume;
-#X obj 362 -896 cnv 15 140 200 empty empty Phone_screen 20 0 0 14 -203904
+#X restore 15 -866 pd step_volume;
+#X obj 355 -794 cnv 15 140 200 empty empty Phone_screen 20 0 0 14 -203904
 -66577 0;
-#X obj 458 -814 bng 20 250 50 0 empty volume_up + 7 10 2 12 -228856
+#X obj 458 -712 bng 20 250 50 0 empty volume_up + 7 10 2 12 -228856
 -128992 -1;
-#X obj 458 -783 bng 20 250 50 0 empty volume_down _ 7 5 2 12 -228856
+#X obj 458 -681 bng 20 250 50 0 empty volume_down _ 7 5 2 12 -228856
 -128992 -1;
-#X obj 483 -796 tgl 15 0 empty vm M 4 7 2 10 -228856 -86277 -1 0 1
+#X obj 483 -694 tgl 15 0 empty vm M 4 7 2 10 -228856 -86277 -1 0 1
 ;
-#X obj 389 -879 bng 20 250 50 0 empty p1 P1 4 11 2 12 -228856 -128992
+#X obj 382 -777 bng 20 250 50 0 empty p1 P1 4 11 2 12 -228856 -128992
 -1;
-#X obj 415 -879 bng 20 250 50 0 empty p2 P2 4 11 2 12 -228856 -128992
+#X obj 415 -777 bng 20 250 50 0 empty p2 P2 4 11 2 12 -228856 -128992
 -1;
-#X obj 441 -880 bng 20 250 50 0 empty p3 P3 4 11 2 12 -228856 -128992
+#X obj 441 -778 bng 20 250 50 0 empty p3 P3 4 11 2 12 -228856 -128992
 -1;
-#X obj 467 -880 bng 20 250 50 0 empty p4 P4 4 11 2 12 -228856 -128992
+#X obj 467 -778 bng 20 250 50 0 empty p4 P4 4 11 2 12 -228856 -128992
 -1;
-#X obj 430 -848 vradio 20 1 0 6 empty input_select empty 0 -8 0 10
--228856 -1 -1 0;
-#X text 408 -748 TV;
-#X text 364 -829 Microphone;
-#X text 391 -809 Music;
-#X text 404 -850 Aux;
-#X text 367 -789 Telephone;
-#X text 392 -768 Radio;
-#X obj 430 -723 bng 20 250 50 0 empty input_select S 8 10 0 10 -262144
+#X obj 430 -746 vradio 20 1 0 6 empty input_select empty 0 -8 0 10
+-228856 -1 -1 5;
+#X text 408 -646 TV;
+#X text 364 -727 Microphone;
+#X text 391 -707 Music;
+#X text 404 -748 Aux;
+#X text 367 -687 Telephone;
+#X text 392 -666 Radio;
+#X obj 430 -621 bng 20 250 50 0 empty input_select S 8 10 0 10 -262144
 -1 -1;
-#X obj 252 -994 expr ($f1 + 0.1)* 6;
-#X text 245 -638 The index of the sources in the phone app is incorrect
+#X obj 245 -892 expr ($f1 + 0.1)* 6;
+#X text 245 -536 The index of the sources in the phone app is incorrect
 ;
-#X text 297 -977 need to check if source sel from the phone is precise
+#X text 355 -872 need to check if source sel from the phone is precise
 ;
-#X obj -4 -851 cnv 15 350 70 empty empty empty 20 12 0 14 -204786 -66577
+#X obj -4 -752 cnv 15 350 70 empty empty empty 20 12 0 14 -204786 -66577
 0;
-#X text -6 -858 comment;
-#X text 1 -842 This subpatch receives values from the TouchOSC app
+#X text -6 -756 comment;
+#X text 1 -740 This subpatch receives values from the TouchOSC app
 installed on Tom's phone simulating the ConnectLine from Oticon. Then
 \, it shows the value received and it routes them to the main patch.
 ;
@@ -222,27 +220,51 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 10 0 8 0;
 #X connect 11 0 12 0;
 #X restore 49 -1040 pd countclicks;
-#X connect 0 0 11 0;
+#X obj 15 -1019 routeOSC /volume /vmute /preset /setsource /source
+/unlock;
+#X obj 15 -918 spigot;
+#X obj 72 -919 spigot;
+#X obj 130 -919 spigot;
+#X obj 193 -919 spigot;
+#X obj 245 -920 spigot;
+#X msg 302 -995 \; phonelock \$1;
+#X msg 420 -1042 1;
+#X msg 386 -1041 0;
+#X obj 48 -947 r phonelock;
+#X connect 0 0 37 0;
 #X connect 0 0 38 0;
-#X connect 1 0 15 0;
-#X connect 1 1 15 1;
+#X connect 1 0 14 0;
+#X connect 1 1 14 1;
 #X connect 7 0 3 0;
 #X connect 7 1 4 0;
 #X connect 7 2 5 0;
 #X connect 7 3 6 0;
 #X connect 8 0 9 0;
 #X connect 9 0 10 0;
-#X connect 10 0 14 0;
-#X connect 11 0 1 0;
-#X connect 11 1 2 0;
-#X connect 11 2 7 0;
-#X connect 11 3 12 0;
-#X connect 11 4 32 0;
-#X connect 12 0 10 0;
-#X connect 13 0 0 0;
-#X connect 32 0 8 0;
+#X connect 10 0 13 0;
+#X connect 11 0 10 0;
+#X connect 12 0 0 0;
+#X connect 31 0 8 0;
+#X connect 38 0 39 0;
+#X connect 38 1 40 0;
+#X connect 38 2 41 0;
+#X connect 38 3 42 0;
+#X connect 38 4 43 0;
+#X connect 38 5 44 0;
+#X connect 39 0 1 0;
+#X connect 40 0 2 0;
+#X connect 41 0 7 0;
+#X connect 42 0 11 0;
+#X connect 43 0 31 0;
+#X connect 45 0 44 0;
+#X connect 46 0 44 0;
+#X connect 47 0 39 1;
+#X connect 47 0 40 1;
+#X connect 47 0 41 1;
+#X connect 47 0 42 1;
+#X connect 47 0 43 1;
 #X restore 55 -123 pd phone_osc;
-#N canvas 686 90 645 502 test 1;
+#N canvas 683 95 645 502 test 1;
 #X obj -296 -522 cnv 15 100 130 empty empty file_ops 20 12 0 14 -232576
 -66577 0;
 #X obj -195 -522 cnv 15 100 130 empty empty subject 20 12 0 14 -203904
@@ -676,7 +698,7 @@ write it in file 'results/infos.txt';
 #X obj -198 -157 cnv 15 115 250 empty empty empty 20 12 0 14 -204800
 -66577 0;
 #X obj -186 -129 vradio 25 1 0 5 empty input_select Audio_Select 0
--8 0 10 -262144 -1 -1 0;
+-8 0 10 -262144 -1 -1 4;
 #X text -158 -127 Microphone;
 #X text -158 -105 Music;
 #X text -159 -80 Phone;

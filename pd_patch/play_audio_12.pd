@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-#N canvas 42 121 570 492 10;
-=======
-#N canvas 105 264 570 492 10;
->>>>>>> origin/master
+#N canvas 102 269 570 492 10;
 #X declare -lib mrpeach;
 #X obj -18 -333 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
 -66577 0;
@@ -13,7 +9,7 @@
 -1 -1;
 #X msg -185 -299 \; pd dsp \$1;
 #X obj -185 -324 tgl 15 0 empty empty empty 17 7 0 10 -204786 -1 -1
-1 1;
+0 1;
 #X text -158 -326 Turn DSP On/Off;
 #X text -160 -206 Stop all audio files;
 #X obj -185 -254 bng 15 250 50 0 empty empty empty 17 7 0 10 -4034
@@ -83,7 +79,7 @@ values.;
 #X obj -82 -156 cnv 15 130 150 empty empty empty 20 12 0 14 -257985
 -66577 0;
 #X obj -77 -133 vradio 25 1 0 4 empty preset_select Preset_Select 0
--8 0 10 -262144 -1 -1 2;
+-8 0 10 -262144 -1 -1 0;
 #X text -49 -132 Noise Reduction;
 #X text -49 -81 Bass Boost;
 #X text -50 -56 Treble Boost;
@@ -106,8 +102,8 @@ values.;
 #X obj 245 -792 s input_select;
 #N canvas 823 285 379 357 step_volume 0;
 #X msg 61 -805 set \$1;
-#X msg 145 -779 0;
-#X msg -12 -778 0;
+#X msg 145 -779 0.622047;
+#X msg -12 -778 0.622047;
 #X obj 65 -842 clip 0 1;
 #X obj 46 -891 r master_volume;
 #X obj 65 -863 r step_volume;
@@ -169,17 +165,6 @@ values of the current main volume.;
 -1;
 #X obj 467 -778 bng 20 250 50 0 empty p4 P4 4 11 2 12 -228856 -128992
 -1;
-<<<<<<< HEAD
-#X obj 430 -848 vradio 20 1 0 6 empty input_select empty 0 -8 0 10
--228856 -1 -1 3;
-#X text 408 -748 TV;
-#X text 364 -829 Microphone;
-#X text 391 -809 Music;
-#X text 404 -850 Aux;
-#X text 367 -789 Telephone;
-#X text 392 -768 Radio;
-#X obj 430 -723 bng 20 250 50 0 empty input_select S 8 10 0 10 -262144
-=======
 #X obj 430 -746 vradio 20 1 0 6 empty input_select empty 0 -8 0 10
 -228856 -1 -1 0;
 #X text 408 -646 TV;
@@ -189,7 +174,6 @@ values of the current main volume.;
 #X text 367 -687 Telephone;
 #X text 392 -666 Radio;
 #X obj 430 -621 bng 20 250 50 0 empty input_select S 8 10 0 10 -262144
->>>>>>> origin/master
 -1 -1;
 #X obj 245 -892 expr ($f1 + 0.1)* 6;
 #X text 355 -872 need to check if source sel from the phone is precise
@@ -274,11 +258,7 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 43 0 41 1;
 #X connect 43 0 42 1;
 #X restore 55 -123 pd phone_osc;
-<<<<<<< HEAD
-#N canvas 608 52 645 502 test 1;
-=======
-#N canvas 680 100 645 502 test 0;
->>>>>>> origin/master
+#N canvas 677 105 645 502 test 1;
 #X obj -296 -522 cnv 15 100 130 empty empty file_ops 20 12 0 14 -232576
 -66577 0;
 #X obj -195 -522 cnv 15 100 130 empty empty subject 20 12 0 14 -203904
@@ -306,7 +286,7 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X obj -183 -499 bng 15 250 50 0 empty empty next_subject 17 7 0 10
 -4032 -1 -1;
 #X obj -183 -479 s nextsubj;
-#N canvas 34 202 450 300 tasks 0;
+#N canvas 31 207 450 300 tasks 0;
 #X obj -121 1 cnv 15 250 250 empty empty Task_selection 20 12 0 14
 -233017 -66577 0;
 #X obj 56 174 select 0;
@@ -468,7 +448,7 @@ the write command is sent. the rows end with a semicolon.;
 #X obj 264 -521 cnv 15 80 130 empty empty device 20 12 0 14 -261234
 -66577 0;
 #X obj 286 -464 vradio 15 1 1 2 empty empty empty 0 -8 0 10 -262144
--1 -1 1;
+-1 -1 0;
 #X text 307 -466 MYO;
 #X text 306 -453 phone;
 #X obj 61 -326 symbol;
@@ -713,7 +693,7 @@ write it in file 'results/infos.txt';
 #X obj -198 -157 cnv 15 115 250 empty empty empty 20 12 0 14 -204800
 -66577 0;
 #X obj -186 -129 vradio 25 1 0 5 empty input_select Audio_Select 0
--8 0 10 -262144 -1 -1 3;
+-8 0 10 -262144 -1 -1 0;
 #X text -158 -127 Microphone;
 #X text -158 -105 Music;
 #X text -159 -80 Phone;

@@ -292,10 +292,10 @@ int main() {
         int previousVol = 0;
 
         // Variables for source selection
-        int src = 0;
+        int src = 2;            // Current source (initialized as "Music")
         
         // Variables for presets.
-        int preset = 1;         // Current preset (initialized to zero)
+        int preset = 4;         // Current preset (initialized as "TrebleBoost")
         
         // Variables for lock/unlock information
         char bufferLock[bufferLength];

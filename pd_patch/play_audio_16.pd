@@ -1,4 +1,4 @@
-#N canvas 613 149 570 492 10;
+#N canvas 913 126 570 492 10;
 #X declare -lib mrpeach;
 #X obj -18 -333 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
 -66577 0;
@@ -65,7 +65,7 @@ MYO;
 #X restore 55 -97 pd osc_things;
 #X obj 57 100 s master_volume;
 #X obj 57 -35 vsl 85 128 0 1 0 0 empty empty Volume 0 -9 0 10 -204786
--258113 -4160 0 1;
+-258113 -4160 9525 1;
 #X obj 56 -72 r volume_slider;
 #X text -10 -329 This patch plays the audio from (at present) 6 different
 inputs simultaneously. To select which audio to hear \, choose a source
@@ -77,14 +77,13 @@ function?). There is also a master volume which takes the same min/max
 values.;
 #X obj -82 -158 cnv 15 130 150 empty empty empty 20 12 0 14 -257985
 -66577 0;
-#X obj -77 -138 vradio 25 1 0 4 empty preset_select Preset_Select 0
--8 0 10 -262144 -1 -1 0;
+#X obj -77 -138 vradio 25 1 0 4 init_load_p preset_select Preset_Select
+0 -8 0 10 -262144 -1 -1 3;
 #X text -49 -134 Noise Reduction;
 #X text -50 -58 Treble Boost;
 #X text -49 -108 Feedback Killer;
-#N canvas 638 102 709 525 phone_osc 0;
+#N canvas 445 140 709 525 phone_osc 1;
 #X obj 15 -1060 unpackOSC;
-#X obj 15 -892 select 1;
 #X obj 72 -894 s vm;
 #X obj 116 -846 s p1;
 #X obj 139 -821 s p2;
@@ -93,15 +92,15 @@ values.;
 #X obj 116 -874 select 1 2 3;
 #X obj 245 -868 int;
 #X msg 245 -845 set \$1;
-#X msg 245 -816 2;
+#X msg 245 -816 0;
 #X obj 193 -831 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 15 -1096 udpreceive 9000;
 #X obj 245 -792 s input_select;
-#N canvas 820 290 379 357 step_volume 0;
+#N canvas 701 293 379 357 step_volume 1;
 #X msg 61 -805 set \$1;
-#X msg 145 -779 0;
-#X msg -12 -778 0;
+#X msg 145 -779 0.75;
+#X msg -12 -778 0.75;
 #X obj 65 -842 clip 0 1;
 #X obj 46 -891 r master_volume;
 #X obj 65 -863 r step_volume;
@@ -216,8 +215,6 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 10 0 8 0;
 #X connect 11 0 12 0;
 #X restore 49 -1040 pd countclicks;
-#X obj 15 -1019 routeOSC /volume /vmute /preset /setsource /source
-/unlock;
 #X obj 15 -918 spigot;
 #X obj 72 -919 spigot;
 #X obj 130 -919 spigot;
@@ -227,40 +224,45 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X msg 302 -995 \; phonelock \$1 \; unlocked \$1;
 #X obj 82 -784 s preset_select;
 #X obj 82 -808 - 1;
-#X obj 245 -892 * 4.99;
-#X connect 0 0 34 0;
-#X connect 0 0 35 0;
-#X connect 1 0 14 0;
-#X connect 1 1 14 1;
-#X connect 7 0 3 0;
-#X connect 7 1 4 0;
-#X connect 7 2 5 0;
-#X connect 7 3 6 0;
+#X obj 15 -1019 routeOSC /volume /vmute /preset /setsource /source
+/unlocked;
+#X obj 134 -974 change;
+#X obj 15 -892 select 1 0;
+#X obj 245 -892 expr $f1 * 4.98 + 0.01;
+#X connect 0 0 33 0;
+#X connect 0 0 43 0;
+#X connect 6 0 2 0;
+#X connect 6 1 3 0;
+#X connect 6 2 4 0;
+#X connect 6 3 5 0;
+#X connect 7 0 8 0;
 #X connect 8 0 9 0;
-#X connect 9 0 10 0;
-#X connect 10 0 13 0;
-#X connect 11 0 10 0;
-#X connect 12 0 0 0;
-#X connect 35 0 36 0;
-#X connect 35 1 37 0;
-#X connect 35 2 38 0;
-#X connect 35 3 39 0;
-#X connect 35 4 40 0;
-#X connect 35 5 42 0;
-#X connect 36 0 1 0;
-#X connect 37 0 2 0;
-#X connect 37 0 14 2;
-#X connect 38 0 7 0;
-#X connect 38 0 44 0;
-#X connect 39 0 11 0;
-#X connect 40 0 45 0;
-#X connect 41 0 36 1;
-#X connect 41 0 37 1;
-#X connect 41 0 38 1;
-#X connect 41 0 39 1;
-#X connect 41 0 40 1;
-#X connect 44 0 43 0;
-#X connect 45 0 8 0;
+#X connect 9 0 12 0;
+#X connect 10 0 9 0;
+#X connect 11 0 0 0;
+#X connect 34 0 45 0;
+#X connect 35 0 1 0;
+#X connect 35 0 13 2;
+#X connect 36 0 6 0;
+#X connect 36 0 42 0;
+#X connect 37 0 10 0;
+#X connect 38 0 46 0;
+#X connect 39 0 34 1;
+#X connect 39 0 35 1;
+#X connect 39 0 36 1;
+#X connect 39 0 37 1;
+#X connect 39 0 38 1;
+#X connect 42 0 41 0;
+#X connect 43 0 34 0;
+#X connect 43 1 35 0;
+#X connect 43 2 44 0;
+#X connect 43 3 37 0;
+#X connect 43 4 38 0;
+#X connect 43 5 40 0;
+#X connect 44 0 36 0;
+#X connect 45 0 13 0;
+#X connect 45 1 13 1;
+#X connect 46 0 7 0;
 #X restore 55 -123 pd phone_osc;
 #N canvas 495 176 717 502 test 1;
 #X obj -296 -522 cnv 15 100 130 empty empty file_ops 20 12 0 14 -232576
@@ -384,7 +386,7 @@ index on the beginning;
 there every time is sent bang to "nextsubj";
 #X text 192 5 THIS PATCH CALCULATE CURRENT SUBJECT;
 #X obj -13 381 f 0;
-#X msg -13 355 1;
+#X msg -13 355 8;
 #X obj 170 323 loadbang;
 #X msg 170 347 0;
 #X text 191 141 2- when the file is open \, scroll every line and send
@@ -754,7 +756,7 @@ write it in file 'results/infos.txt';
 #X text -157 -30 TV;
 #X text -172 7 Audio Players;
 #X obj -157 65 dac~;
-#N canvas 405 23 794 594 Audio 0;
+#N canvas 376 479 794 594 Audio 0;
 #X obj -91 -447 cnv 15 370 160 empty empty empty 20 12 0 14 -257985
 -66577 0;
 #X text -86 -445 Each audio sub_patch sends a stereo signal from it's
@@ -1225,6 +1227,8 @@ subpatches \, turning it off. The right outlet triggers the message
 #X restore 415 32 pd bass_boost 1;
 #X text 508 30 Works with Radio & Music;
 #X text 498 61 comment;
+#X obj 494 -268 loadbang;
+#X msg 492 -241 \; input_select 1 \; preset_select 4;
 #X connect 3 0 20 0;
 #X connect 3 1 21 0;
 #X connect 4 0 20 1;
@@ -1266,6 +1270,7 @@ subpatches \, turning it off. The right outlet triggers the message
 #X connect 43 0 45 0;
 #X connect 45 0 40 0;
 #X connect 46 0 45 0;
+#X connect 50 0 51 0;
 #X restore -186 28 pd Audio Players;
 #X text -49 -83 Bass Boost;
 #X connect 3 0 2 0;

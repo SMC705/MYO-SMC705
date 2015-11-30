@@ -6,16 +6,16 @@ close all
 
 % read the data file
 fid = fopen('tasks.txt');
-data = textscan( fid, '%f%f%f%f%s', 'delimiter', ' ');
+data = textscan( fid, '%f%f%f%f%f%s', 'delimiter', {' ',';'});
 fclose(fid);
 
-userID = [ data{1} ];
-taskID = [ data{2} ];
-clicks = [ data{3} ];
-taskTime = [ data{4} ];
+userID = [ data{2} ];
+taskID = [ data{3} ];
+clicks = [ data{4} ];
+taskTime = [ data{5} ];
 
 % MYO = 1  |  PHONE = 0
-device = [ double( strcmp( data{5}, 'myo;' )) ];
+device = [ double( strcmp( data{6}, 'myo' )) ];
 
 myoIdx = find( device==1 );
 phoIdx = find( device==0 );

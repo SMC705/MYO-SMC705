@@ -1,4 +1,4 @@
-#N canvas 0 256 570 492 10;
+#N canvas 0 266 570 492 10;
 #X declare -lib mrpeach;
 #X obj -18 -333 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
 -66577 0;
@@ -275,74 +275,73 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 44 0 13 0;
 #X connect 44 1 13 1;
 #X restore 55 -123 pd phone_osc;
-#N canvas 543 102 729 504 test 1;
+#N canvas 534 117 729 504 test 1;
 #X obj -296 -522 cnv 15 100 130 empty empty file_ops 20 12 0 14 -232576
 -66577 0;
 #X obj -195 -522 cnv 15 100 130 empty empty userID 20 12 0 14 -203904
 -66577 0;
-#X obj 83 -522 cnv 15 100 130 empty empty n°_clicks 20 12 0 14 -262130
+#X obj 68 -522 cnv 15 100 130 empty empty n°_clicks 20 12 0 14 -262130
 -66577 0;
-#X obj -18 -522 cnv 15 100 130 empty empty tasks 20 12 0 14 -204800
+#X obj -33 -522 cnv 15 100 130 empty empty tasks 20 12 0 14 -204800
 -66577 0;
-#X obj -159 -280 prepend add;
-#X obj -76 -281 print TXTfile;
+#X obj -224 -280 prepend add;
+#X obj -141 -281 print TXTfile;
 #X obj -292 -475 bng 15 250 50 0 empty empty add_values 17 7 0 10 -4034
 -262144 -1;
 #X text -178 -436 N° subject;
-#X text 0 -437 N° task;
 #X obj -292 -447 bng 15 250 50 0 empty empty save_file 17 7 0 10 -258113
 -1 -1;
-#X obj -159 -333 f;
-#X floatatom -7 -419 5 0 0 0 - - -;
+#X obj -224 -333 f;
+#X floatatom -22 -420 5 0 0 0 - - -;
 #X floatatom -183 -419 5 0 1000 0 - - -;
-#X floatatom 88 -419 5 0 0 0 - - -;
-#X text 93 -438 Clicks;
+#X floatatom 73 -419 5 0 0 0 - - -;
+#X text 78 -438 Clicks;
 #X obj -183 -458 r subjectID;
 #X msg -292 -222 \; txt write results/tasks.txt;
-#X obj -159 -254 s txt;
+#X obj -224 -254 s txt;
 #X obj -183 -499 bng 15 250 50 0 empty empty next_subject 17 7 0 10
 -4032 -1 -1;
 #X obj -183 -479 s nextsubj;
-#N canvas 75 166 1288 528 tasks 0;
+#N canvas 72 171 1288 528 tasks 0;
 #X obj -121 1 cnv 15 250 250 empty empty Task_selection 20 12 0 14
 -233017 -66577 0;
 #X obj 56 174 select 0;
 #X msg 61 123 1;
 #X obj 61 32 loadbang;
 #X text 72 123 reset;
-#X msg -62 123 inc;
-#X text -45 123 rease;
-#X obj -62 36 inlet;
-#X obj -61 218 outlet;
-#X obj 1 173 s iter;
+#X msg -109 123 inc;
+#X text -92 123 rease;
+#X obj -109 36 inlet;
+#X obj -109 219 outlet;
 #X msg -94 295 \; end_canvas color 0;
 #X msg 98 295 \; end_canvas color 13 \;;
 #X obj -94 275 loadbang;
 #X text 161 265 This counts number of iterations (max 5) and popup
 when test is over;
 #X text 97 148 This counts the number of tasks in an iteration;
-#X msg -25 80 \; newtask bang;
-#X obj -62 193 shuffle 1 5 0.5;
-#X obj -59 155 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X msg -72 80 \; newtask bang;
+#X obj -109 193 shuffle 1 5 0.5;
+#X obj -109 159 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 14 150 counter 1 25;
-#X connect 1 0 11 0;
-#X connect 2 0 18 3;
+#X obj 5 220 outlet;
+#X text -67 221 1;
+#X text 49 220 2;
+#X connect 1 0 10 0;
+#X connect 2 0 17 3;
 #X connect 3 0 2 0;
+#X connect 5 0 16 0;
 #X connect 5 0 17 0;
-#X connect 5 0 18 0;
 #X connect 7 0 5 0;
-#X connect 7 0 15 0;
-#X connect 12 0 10 0;
-#X connect 16 0 8 0;
-#X connect 17 0 16 0;
-#X connect 18 0 9 0;
-#X connect 18 2 1 0;
-#X restore -7 -478 pd tasks;
-#X obj -7 -499 bng 15 250 50 0 empty empty prev 17 7 0 10 -257985 -1
--1;
-#X obj 44 -499 bng 15 250 50 0 empty empty next 17 7 0 10 -257985 -1
--1;
+#X connect 7 0 14 0;
+#X connect 11 0 9 0;
+#X connect 15 0 8 0;
+#X connect 16 0 15 0;
+#X connect 17 0 18 0;
+#X connect 17 2 1 0;
+#X restore -22 -478 pd tasks;
+#X obj -22 -499 bng 15 250 50 0 empty empty next 17 7 0 10 -257985
+-1 -1;
 #N canvas 843 407 378 336 clicks 0;
 #X obj -9 -55 cnv 15 250 270 empty empty count_number_actions 20 12
 0 14 -233017 -66577 0;
@@ -370,19 +369,18 @@ the counter increase by 1 Every time the MYO unlock \, counter is reset
 #X connect 9 0 2 0;
 #X connect 10 0 6 0;
 #X connect 11 0 4 0;
-#X restore 88 -498 pd clicks;
+#X restore 73 -498 pd clicks;
 #X text -292 -194 write the content of textfile object inda file;
 #X obj -293 -169 cnv 15 500 130 empty empty rows→file 20 12 0 14
 -233017 -66577 0;
 #X obj -287 -105 textfile;
 #X obj -287 -129 r txt;
-#N canvas 296 321 659 427 subjectCALC 0;
-#X msg -13 268 set \$1;
-#X msg 69 281 \; scrollfile 0;
+#N canvas 0 133 659 604 subjectCALC 0;
+#X msg 100 281 \; scrollfile 0;
 #X obj 22 407 s subjectID;
 #X obj 22 381 + 1;
 #X obj -13 245 inlet;
-#X obj 69 247 inlet;
+#X obj 100 247 inlet;
 #X obj -87 169 metro 1;
 #X msg -86 51 read results/tasks.txt \, rewind \; scrollfile 1;
 #X obj -87 145 r scrollfile;
@@ -393,46 +391,70 @@ the counter increase by 1 Every time the MYO unlock \, counter is reset
 #X text 187 28 1- when the patch load \, open the file and put reading
 index on the beginning;
 #X text 19 245 1;
-#X text 100 248 2;
+#X text 131 248 2;
 #X obj -85 244 r nextsubj;
 #X text 54 380 basic counter;
 #X text 193 267 3- receive ID of last subject and start counting from
 there every time is sent bang to "nextsubj";
 #X text 192 5 THIS PATCH CALCULATE CURRENT SUBJECT;
 #X obj -13 381 f 0;
-#X msg -13 355 17;
+#X msg -13 355 1;
 #X obj 170 323 loadbang;
 #X msg 170 347 0;
 #X text 191 141 2- when the file is open \, scroll every line and send
 sbj n° to counter. At the same times \, it count the lines;
-#X connect 0 0 21 0;
-#X connect 3 0 2 0;
-#X connect 3 0 20 1;
+#X msg -13 301 set \$2;
+#X obj 26 555 + 1;
+#X text 58 554 basic counter;
+#X obj -9 555 f 0;
+#X msg -9 529 17;
+#X obj -81 483 loadbang;
+#X msg -81 507 0;
+#X text 16 528 last line n°;
+#X msg 2 266 \; countlines \$1;
+#X obj -9 470 r countlines;
+#X msg -9 499 set \$1;
+#X obj -30 444 r nextline;
+#X obj 26 581 s nline;
+#X connect 2 0 1 0;
+#X connect 2 0 19 1;
+#X connect 3 0 24 0;
+#X connect 3 0 32 0;
+#X connect 4 0 20 0;
 #X connect 4 0 0 0;
-#X connect 5 0 21 0;
-#X connect 5 0 1 0;
+#X connect 4 0 28 0;
+#X connect 5 0 9 0;
 #X connect 6 0 10 0;
-#X connect 7 0 11 0;
+#X connect 7 0 5 0;
 #X connect 8 0 6 0;
-#X connect 9 0 7 0;
-#X connect 16 0 20 0;
-#X connect 20 0 3 0;
-#X connect 21 0 20 0;
-#X connect 22 0 23 0;
-#X connect 23 0 20 0;
+#X connect 15 0 19 0;
+#X connect 19 0 2 0;
+#X connect 20 0 19 0;
+#X connect 21 0 22 0;
+#X connect 22 0 19 0;
+#X connect 24 0 20 0;
+#X connect 25 0 27 1;
+#X connect 25 0 36 0;
+#X connect 27 0 25 0;
+#X connect 28 0 27 0;
+#X connect 29 0 30 0;
+#X connect 30 0 27 0;
+#X connect 33 0 34 0;
+#X connect 34 0 28 0;
+#X connect 35 0 27 0;
 #X restore -287 -70 pd subjectCALC;
 #X text -190 -141 FILE WRITING: this object should receive the values
 from the tracking of the actions performed with the app and write them
 in a .txt file called "tasks.txt" in the '/result' folder. all values
 are collected as rows in the memory of the "textfile" object until
 the write command is sent. the rows end with a semicolon.;
-#X obj 179 -521 cnv 15 160 130 empty empty timer_(manual) 20 12 0 14
+#X obj 164 -522 cnv 15 160 130 empty empty timer_(manual) 20 12 0 14
 -261682 -66577 0;
-#X obj 278 -489 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 263 -490 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X floatatom 188 -414 5 0 0 0 - - -;
-#X text 204 -490 Start/Pause;
-#X text 296 -490 Reset;
+#X floatatom 173 -415 5 0 0 0 - - -;
+#X text 189 -491 Start/Pause;
+#X text 281 -491 Reset;
 #N canvas 125 302 800 458 timermanual 0;
 #X obj -22859 -383 cnv 15 200 200 empty empty empty 20 12 0 14 -233017
 -66577 0;
@@ -494,17 +516,17 @@ manually \, deactivate time only if both lock and deactivate manually
 #X connect 22 0 16 0;
 #X connect 23 0 19 0;
 #X connect 25 0 20 1;
-#X restore 188 -470 pd timermanual;
-#X obj 336 -387 select 0;
-#X msg 336 -363 myo;
-#X msg 381 -364 pho;
-#X obj 340 -521 cnv 15 80 130 empty empty device 20 12 0 14 -261234
+#X restore 173 -471 pd timermanual;
+#X obj 344 -388 select 0;
+#X msg 344 -364 myo;
+#X msg 389 -365 pho;
+#X obj 325 -522 cnv 15 80 130 empty empty device 20 12 0 14 -261234
 -66577 0;
-#X obj 362 -464 vradio 15 1 1 2 empty empty empty 0 -8 0 10 -262144
+#X obj 347 -465 vradio 15 1 1 2 empty empty empty 0 -8 0 10 -262144
 -1 -1 0;
-#X text 383 -466 MYO;
-#X text 382 -453 phone;
-#X obj 336 -341 symbol;
+#X text 368 -467 MYO;
+#X text 367 -454 phone;
+#X obj 344 -342 symbol;
 #N canvas 246 329 450 300 addvalues 0;
 #X obj 133 119 outlet;
 #X obj 58 37 r unlocked;
@@ -516,53 +538,55 @@ manually \, deactivate time only if both lock and deactivate manually
 #X connect 3 0 0 0;
 #X connect 4 0 3 0;
 #X restore -292 -499 pd addvalues;
-#X obj -279 -415 bng 15 250 50 0 empty empty empty 17 7 0 10 -99865
--1 -1;
-#X msg -279 -390 \; txt clear;
-#X obj -94 -522 cnv 15 75 130 empty empty iteration 0 12 0 14 -228856
--66577 0;
-#X obj -86 -493 r iter;
-#X floatatom -86 -419 5 0 0 0 - - -;
-#X obj -159 -311 pack f f f f f s;
+#X obj -94 -522 cnv 15 60 130 empty empty line 0 12 0 14 -228856 -66577
+0;
+#X floatatom -15 -451 5 0 0 0 - - -;
 #X obj 85 -280 cnv 15 310 40 empty end_canvas TEST_COMPLETE! 20 20
 1 30 -262144 -262144 0;
 #X obj 141 -244 cnv 15 200 25 empty end_canvas save_and_close_patch
 20 12 0 14 -262144 -262144 0;
-#X obj 188 -489 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1
+#X obj 173 -490 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1
 0 1;
-#X msg 336 -321 \; end_canvas color 0 \;;
-#X connect 4 0 17 0;
-#X connect 6 0 10 0;
-#X connect 9 0 16 0;
-#X connect 10 0 50 0;
-#X connect 11 0 50 2;
-#X connect 12 0 10 1;
-#X connect 13 0 50 3;
-#X connect 15 0 12 0;
-#X connect 18 0 19 0;
-#X connect 20 0 11 0;
-#X connect 22 0 20 0;
-#X connect 23 0 13 0;
-#X connect 26 0 28 0;
-#X connect 26 1 28 1;
-#X connect 27 0 26 0;
-#X connect 31 0 35 1;
-#X connect 32 0 50 4;
-#X connect 35 0 32 0;
-#X connect 36 0 37 0;
-#X connect 36 1 38 0;
-#X connect 37 0 43 0;
-#X connect 38 0 43 0;
-#X connect 40 0 36 0;
-#X connect 43 0 50 5;
-#X connect 43 0 54 0;
-#X connect 44 0 6 0;
-#X connect 45 0 46 0;
-#X connect 48 0 49 0;
-#X connect 49 0 50 1;
-#X connect 50 0 4 0;
-#X connect 50 0 5 0;
-#X connect 53 0 35 0;
+#X msg 344 -322 \; end_canvas color 0 \;;
+#X obj -224 -311 pack f f f f f f s;
+#X text 15 -424 ID task;
+#X text 16 -452 Ntask;
+#X msg -255 -391 \; nextline bang;
+#X obj -90 -440 r nline;
+#X floatatom -90 -416 5 0 0 0 - - -;
+#X connect 4 0 16 0;
+#X connect 6 0 9 0;
+#X connect 6 0 52 0;
+#X connect 8 0 15 0;
+#X connect 9 0 49 0;
+#X connect 10 0 49 3;
+#X connect 11 0 49 1;
+#X connect 12 0 49 4;
+#X connect 14 0 11 0;
+#X connect 17 0 18 0;
+#X connect 19 0 10 0;
+#X connect 19 1 44 0;
+#X connect 20 0 19 0;
+#X connect 21 0 12 0;
+#X connect 24 0 26 0;
+#X connect 24 1 26 1;
+#X connect 25 0 24 0;
+#X connect 29 0 33 1;
+#X connect 30 0 49 5;
+#X connect 33 0 30 0;
+#X connect 34 0 35 0;
+#X connect 34 1 36 0;
+#X connect 35 0 41 0;
+#X connect 36 0 41 0;
+#X connect 38 0 34 0;
+#X connect 41 0 48 0;
+#X connect 41 0 49 6;
+#X connect 42 0 6 0;
+#X connect 44 0 49 2;
+#X connect 47 0 33 0;
+#X connect 49 0 4 0;
+#X connect 49 0 5 0;
+#X connect 53 0 54 0;
 #X restore 55 -152 pd test;
 #X obj -198 -157 cnv 15 115 250 empty empty empty 20 12 0 14 -204800
 -66577 0;

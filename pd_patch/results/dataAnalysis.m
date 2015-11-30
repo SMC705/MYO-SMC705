@@ -38,4 +38,8 @@ pho_taskTime = taskTime( phoIdx);
 figure(1)
 plot( myo_taskTime, '.', 'MarkerSize', 20);
 hold on
+plot( myo_taskTime);
+hold on
 plot( pho_taskTime, '.', 'MarkerSize', 20);
+hold on
+plot( pho_taskTime);

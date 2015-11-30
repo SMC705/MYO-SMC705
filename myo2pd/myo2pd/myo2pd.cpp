@@ -23,13 +23,8 @@ using namespace std;
 // User ID
 //const string userID = "01";
 // Minimum and maximum roll angle
-<<<<<<< HEAD:UDP/myo2pd/myo2pd/myo2pd.cpp
-const int minAngle = -2;
-const int maxAngle = 30;
-=======
-const int minAngle = -55;
-const int maxAngle = 13;
->>>>>>> origin/master:myo2pd/myo2pd/myo2pd.cpp
+const int minAngle = 24;
+const int maxAngle = 86;
 // Filename to record user's actions
 //const string fileName = "/Users/Paolo/Documents/AAU/2015-2016/Fall\ Semester\ Project/MYO-SMC705/Test\ Recordings/user" + userID + ".txt";
 // Number of audio sources

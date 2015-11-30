@@ -1,4 +1,4 @@
-#N canvas 610 154 570 492 10;
+#N canvas 607 159 570 492 10;
 #X declare -lib mrpeach;
 #X obj -18 -333 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
 -66577 0;
@@ -82,7 +82,7 @@ values.;
 #X text -49 -134 Noise Reduction;
 #X text -50 -58 Treble Boost;
 #X text -49 -108 Feedback Killer;
-#N canvas 638 102 709 525 phone_osc 0;
+#N canvas 635 107 709 525 phone_osc 0;
 #X obj 15 -1060 unpackOSC;
 #X obj 15 -892 select 1;
 #X obj 72 -894 s vm;
@@ -228,6 +228,7 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X obj 82 -784 s preset_select;
 #X obj 82 -808 - 1;
 #X obj 245 -892 * 4.99;
+#X obj 130 -975 change;
 #X connect 0 0 34 0;
 #X connect 0 0 35 0;
 #X connect 1 0 14 0;
@@ -243,7 +244,7 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 12 0 0 0;
 #X connect 35 0 36 0;
 #X connect 35 1 37 0;
-#X connect 35 2 38 0;
+#X connect 35 2 46 0;
 #X connect 35 3 39 0;
 #X connect 35 4 40 0;
 #X connect 35 5 42 0;
@@ -261,8 +262,9 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 41 0 40 1;
 #X connect 44 0 43 0;
 #X connect 45 0 8 0;
+#X connect 46 0 38 0;
 #X restore 55 -123 pd phone_osc;
-#N canvas 492 181 717 502 test 1;
+#N canvas 489 186 717 502 test 0;
 #X obj -296 -522 cnv 15 100 130 empty empty file_ops 20 12 0 14 -232576
 -66577 0;
 #X obj -124 -522 cnv 15 100 130 empty empty subject 20 12 0 14 -203904
@@ -551,19 +553,19 @@ manually \, deactivate time only if both lock and deactivate manually
 #X connect 50 0 51 0;
 #X connect 51 0 10 1;
 #X restore 55 -152 pd test;
-#N canvas 0 54 1366 714 questionnaire 1;
+#N canvas 0 82 1351 686 questionnaire 0;
 #X text 18 12 USER INFORMATIONS;
 #X floatatom 24 58 5 0 0 0 - - age;
 #X obj 24 110 vradio 15 1 0 2 deafness empty empty 0 -8 0 10 -204800
--1 -1 1;
+-1 -1 0;
 #X obj 24 176 vradio 15 1 0 2 app_user empty empty 0 -8 0 10 -204800
--1 -1 1;
+-1 -1 0;
 #X obj 24 242 hradio 15 1 0 7 tech_exp empty empty 0 -8 0 10 -204800
--1 -1 6;
+-1 -1 0;
 #X obj 24 293 vradio 15 1 0 2 myo_usr empty empty 0 -8 0 10 -204800
 -1 -1 0;
 #X obj 24 359 vradio 15 1 0 2 job empty empty 0 -8 0 10 -204800 -1
--1 1;
+-1 0;
 #X text 404 9 ANSWER TO THESE SIMPLE QUESTIONS:;
 #X obj 411 168 tgl 15 0 s1 empty empty 17 7 0 10 -204800 -1 -1 0 1
 ;
@@ -571,7 +573,7 @@ manually \, deactivate time only if both lock and deactivate manually
 ;
 #X obj 411 208 tgl 15 0 s3 empty empty 17 7 0 10 -204800 -1 -1 0 1
 ;
-#X obj 411 228 tgl 15 0 s4 empty empty 17 7 0 10 -204800 -1 -1 1 1
+#X obj 411 228 tgl 15 0 s4 empty empty 17 7 0 10 -204800 -1 -1 0 1
 ;
 #X obj 411 248 tgl 15 0 s5 empty empty 17 7 0 10 -204800 -1 -1 0 1
 ;
@@ -596,13 +598,13 @@ manually \, deactivate time only if both lock and deactivate manually
 #X text 46 174 No;
 #X text 45 106 No;
 #X obj 407 58 hradio 15 1 0 7 myo_easy empty empty 0 -8 0 10 -204800
--1 -1 4;
+-1 -1 0;
 #X obj 407 103 hradio 15 1 0 7 myo_discreet empty empty 0 -8 0 10 -204800
--1 -1 1;
+-1 -1 0;
 #X obj 407 350 hradio 15 1 0 7 pho_easy empty empty 0 -8 0 10 -204800
--1 -1 4;
+-1 -1 0;
 #X obj 407 395 hradio 15 1 0 7 pho_discreet empty empty 0 -8 0 10 -204800
--1 -1 4;
+-1 -1 0;
 #X obj 180 483 bng 15 250 50 0 empty empty send_comment 17 7 0 10 -4032
 -1 -1;
 #X obj 180 508 entry 358 145 grey70 black;

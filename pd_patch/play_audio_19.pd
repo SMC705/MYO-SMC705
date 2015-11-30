@@ -65,7 +65,11 @@ MYO;
 #X restore 55 -97 pd osc_things;
 #X obj 57 100 s master_volume;
 #X obj 57 -35 vsl 85 128 0 1 0 0 empty empty Volume 0 -9 0 10 -204786
+<<<<<<< HEAD
 -258113 -4160 635 1;
+=======
+-258113 -4160 0 1;
+>>>>>>> origin/master
 #X obj 56 -72 r volume_slider;
 #X text -10 -329 This patch plays the audio from (at present) 6 different
 inputs simultaneously. To select which audio to hear \, choose a source
@@ -78,7 +82,11 @@ values.;
 #X obj -82 -158 cnv 15 130 150 empty empty empty 20 12 0 14 -257985
 -66577 0;
 #X obj -77 -138 vradio 25 1 0 4 empty preset_select Preset_Select 0
+<<<<<<< HEAD
 -8 0 10 -262144 -1 -1 3;
+=======
+-8 0 10 -262144 -1 -1 0;
+>>>>>>> origin/master
 #X text -49 -134 Noise Reduction;
 #X text -50 -58 Treble Boost;
 #X text -49 -108 Feedback Killer;
@@ -99,8 +107,13 @@ values.;
 #X obj 245 -792 s input_select;
 #N canvas 225 364 379 357 step_volume 0;
 #X msg 61 -805 set \$1;
+<<<<<<< HEAD
 #X msg 145 -779 0.05;
 #X msg -12 -778 0.05;
+=======
+#X msg 145 -779 0;
+#X msg -12 -778 0;
+>>>>>>> origin/master
 #X obj 65 -842 clip 0 1;
 #X obj 46 -891 r master_volume;
 #X obj 65 -863 r step_volume;
@@ -275,7 +288,11 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 44 0 13 0;
 #X connect 44 1 13 1;
 #X restore 55 -123 pd phone_osc;
+<<<<<<< HEAD
 #N canvas 497 59 770 511 test 1;
+=======
+#N canvas 534 117 729 504 test 1;
+>>>>>>> origin/master
 #X obj -296 -522 cnv 15 100 130 empty empty file_ops 20 12 0 14 -232576
 -66577 0;
 #X obj -195 -522 cnv 15 100 130 empty empty userID 20 12 0 14 -203904
@@ -302,7 +319,11 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X obj -183 -499 bng 15 250 50 0 empty empty next_subject 17 7 0 10
 -4032 -1 -1;
 #X obj -183 -479 s nextsubj;
+<<<<<<< HEAD
 #N canvas 0 171 1280 528 tasks 0;
+=======
+#N canvas 72 171 1288 528 tasks 0;
+>>>>>>> origin/master
 #X obj -121 1 cnv 15 250 250 empty empty Task_selection 20 12 0 14
 -233017 -66577 0;
 #X obj 56 174 select 0;
@@ -319,6 +340,10 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X text 161 265 This counts number of iterations (max 5) and popup
 when test is over;
 #X text 97 148 This counts the number of tasks in an iteration;
+<<<<<<< HEAD
+=======
+#X msg -72 80 \; newtask bang;
+>>>>>>> origin/master
 #X obj -109 193 shuffle 1 5 0.5;
 #X obj -109 159 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
@@ -326,6 +351,7 @@ when test is over;
 #X obj 5 220 outlet;
 #X text -67 221 1;
 #X text 49 220 2;
+<<<<<<< HEAD
 #X msg -72 80 \; newtask bang \; volume_slider 0.05;
 #X obj -76 163 loadbang;
 #X connect 1 0 10 0;
@@ -341,6 +367,20 @@ when test is over;
 #X connect 16 0 17 0;
 #X connect 16 2 1 0;
 #X connect 21 0 14 0;
+=======
+#X connect 1 0 10 0;
+#X connect 2 0 17 3;
+#X connect 3 0 2 0;
+#X connect 5 0 16 0;
+#X connect 5 0 17 0;
+#X connect 7 0 5 0;
+#X connect 7 0 14 0;
+#X connect 11 0 9 0;
+#X connect 15 0 8 0;
+#X connect 16 0 15 0;
+#X connect 17 0 18 0;
+#X connect 17 2 1 0;
+>>>>>>> origin/master
 #X restore -22 -478 pd tasks;
 #X obj -22 -499 bng 15 250 50 0 empty empty next 17 7 0 10 -257985
 -1 -1;
@@ -400,7 +440,11 @@ index on the beginning;
 there every time is sent bang to "nextsubj";
 #X text 192 5 THIS PATCH CALCULATE CURRENT SUBJECT;
 #X obj -13 381 f 0;
+<<<<<<< HEAD
 #X msg -13 355 5;
+=======
+#X msg -13 355 1;
+>>>>>>> origin/master
 #X obj 170 323 loadbang;
 #X msg 170 347 0;
 #X text 191 141 2- when the file is open \, scroll every line and send
@@ -409,7 +453,11 @@ sbj n° to counter. At the same times \, it count the lines;
 #X obj 26 555 + 1;
 #X text 58 554 basic counter;
 #X obj -9 555 f 0;
+<<<<<<< HEAD
 #X msg -9 529 1;
+=======
+#X msg -9 529 17;
+>>>>>>> origin/master
 #X obj -81 483 loadbang;
 #X msg -81 507 0;
 #X text 16 528 last line n°;
@@ -551,6 +599,7 @@ manually \, deactivate time only if both lock and deactivate manually
 0 1;
 #X msg 344 -322 \; end_canvas color 0 \;;
 #X obj -224 -311 pack f f f f f f s;
+<<<<<<< HEAD
 #X msg -255 -391 \; nextline bang;
 #X obj -90 -440 r nline;
 #X floatatom -90 -416 5 0 0 0 - - -;
@@ -561,6 +610,16 @@ manually \, deactivate time only if both lock and deactivate manually
 #X connect 4 0 16 0;
 #X connect 6 0 9 0;
 #X connect 6 0 50 0;
+=======
+#X text 15 -424 ID task;
+#X text 16 -452 Ntask;
+#X msg -255 -391 \; nextline bang;
+#X obj -90 -440 r nline;
+#X floatatom -90 -416 5 0 0 0 - - -;
+#X connect 4 0 16 0;
+#X connect 6 0 9 0;
+#X connect 6 0 52 0;
+>>>>>>> origin/master
 #X connect 8 0 15 0;
 #X connect 9 0 49 0;
 #X connect 10 0 49 3;
@@ -590,7 +649,11 @@ manually \, deactivate time only if both lock and deactivate manually
 #X connect 47 0 33 0;
 #X connect 49 0 4 0;
 #X connect 49 0 5 0;
+<<<<<<< HEAD
 #X connect 51 0 52 0;
+=======
+#X connect 53 0 54 0;
+>>>>>>> origin/master
 #X restore 55 -152 pd test;
 #X obj -198 -157 cnv 15 115 250 empty empty empty 20 12 0 14 -204800
 -66577 0;

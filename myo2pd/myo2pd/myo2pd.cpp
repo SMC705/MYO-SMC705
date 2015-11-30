@@ -21,12 +21,17 @@
 using namespace std;
 
 // User ID
-const string userID = "01";
+//const string userID = "01";
 // Minimum and maximum roll angle
+<<<<<<< HEAD:UDP/myo2pd/myo2pd/myo2pd.cpp
 const int minAngle = -2;
 const int maxAngle = 30;
+=======
+const int minAngle = -55;
+const int maxAngle = 13;
+>>>>>>> origin/master:myo2pd/myo2pd/myo2pd.cpp
 // Filename to record user's actions
-const string fileName = "/Users/Paolo/Documents/AAU/2015-2016/Fall\ Semester\ Project/MYO-SMC705/Test\ Recordings/user" + userID + ".txt";
+//const string fileName = "/Users/Paolo/Documents/AAU/2015-2016/Fall\ Semester\ Project/MYO-SMC705/Test\ Recordings/user" + userID + ".txt";
 // Number of audio sources
 const int srcNum = 5;
 // Number of audio presets
@@ -272,8 +277,8 @@ int main() {
         // OUTPUT FILE SETTINGS
         // here we export all the data of a user to a file.
         
-        ofstream outputFile;
-        outputFile.open( fileName );
+//        ofstream outputFile;
+//        outputFile.open( fileName );
         
         
         
@@ -335,7 +340,7 @@ int main() {
 // It's much better to implement another buffer with the message is unlocked --->>> TALK WITH DEVID WHICH WAY HE PREFERS TO RECEIVE IT!
             
             if ( collector.isUnlocked == false ) {
-                outputFile << "locked";
+//                outputFile << "locked";
                 if ( previousUnlock == true ) {
                     bufferLock[3] = 0;
                     sendto(clientSocket,bufferLock,bufferLength,0,(struct sockaddr *)&serverAddr,addr_size);
@@ -344,7 +349,7 @@ int main() {
             }
             
             else if ( collector.isUnlocked == true ) {
-                outputFile << "unlocked";
+//                outputFile << "unlocked";
                 if ( previousUnlock == false ) {
                     bufferLock[3] = 1;
                     sendto(clientSocket,bufferLock,bufferLength,0,(struct sockaddr *)&serverAddr,addr_size);
@@ -364,7 +369,7 @@ int main() {
                 buffer[3] = collector.roll_vol;
                 hamlet = true;
                 
-                outputFile << " vol" << collector.roll_vol;
+//                outputFile << " vol" << collector.roll_vol;
                 
                 // Haptic feedback on min and max volume
                 if ( collector.roll_vol == 1 || collector.roll_vol == 127 ) {
@@ -408,7 +413,7 @@ int main() {
                 buffer[3] = src;
                 hamlet = true;
                 
-                outputFile << " src" << src;
+//                outputFile << " src" << src;
                 
                 // Haptic feedback and samePose reset
                 myo->vibrate(myo::Myo::vibrationShort);
@@ -427,7 +432,7 @@ int main() {
                 buffer[3] = src;
                 hamlet = true;
                 
-                outputFile << " src" << src;
+//                outputFile << " src" << src;
                 
                 // Haptic feedback and samePose reset
                 myo->vibrate(myo::Myo::vibrationShort);
@@ -470,7 +475,7 @@ int main() {
                 buffer[3] = preset;
                 hamlet = true;
 
-                outputFile << " pst" << preset;
+//                outputFile << " pst" << preset;
                 
             }
             
@@ -493,7 +498,7 @@ int main() {
                 sendto(clientSocket,buffer,nBytes,0,(struct sockaddr *)&serverAddr,addr_size);
             }
             
-            outputFile << endl;
+//            outputFile << endl;
             delete[] buffer;
 
         }

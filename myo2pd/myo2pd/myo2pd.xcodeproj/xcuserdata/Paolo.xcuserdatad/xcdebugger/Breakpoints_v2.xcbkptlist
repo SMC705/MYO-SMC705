@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "myo2pd.cpp"
+            timestampString = "470151482.649608"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "5"
+            endingLineNumber = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "myo2pd.cpp"
+            timestampString = "470311419.638063"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "21"
+            endingLineNumber = "21">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "DataCollector::~DataCollector()"
+                  moduleName = "myo2pd"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Paolo/Documents/AAU/2015-2016/Fall%20Semester%20Project/MYO-SMC705/UDP/myo2pd/myo2pd/myo2pd.cpp"
+                  timestampString = "470327680.191304"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "49"
+                  endingLineNumber = "49"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "DataCollector::~DataCollector()"
+                  moduleName = "myo2pd"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Paolo/Documents/AAU/2015-2016/Fall%20Semester%20Project/MYO-SMC705/UDP/myo2pd/myo2pd/myo2pd.cpp"
+                  timestampString = "470327680.191739"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "49"
+                  endingLineNumber = "49"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "DataCollector::~DataCollector()"
+                  moduleName = "myo2pd"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Paolo/Documents/AAU/2015-2016/Fall%20Semester%20Project/MYO-SMC705/UDP/myo2pd/myo2pd/myo2pd.cpp"
+                  timestampString = "470327680.192252"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "49"
+                  endingLineNumber = "49"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

@@ -30,7 +30,6 @@ pho_taskID = taskID( phoIdx);
 pho_clicks = clicks( phoIdx);
 pho_taskTime = taskTime( phoIdx);
 
-
 %% PLOT TASK TIME (MYO & PHONE)
 
 % NOTE: we can make the average time for each task on the myo and for each

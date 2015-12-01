@@ -278,30 +278,30 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #N canvas 581 23 783 531 test 1;
 #X obj -296 -522 cnv 15 100 130 empty empty file_ops 20 12 0 14 -232576
 -66577 0;
-#X obj -195 -522 cnv 15 100 130 empty empty userID 20 12 0 14 -203904
+#X obj -195 -522 cnv 25 100 230 empty empty userID 20 12 0 14 -203904
 -66577 0;
 #X obj 68 -522 cnv 15 100 130 empty empty n°_clicks 20 12 0 14 -262130
 -66577 0;
 #X obj -33 -522 cnv 15 100 130 empty empty tasks 20 12 0 14 -204800
 -66577 0;
-#X obj -224 -280 prepend add;
-#X obj -141 -281 print TXTfile;
+#X obj -109 -250 prepend add;
+#X obj -26 -251 print TXTfile;
 #X obj -292 -475 bng 15 250 50 0 empty empty add_values 17 7 0 10 -4034
 -262144 -1;
-#X text -178 -436 N° subject;
+#X text -173 -374 N° subject;
 #X obj -292 -447 bng 15 250 50 0 empty empty save_file 17 7 0 10 -258113
 -1 -1;
-#X obj -224 -333 f;
+#X obj -109 -303 f;
 #X floatatom -22 -420 5 0 0 0 - - -;
-#X floatatom -183 -419 5 0 1000 0 - - -;
+#X floatatom -183 -341 5 0 1000 0 - - -;
 #X floatatom 73 -419 5 0 0 0 - - -;
 #X text 78 -438 Clicks;
-#X obj -183 -458 r subjectID;
+#X obj -183 -413 r subjectID;
 #X msg -292 -222 \; txt write results/tasks.txt;
-#X obj -224 -254 s txt;
-#X obj -183 -499 bng 15 250 50 0 empty empty next_subject 17 7 0 10
+#X obj -109 -224 s txt;
+#X obj -183 -487 bng 45 250 50 0 empty empty next_subject 17 7 0 10
 -4032 -1 -1;
-#X obj -183 -479 s nextsubj;
+#X obj -183 -434 s nextsubj;
 #N canvas 0 171 1280 528 tasks 0;
 #X obj -121 1 cnv 15 250 250 empty empty Task_selection 20 12 0 14
 -233017 -66577 0;
@@ -545,8 +545,8 @@ manually \, deactivate time only if both lock and deactivate manually
 #X obj 171 -430 tgl 100 0 empty empty empty 17 7 0 10 -258113 -1 -1
 0 1;
 #X msg 347 -321 \; end_canvas color 0 \;;
-#X obj -224 -311 pack f f f f f f s;
-#X msg -255 -391 \; nextline bang;
+#X obj -109 -281 pack f f f f f f s;
+#X msg -278 -277 \; nextline bang;
 #X obj -90 -440 r nline;
 #X floatatom -90 -416 5 0 0 0 - - -;
 #X msg -285 -44 \; txt clear;

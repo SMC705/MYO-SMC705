@@ -65,7 +65,7 @@ MYO;
 #X restore 55 -97 pd osc_things;
 #X obj 57 100 s master_volume;
 #X obj 57 -35 vsl 85 128 0 1 0 0 empty empty Volume 0 -9 0 10 -204786
--258113 -4160 0 1;
+-258113 -4160 635 1;
 #X obj 56 -72 r volume_slider;
 #X text -10 -329 This patch plays the audio from (at present) 6 different
 inputs simultaneously. To select which audio to hear \, choose a source
@@ -99,8 +99,8 @@ values.;
 #X obj 245 -792 s input_select;
 #N canvas 225 364 379 357 step_volume 0;
 #X msg 61 -805 set \$1;
-#X msg 145 -779 0;
-#X msg -12 -778 0;
+#X msg 145 -779 0.05;
+#X msg -12 -778 0.05;
 #X obj 65 -842 clip 0 1;
 #X obj 46 -891 r master_volume;
 #X obj 65 -863 r step_volume;
@@ -275,33 +275,33 @@ installed on Tom's phone simulating the ConnectLine from Oticon. Then
 #X connect 44 0 13 0;
 #X connect 44 1 13 1;
 #X restore 55 -123 pd phone_osc;
-#N canvas 581 23 783 531 test 1;
+#N canvas 491 24 783 531 test 1;
 #X obj -296 -522 cnv 15 100 130 empty empty file_ops 20 12 0 14 -232576
 -66577 0;
-#X obj -195 -522 cnv 25 100 230 empty empty userID 20 12 0 14 -203904
+#X obj -195 -522 cnv 25 100 130 empty empty userID 20 12 0 14 -203904
 -66577 0;
 #X obj 68 -522 cnv 15 100 130 empty empty n°_clicks 20 12 0 14 -262130
 -66577 0;
-#X obj -33 -522 cnv 15 100 130 empty empty tasks 20 12 0 14 -204800
+#X obj -33 -522 cnv 15 100 230 empty empty tasks 20 12 0 14 -204800
 -66577 0;
 #X obj -109 -250 prepend add;
 #X obj -26 -251 print TXTfile;
 #X obj -292 -475 bng 15 250 50 0 empty empty add_values 17 7 0 10 -4034
 -262144 -1;
-#X text -173 -374 N° subject;
+#X text -167 -411 N° subject;
 #X obj -292 -447 bng 15 250 50 0 empty empty save_file 17 7 0 10 -258113
 -1 -1;
 #X obj -109 -303 f;
-#X floatatom -22 -420 5 0 0 0 - - -;
-#X floatatom -183 -341 5 0 1000 0 - - -;
+#X floatatom -27 -325 5 0 0 0 - - -;
+#X floatatom -187 -429 5 0 1000 0 - - -;
 #X floatatom 73 -419 5 0 0 0 - - -;
 #X text 78 -438 Clicks;
-#X obj -183 -413 r subjectID;
+#X obj -187 -456 r subjectID;
 #X msg -292 -222 \; txt write results/tasks.txt;
 #X obj -109 -224 s txt;
-#X obj -183 -487 bng 45 250 50 0 empty empty next_subject 17 7 0 10
+#X obj -187 -498 bng 15 250 50 0 empty empty next_subject 17 7 0 10
 -4032 -1 -1;
-#X obj -183 -434 s nextsubj;
+#X obj -187 -477 s nextsubj;
 #N canvas 0 171 1280 528 tasks 0;
 #X obj -121 1 cnv 15 250 250 empty empty Task_selection 20 12 0 14
 -233017 -66577 0;
@@ -341,8 +341,8 @@ when test is over;
 #X connect 16 0 17 0;
 #X connect 16 2 1 0;
 #X connect 21 0 14 0;
-#X restore -22 -478 pd tasks;
-#X obj -22 -499 bng 15 250 50 0 empty empty next 17 7 0 10 -257985
+#X restore -27 -397 pd tasks;
+#X obj -27 -448 bng 45 250 50 0 empty empty next 17 7 0 10 -257985
 -1 -1;
 #N canvas 843 407 378 336 clicks 0;
 #X obj -9 -55 cnv 15 250 270 empty empty count_number_actions 20 12
@@ -541,7 +541,7 @@ manually \, deactivate time only if both lock and deactivate manually
 #X restore -292 -499 pd addvalues;
 #X obj -94 -522 cnv 15 60 130 empty empty line 0 12 0 14 -228856 -66577
 0;
-#X floatatom -15 -451 5 0 0 0 - - -;
+#X floatatom -18 -354 5 0 0 0 - - -;
 #X obj 171 -430 tgl 100 0 empty empty empty 17 7 0 10 -258113 -1 -1
 0 1;
 #X msg 347 -321 \; end_canvas color 0 \;;
@@ -551,8 +551,8 @@ manually \, deactivate time only if both lock and deactivate manually
 #X floatatom -90 -416 5 0 0 0 - - -;
 #X msg -285 -44 \; txt clear;
 #X text -216 -45 DONT TOUCH;
-#X text 9 -419 task lab;
-#X text 16 -452 task num;
+#X text 6 -322 task lab;
+#X text 13 -355 task num;
 #N canvas 694 536 457 165 start/stop 0;
 #X obj 2 -67 cnv 15 450 160 empty empty empty 20 12 0 14 -260097 -66577
 0;
@@ -570,6 +570,23 @@ manually \, deactivate time only if both lock and deactivate manually
 #X connect 4 0 5 0;
 #X restore 171 -494 pd start/stop;
 #X text 178 -454 Spacebar = Start/Pause;
+#N canvas 694 536 457 165 next 0;
+#X obj 2 -67 cnv 15 450 160 empty empty empty 20 12 0 14 -260097 -66577
+0;
+#X floatatom 12 -19 5 0 0 0 - - -;
+#X obj 12 -42 key;
+#X obj 12 24 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0 1
+;
+#X obj 12 45 outlet;
+#X obj 12 2 select 10;
+#X text 83 2 Select outputs a bang when the enter (key 10) is pressed.
+;
+#X connect 1 0 5 0;
+#X connect 2 0 1 0;
+#X connect 3 0 4 0;
+#X connect 5 0 3 0;
+#X restore -27 -483 pd next task;
+#X text -18 -464 Enter = next;
 #X connect 4 0 16 0;
 #X connect 6 0 9 0;
 #X connect 6 0 47 0;
@@ -605,6 +622,7 @@ manually \, deactivate time only if both lock and deactivate manually
 #X connect 48 0 49 0;
 #X connect 49 0 9 1;
 #X connect 54 0 44 0;
+#X connect 56 0 20 0;
 #X restore 55 -152 pd test;
 #X obj -198 -157 cnv 15 115 250 empty empty empty 20 12 0 14 -204800
 -66577 0;

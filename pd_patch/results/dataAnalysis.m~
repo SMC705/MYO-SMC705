@@ -40,8 +40,8 @@ pho_clicks = clicks( phoIdx);
 pho_taskTime = taskTime( phoIdx);
 
 % userID and taskTime (MYO)
-user1idx = find( myo_userID == 5);
-figure(5)
+user1idx = find( myo_userID == 7);
+figure(7)
 plot( taskID( user1idx), taskTime( user1idx), '.', 'MarkerSize', 20 )
 
 %% PLOT TASK TIME (MYO & PHONE)

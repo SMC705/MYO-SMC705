@@ -6,20 +6,29 @@ close all
 
 % read the data file
 fid = fopen('tasks.txt');
-data = textscan( fid, '%f%f%f%f%f%s', 'delimiter', {' ',';'});
+data = textscan( fid, '%f%f%f%f%f%f%s', 'delimiter', {' ',';'});
 fclose(fid);
 
 userID = [ data{2} ];
 taskID = [ data{3} ];
-clicks = [ data{4} ];
-taskTime = [ data{5} ];
+taskNum = [ data{4} ];
+clicks = [ data{5} ];
+taskTime = [ data{6} ];
 
 % MYO = 1  |  PHONE = 0
-device = [ double( strcmp( data{6}, 'myo' )) ];
+device = [ double( strcmp( data{7}, 'myo' )) ];
 
 myoIdx = find( device==1 );
 phoIdx = find( device==0 );
 
+% add average unlock time at phone.
+unlockTime = 3;
+taskTime( phoIdx) = taskTime( phoIdx) + unlockTime;
+
+% add 2 clicks for unlock/lock at phone.
+clicks( phoIdx) = clicks( phoIdx) + 2;
+
+% divide myo and phone data
 myo_userID = userID( myoIdx);
 myo_taskID = taskID( myoIdx);
 myo_clicks = clicks( myoIdx);
@@ -29,6 +38,7 @@ pho_userID = userID( phoIdx);
 pho_taskID = taskID( phoIdx);
 pho_clicks = clicks( phoIdx);
 pho_taskTime = taskTime( phoIdx);
+
 
 %% PLOT TASK TIME (MYO & PHONE)
 

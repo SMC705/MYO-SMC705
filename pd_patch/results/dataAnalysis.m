@@ -15,11 +15,17 @@ taskNum = [ data{4} ];
 clicks = [ data{5} ];
 taskTime = [ data{6} ];
 
+% MYO and PHONE idx
 % MYO = 1  |  PHONE = 0
 device = [ double( strcmp( data{7}, 'myo' )) ];
-
 myoIdx = find( device==1 );
 phoIdx = find( device==0 );
+
+% userID idx
+totUsers = max( userID);
+for i = 1:totUsers
+    
+end
 
 % add average unlock time at phone.
 unlockTime = 3;

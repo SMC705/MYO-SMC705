@@ -4,13 +4,26 @@ Event 	Problem
 23-	B
 24-	B
 80-	C
-157-	D
+157- D
+517- A
+561- E
+571- G
+577- G
+761- F
+808- G
+950- A
 
 LEGEND:
 A- Longer registered time because phone app did'n detect "Lock" after interaction
 B- Unvalid time because of failed attempt (+ time for tester to notice)
 C- Fake attempt (tester error)
 D- Shorter time (tester error)
+E- missing data for that taskID (data are filled with the missing
+   	   taskLab, 0 clicks and 0.0 seconds)
+time)
+F- changed profile (personal->default)
+G- myo lost -> re-sync (bye bye angle)
 _________________________________________________________________________________
 OTHER:
-On first user, angle was not well calibrated.
+userID=1 --- angle was not well calibrated.
+userID=10 --- phone test recorded after userID=11

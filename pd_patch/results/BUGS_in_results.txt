@@ -5,12 +5,16 @@ Event 	Problem
 24-	B
 80-	C
 157-	D
+464-	E
+
 
 LEGEND:
 A- Longer registered time because phone app did'n detect "Lock" after interaction
-B- Unvalid time because of failed attempt (+ time for tester to notice)
+B- Invalid time because of incorrect task (+ time for tester to notice)
 C- Fake attempt (tester error)
-D- Shorter time (tester error)
+D- MYO locks immediately (short time measured)
+E- Invalid line because of tester's delay in starting the timer
 _________________________________________________________________________________
 OTHER:
 On first user, angle was not well calibrated.
+In general, preset selection is the most difficult action to perform and the task number 1 is usually the hardest.

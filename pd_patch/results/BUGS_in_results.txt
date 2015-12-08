@@ -1,34 +1,55 @@
 Event 	Problem
 19-	A
 21-	A
-23-	B
-24-	B
+23-	B -left there
+24-	B -left there
+67-	impossible time
 80-	C
 157-	D
 464-	F
+502-	A
+517-	C
+561-	E
+571-	G
+577-	G
+563-	D
+598-	A
+659-	G
+761-	F
+808-	G - subtracted 15sec
+947-	A
+950-	A
+1023-	A
+1024-	A
+1026-	A
+1033-	A
+1131-	Tester delay/Added time
+1151-	A
+1152-	A
+1155-	A
+1158-	A
+1171-	A
+1349-	A
+1351-	A
+1352-	A
+1353-	A
 
-517- A
-561- E
-571- G
-577- G
-761- F
-808- G
-950- A
 
 LEGEND:
-A- Longer registered time because phone app did'n detect "Lock" after interaction
-B- Invalid time because of incorrect task (+ time for tester to notice)
-C- Fake attempt (tester error)
+A- Longer registered time because phone app did'n detect "Lock" after interaction (subtract time, 4 in general)
+B- Invalid time because of incorrect task (+ time for tester to notice) - DIDNT CHANGE
+C- Fake attempt (tester error) - future delete
 D- MYO locks immediately (short time measured)
-E- missing data for that taskID (replaced line with:
-		taskLab, 0 clicks and 0.0 seconds)
+E- missing data for that taskID
 F- changed MYO profile (personal->default) until the end of test
 G- myo lost -> re-sync (bye bye angle)
-H- Invalid line because of tester's delay in starting the timer
 
 _________________________________________________________________________________
 OTHER:
 userID=1 --- angle was not well calibrated.
+userID=7 --- after 571 MYO lose sync
+userID=8 --- after 659 MYO lose sync
+iserID=9 --- changed MYO profile and sync problems
 userID=10 --- phone test recorded after userID=11
 In general, preset selection is the most difficult action to perform and the task number 1 is usually the hardest.
 

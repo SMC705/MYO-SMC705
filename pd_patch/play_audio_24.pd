@@ -1,4 +1,4 @@
-#N canvas 420 153 570 492 10;
+#N canvas 11 276 570 492 10;
 #X declare -lib mrpeach;
 #X obj -18 -333 cnv 15 375 130 empty empty empty 20 12 0 14 -204786
 -66577 0;
@@ -284,7 +284,7 @@ The patch doesn't pass these values if the phone is not locked;
 #X connect 48 0 37 1;
 #X connect 48 0 38 1;
 #X restore 55 -123 pd phone_osc;
-#N canvas 573 97 783 439 test 0;
+#N canvas 557 29 713 434 test 1;
 #X obj -195 -488 cnv 15 600 210 empty empty empty 20 12 0 14 -233017
 -66577 0;
 #X obj -296 -381 cnv 15 100 135 empty empty file_ops 20 12 0 14 -232576
@@ -527,7 +527,7 @@ index on the beginning;
 there every time is sent bang to "nextsubj";
 #X text 192 5 THIS PATCH CALCULATE CURRENT SUBJECT;
 #X obj -13 381 f 0;
-#X msg -13 355 10;
+#X msg -13 355 19;
 #X obj -81 324 loadbang;
 #X msg -81 348 0;
 #X text 191 141 2- when the file is open \, scroll every line and send
@@ -536,7 +536,7 @@ sbj n° to counter. At the same times \, it count the lines;
 #X obj 26 555 + 1;
 #X text 58 554 basic counter;
 #X obj -9 555 f 0;
-#X msg -9 529 1013;
+#X msg -9 529 1584;
 #X obj -81 483 loadbang;
 #X msg -81 507 0;
 #X text 16 528 last line n°;

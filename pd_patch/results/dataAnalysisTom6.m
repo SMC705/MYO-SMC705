@@ -7,9 +7,11 @@ close all
 %% read the data file
 
 dp='C:\Users\Thomas\Documents\Github\MYO-SMC705\pd_patch\results\';
-% 1 1 1 4 5 14.0052 myo;
-fid=fopen([dp 'tasks_CLEANED_Tom.txt']) ; % Opens target file
-data=textscan(fid,'%f%f%f%f%f%f%s','delimiter',' '); % Reads data as floats and strings
+% 1 1 1 4 5 14.0052 myo; './tasks_CLEANED_removed8.txt'
+% fid=fopen([dp 'tasks_CLEANED_Tom.txt']) ; % Opens target file
+fid=fopen('./tasks_CLEANED_Tom.txt') ; % Opens target file (alt. path)
+
+data=textscan(fid ,'%f%f%f%f%f%f%s','delimiter',' '); % Reads data as floats and strings
 fclose(fid);
 
 userID = [ data{1,2} ];

@@ -1,4 +1,7 @@
 \documentclass[journal]{./IEEEtran}
+%\usepackage{amsmath}
+%\usepackage{amssymb}
+
 
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
@@ -148,9 +151,15 @@ Another cause could be an unsuccessful gesture design, causing the user to strug
 As shown in fig (****plot task difficulty), task labeled as “1” required a bigger amount of interactions, attempts and time for the average of the participants while task labeled “3” turned out to be the less complex. This task is characterized by a very recognizable tone (beep from phone tapping and phone ringing), as well as a preset very easy to select.
 To take this into account, the reciprocal of task difficulty has been used as a weighting factor for the corresponding measure of time, number of interactions and number of attempts. For example, the time-based complexity has been calculated as a weighted average,
 
+\begin{equation}\label{eq:weighted_average}
+	\overline{t} = \frac{ \sum_{1}^{N} w_i t_{task} } { N \sum_{1}^{N} w_i }
+\end{equation}
 
+where weights are the reciprocal of normalized task times:
 
-where weights are the reciprocal of normalized task times.
+\begin{equation}\label{eq:weighting_factor}
+    w_i = \frac{ max(t_{task}) } { t_{task} } \ge 1
+\end{equation}
 
 This issue was not present in the haptic interaction where all tasks had a similar complexity.
 
@@ -305,47 +314,6 @@ H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
   0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
 
 \end{thebibliography}
-
-% biography section
-% 
-% If you have an EPS/PDF photo (graphicx package needed) extra braces are
-% needed around the contents of the optional argument to biography to prevent
-% the LaTeX parser from getting confused when it sees the complicated
-% \includegraphics command within an optional argument. (You could create
-% your own custom macro containing the \includegraphics command to make things
-% simpler here.)
-%\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
-% or if you just want to reserve a space for a photo:
-
-\begin{IEEEbiography}{Michael Shell}
-Biography text here.
-\end{IEEEbiography}
-
-% if you will not have a photo at all:
-\begin{IEEEbiographynophoto}{John Doe}
-Biography text here.
-\end{IEEEbiographynophoto}
-
-% insert where needed to balance the two columns on the last page with
-% biographies
-%\newpage
-
-\begin{IEEEbiographynophoto}{Jane Doe}
-Biography text here.
-\end{IEEEbiographynophoto}
-
-% You can push biographies down or up by placing
-% a \vfill before or after them. The appropriate
-% use of \vfill depends on what kind of text is
-% on the last page and whether or not the columns
-% are being equalized.
-
-%\vfill
-
-% Can be used to pull up biographies so that the bottom of the last one
-% is flush with the other column.
-%\enlargethispage{-5in}
-
 
 
 % that's all folks
